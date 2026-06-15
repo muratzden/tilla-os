@@ -1,7 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { defaultBrandSetup } from "@/src/lib/brand/setup/brand-setup-defaults";
+
+import {
+  defaultBrandSetup,
+  normalizeBrandSetup,
+} from "@/src/lib/brand/setup/default-brand-setup";
+
 import {
   includedLanguagePacks,
   marketplaceLanguagePacks,
@@ -20,8 +25,10 @@ export default function SetupPage() {
       const result = await response.json();
 
       if (result.brandSetup) {
-        setSetup(result.brandSetup);
-      }
+  setSetup(
+    normalizeBrandSetup(result.brandSetup),
+  );
+}
     }
 
     loadWorkspaceBrandSetup();

@@ -19,7 +19,7 @@ import { AuditTab } from "./components/audit-tab";
 import { AuditReportTab } from "./components/audit-report-tab";
 import { LanguageMarketplacePanel } from "./components/language-marketplace-panel";
 
-
+import { normalizeBrandSetup } from "@/src/lib/brand/setup/default-brand-setup";
 
 type OutputLanguage = "tr" | "en" | "de";
 type UILanguage = "tr" | "en";
@@ -143,7 +143,11 @@ const [languageMarketplace, setLanguageMarketplace] =
 
   const text = getLanguagePack(uiLanguage);
   const currentBrand = getCurrentBrand();
-  const brandReadiness = calculateBrandReadiness(brandSetup);
+  
+ const brandReadiness = calculateBrandReadiness(
+  normalizeBrandSetup(brandSetup),
+);
+
   const brandProfile = getBrandProfile(currentBrand?.id);
   const pipeline = data?.pipeline;
   const visibleTabs = isMobileNav ? mobileTabs : desktopTabs;
@@ -191,11 +195,13 @@ useEffect(() => {
   async function loadAuthContext() {
     try {
       const response = await fetch("/api/auth/me");
-      const json = await response.json();
 
-      if (response.ok && json.authenticated) {
-        setAuthContext(json);
-      }
+const text = await response.text();
+const json = text ? JSON.parse(text) : null;
+
+      if (response.ok && json?.authenticated) {
+  setAuthContext(json);
+}
     } catch (error) {
       console.error("Auth context load failed", error);
     }
@@ -228,12 +234,14 @@ async function logout() {
 
       const parsedSetup = result.brandSetup as BrandSetup;
 
-      setBrandSetup(parsedSetup);
-      setUiLanguage(parsedSetup.identity.uiLanguage);
-      setInput((currentInput) => ({
-        ...currentInput,
-        outputLanguage: parsedSetup.identity.contentLanguage,
-      }));
+      const normalizedSetup = normalizeBrandSetup(parsedSetup);
+
+setBrandSetup(normalizedSetup);
+setUiLanguage(normalizedSetup.identity.uiLanguage);
+setInput((currentInput) => ({
+  ...currentInput,
+  outputLanguage: normalizedSetup.identity.contentLanguage,
+}));
     }
 
     loadWorkspaceBrandSetup();

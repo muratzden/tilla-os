@@ -1,5 +1,11 @@
 import crypto from "crypto";
 
+import {
+  hashPassword,
+  verifyPassword,
+  isPasswordHashed,
+} from "./password-hashing";
+
 import type {
   User,
   Workspace,
@@ -31,6 +37,23 @@ export async function registerOwner(
   password: string,
   workspaceName: string,
 ) {
+	if (password.length < 8) {
+  throw new Error(
+    "Password must be at least 8 characters",
+  );
+}
+
+if (!/[A-Za-z]/.test(password)) {
+  throw new Error(
+    "Password must contain at least one letter",
+  );
+}
+
+if (!/[0-9]/.test(password)) {
+  throw new Error(
+    "Password must contain at least one number",
+  );
+}
   const existing = await getUserByEmail(email);
 
   if (existing) {
@@ -40,7 +63,7 @@ export async function registerOwner(
   const user: User = {
     id: generateId(),
     email,
-    passwordHash: password,
+    passwordHash: hashPassword(password),
     createdAt: new Date().toISOString(),
   };
 
@@ -117,8 +140,21 @@ export async function login(
     throw new Error("User not found");
   }
 
-  if (user.passwordHash !== password) {
+  const passwordAlreadyHashed = isPasswordHashed(user.passwordHash);
+
+  const passwordMatches = passwordAlreadyHashed
+    ? verifyPassword(password, user.passwordHash)
+    : user.passwordHash === password;
+
+  if (!passwordMatches) {
     throw new Error("Invalid password");
+  }
+
+  if (!passwordAlreadyHashed) {
+    await saveUser({
+      ...user,
+      passwordHash: hashPassword(password),
+    });
   }
 
   const memberships = await getMemberships(user.id);
