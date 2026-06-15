@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import {
+  ensureDemoAccount,
   ensureOwnerAccount,
   login,
 } from "@/src/lib/auth/auth-service";
@@ -8,6 +9,8 @@ import {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
+	
+	ensureDemoAccount();
 
     const email = String(body.email ?? "");
     const password = String(body.password ?? "");

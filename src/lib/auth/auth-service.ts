@@ -159,3 +159,11 @@ export function validateSession(token: string) {
 
   return session;
 }
+
+export function ensureDemoAccount() {
+  return ensureOwnerAccount(
+    "demo@tilla-os.dev",
+    "demo123",
+    "TILLA-OS Demo Workspace",
+  );
+}
