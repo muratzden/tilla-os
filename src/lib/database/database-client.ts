@@ -1,20 +1,28 @@
 import { Pool } from "@neondatabase/serverless";
 
-const databaseUrl = process.env.DATABASE_URL;
+let databasePool: Pool | null = null;
 
-if (!databaseUrl) {
-  throw new Error(
-    "DATABASE_URL environment variable is missing",
-  );
+function getDatabasePool() {
+  const databaseUrl = process.env.DATABASE_URL;
+
+  if (!databaseUrl) {
+    throw new Error(
+      "DATABASE_URL environment variable is missing",
+    );
+  }
+
+  if (!databasePool) {
+    databasePool = new Pool({
+      connectionString: databaseUrl,
+    });
+  }
+
+  return databasePool;
 }
-
-export const databasePool = new Pool({
-  connectionString: databaseUrl,
-});
 
 export async function executeSql(
   statement: string,
   values: unknown[] = [],
 ) {
-  return databasePool.query(statement, values);
+  return getDatabasePool().query(statement, values);
 }
