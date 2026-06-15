@@ -1,0 +1,14 @@
+{
+  "brand": "Tilla Leather Craft",
+  "domain": "tillaleather.co",
+  "positioning": "artisan premium leather goods",
+  "tone": "artisan_premium",
+  "materials": ["full grain leather", "frisco leather"],
+  "principles": [
+    "timeless design",
+    "honest craftsmanship",
+    "small batch production",
+    "quiet luxury"
+  ],
+  "forbidden": ["cheap", "mass production", "fast fashion"]
+}

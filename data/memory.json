@@ -1,0 +1,9 @@
+[
+  {
+    "input": "tilla leather briefcase",
+    "intent": "product",
+    "approved": true,
+    "reason": "passed_rules",
+    "timestamp": 1780058109218
+  }
+]

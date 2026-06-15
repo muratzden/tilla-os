@@ -1,0 +1,13 @@
+{
+  "currentVersion": "0.1.0",
+  "nextVersion": "0.2.0",
+  "plannedModules": [
+    "brand-decision-engine",
+    "product-meaning-engine",
+    "photo-art-direction-engine",
+    "campaign-engine",
+    "seo-engine",
+    "social-content-engine",
+    "brand-guardian-v2"
+  ]
+}

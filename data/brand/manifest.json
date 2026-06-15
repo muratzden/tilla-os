@@ -1,0 +1,14 @@
+{
+  "version": "0.1.0",
+  "name": "Tilla-OS",
+  "modules": [
+    "decision-engine",
+    "memory",
+    "brand-knowledge",
+    "product-intelligence",
+    "gatekeeper",
+    "content-engine",
+    "copy-engine",
+    "visual-engine"
+  ]
+}

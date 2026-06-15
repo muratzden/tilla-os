@@ -1,0 +1,106 @@
+{
+  "decisions": [
+    {
+      "input": {
+        "type": "briefcase"
+      },
+      "meaning": {
+        "category": "briefcase",
+        "intent": "artisan_premium_object",
+        "emotion": "quiet_confidence"
+      },
+      "knowledge": {
+        "positioning": "executive artisan luxury",
+        "audience": "professional, premium taste, minimal lifestyle",
+        "context": [
+          "office environment",
+          "business travel",
+          "daily carry prestige"
+        ],
+        "emotionBias": "controlled_confidence"
+      },
+      "decision": {
+        "approved": true,
+        "strategy": "executive artisan luxury",
+        "tone": {
+          "bias": "controlled_confidence"
+        },
+        "context": [
+          "office environment",
+          "business travel",
+          "daily carry prestige"
+        ],
+        "scoring": {
+          "scores": [
+            {
+              "label": "executive",
+              "score": 1
+            },
+            {
+              "label": "daily",
+              "score": 0.6
+            },
+            {
+              "label": "casual",
+              "score": 0.2
+            }
+          ],
+          "top": {
+            "label": "executive",
+            "score": 1
+          },
+          "explanation": {
+            "meaning": {
+              "category": "briefcase",
+              "intent": "artisan_premium_object",
+              "emotion": "quiet_confidence"
+            },
+            "knowledge": {
+              "positioning": "executive artisan luxury",
+              "audience": "professional, premium taste, minimal lifestyle",
+              "context": [
+                "office environment",
+                "business travel",
+                "daily carry prestige"
+              ],
+              "emotionBias": "controlled_confidence"
+            },
+            "model": "dynamic_weighted_reasoning_v0.3.2"
+          }
+        },
+        "finalDecision": {
+          "label": "executive",
+          "confidence": 1
+        }
+      },
+      "timestamp": 1780063846396
+    },
+    {
+      "input": {
+        "type": "briefcase"
+      },
+      "meaning": {
+        "category": "briefcase",
+        "intent": "artisan_premium_object",
+        "emotion": "quiet_confidence"
+      },
+      "knowledge": {
+        "positioning": "executive artisan luxury",
+        "audience": "professional, premium taste, minimal lifestyle",
+        "context": [
+          "office environment",
+          "business travel",
+          "daily carry prestige"
+        ],
+        "emotionBias": "controlled_confidence"
+      },
+      "decision": {
+        "label": "executive",
+        "confidence": 1,
+        "personalityAlignment": 0.9000000000000001
+      },
+      "timestamp": 1780064096564
+    }
+  ],
+  "feedback": []
+}

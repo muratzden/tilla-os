@@ -1,0 +1,22 @@
+{
+  "name": "Tilla-OS",
+  "version": "0.2.0",
+  "status": "operational",
+  "capabilities": [
+    "brand-knowledge",
+    "decision-engine",
+    "persistent-memory",
+    "product-classification",
+    "product-meaning-engine",
+    "brand-brain",
+    "art-direction-engine",
+    "gatekeeper",
+    "prompt-builder",
+    "groq-ai-provider",
+    "copy-generation",
+    "visual-scene-generation",
+    "workflow-engine",
+    "ai-workflow",
+    "brand-brain-ai-workflow"
+  ]
+}
