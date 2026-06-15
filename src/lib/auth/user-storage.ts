@@ -7,8 +7,12 @@ import type {
 } from "./auth-types";
 
 import { jsonAuthStorageAdapter } from "./json-auth-storage-adapter";
+import { memoryAuthStorageAdapter } from "./memory-auth-storage-adapter";
 
-const authStorage = jsonAuthStorageAdapter;
+const authStorage =
+  process.env.VERCEL === "1"
+    ? memoryAuthStorageAdapter
+    : jsonAuthStorageAdapter;
 
 export function getUsers() {
   return authStorage.getUsers();
