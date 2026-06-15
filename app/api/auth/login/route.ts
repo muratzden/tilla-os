@@ -9,8 +9,8 @@ import {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-	
-	ensureDemoAccount();
+
+    await ensureDemoAccount();
 
     const email = String(body.email ?? "");
     const password = String(body.password ?? "");
@@ -25,13 +25,13 @@ export async function POST(request: Request) {
       );
     }
 
-    ensureOwnerAccount(
+    await ensureOwnerAccount(
       email,
       password,
       "Tilla Workspace",
     );
 
-    const session = login(email, password);
+    const session = await login(email, password);
 
     const response = NextResponse.json({
       success: true,

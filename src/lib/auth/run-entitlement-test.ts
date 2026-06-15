@@ -1,3 +1,5 @@
+import "dotenv/config";
+
 import {
   ensureOwnerAccount,
 } from "./auth-service";
@@ -8,39 +10,45 @@ import {
   hasMarketplaceEntitlement,
 } from "./entitlement-service";
 
-const owner = ensureOwnerAccount(
-  "owner@tilla.test",
-  "123456",
-  "Tilla Workspace",
-);
+async function runEntitlementTest() {
+  const owner = await ensureOwnerAccount(
+    "owner@tilla.test",
+    "123456",
+    "Tilla Workspace",
+  );
 
-grantMarketplaceEntitlement(
-  owner.workspace.id,
-  "restaurant-industry-pack",
-);
-
-const hasRestaurantPack =
-  hasMarketplaceEntitlement(
+  await grantMarketplaceEntitlement(
     owner.workspace.id,
     "restaurant-industry-pack",
   );
 
-const entitlements =
-  getMarketplaceEntitlements(owner.workspace.id);
+  const hasRestaurantPack =
+    await hasMarketplaceEntitlement(
+      owner.workspace.id,
+      "restaurant-industry-pack",
+    );
 
-console.log("Entitlement Test");
+  const entitlements =
+    await getMarketplaceEntitlements(
+      owner.workspace.id,
+    );
 
-console.log({
-  passed:
-    hasRestaurantPack &&
-    entitlements.some(
-      (item) =>
-        item.packageId ===
-        "restaurant-industry-pack",
+  console.log("Entitlement Test");
+
+  console.log({
+    passed:
+      hasRestaurantPack &&
+      entitlements.some(
+        (item) =>
+          item.packageId ===
+          "restaurant-industry-pack",
+      ),
+    workspaceId: owner.workspace.id,
+    entitlementCount: entitlements.length,
+    packageIds: entitlements.map(
+      (item) => item.packageId,
     ),
-  workspaceId: owner.workspace.id,
-  entitlementCount: entitlements.length,
-  packageIds: entitlements.map(
-    (item) => item.packageId,
-  ),
-});
+  });
+}
+
+runEntitlementTest();

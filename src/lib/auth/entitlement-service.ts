@@ -7,7 +7,7 @@ import {
   getWorkspaceEntitlements,
 } from "./user-storage";
 
-export function grantMarketplaceEntitlement(
+export async function grantMarketplaceEntitlement(
   workspaceId: string,
   packageId: string,
 ) {
@@ -17,21 +17,24 @@ export function grantMarketplaceEntitlement(
     grantedAt: new Date().toISOString(),
   };
 
-  grantEntitlement(entitlement);
+  await grantEntitlement(entitlement);
 
   return entitlement;
 }
 
-export function hasMarketplaceEntitlement(
+export async function hasMarketplaceEntitlement(
   workspaceId: string,
   packageId: string,
 ) {
-  return getWorkspaceEntitlements(workspaceId).some(
+  const entitlements =
+    await getWorkspaceEntitlements(workspaceId);
+
+  return entitlements.some(
     (item) => item.packageId === packageId,
   );
 }
 
-export function getMarketplaceEntitlements(
+export async function getMarketplaceEntitlements(
   workspaceId: string,
 ) {
   return getWorkspaceEntitlements(workspaceId);

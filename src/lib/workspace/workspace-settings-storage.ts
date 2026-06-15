@@ -1,77 +1,55 @@
-import fs from "fs";
-import path from "path";
 import type { WorkspaceSettings } from "./workspace-settings-types";
 
-const storagePath = path.join(
-  process.cwd(),
-  ".data",
-  "workspace-settings-storage.json"
-);
+import { executeSql } from "../database/database-client";
 
-type WorkspaceSettingsStorage = {
-  workspaces: WorkspaceSettings[];
-};
-
-function ensureStorageFile() {
-  const dir = path.dirname(storagePath);
-
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
-
-  if (!fs.existsSync(storagePath)) {
-    fs.writeFileSync(
-      storagePath,
-      JSON.stringify({ workspaces: [] }, null, 2),
-      "utf-8"
-    );
-  }
+function mapWorkspaceSettings(row: any): WorkspaceSettings {
+  return {
+    workspaceId: row.workspace_id,
+    brandSetup: row.brand_setup ?? undefined,
+    updatedAt: row.updated_at,
+  };
 }
 
-export function loadWorkspaceSettingsStorage(): WorkspaceSettingsStorage {
-  ensureStorageFile();
-
-  const raw = fs.readFileSync(storagePath, "utf-8");
-
-  return JSON.parse(raw) as WorkspaceSettingsStorage;
-}
-
-export function saveWorkspaceSettingsStorage(
-  storage: WorkspaceSettingsStorage
-) {
-  ensureStorageFile();
-
-  fs.writeFileSync(storagePath, JSON.stringify(storage, null, 2), "utf-8");
-}
-
-export function getWorkspaceSettings(
-  workspaceId: string
-): WorkspaceSettings | null {
-  const storage = loadWorkspaceSettingsStorage();
-
-  return (
-    storage.workspaces.find(
-      (workspace) => workspace.workspaceId === workspaceId
-    ) ?? null
-  );
-}
-
-export function upsertWorkspaceSettings(
-  settings: WorkspaceSettings
-): WorkspaceSettings {
-  const storage = loadWorkspaceSettingsStorage();
-
-  const existingIndex = storage.workspaces.findIndex(
-    (workspace) => workspace.workspaceId === settings.workspaceId
+export async function getWorkspaceSettings(
+  workspaceId: string,
+): Promise<WorkspaceSettings | null> {
+  const result = await executeSql(
+    `
+    SELECT workspace_id, brand_setup, updated_at
+    FROM workspace_settings
+    WHERE workspace_id = $1
+    LIMIT 1
+    `,
+    [workspaceId],
   );
 
-  if (existingIndex >= 0) {
-    storage.workspaces[existingIndex] = settings;
-  } else {
-    storage.workspaces.push(settings);
-  }
+  const row = result.rows[0];
 
-  saveWorkspaceSettingsStorage(storage);
+  return row ? mapWorkspaceSettings(row) : null;
+}
+
+export async function upsertWorkspaceSettings(
+  settings: WorkspaceSettings,
+): Promise<WorkspaceSettings> {
+  await executeSql(
+    `
+    INSERT INTO workspace_settings (
+      workspace_id,
+      brand_setup,
+      updated_at
+    )
+    VALUES ($1, $2, $3)
+    ON CONFLICT (workspace_id)
+    DO UPDATE SET
+      brand_setup = EXCLUDED.brand_setup,
+      updated_at = EXCLUDED.updated_at
+    `,
+    [
+      settings.workspaceId,
+      settings.brandSetup ?? null,
+      settings.updatedAt,
+    ],
+  );
 
   return settings;
 }

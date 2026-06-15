@@ -7,24 +7,24 @@ import type {
 } from "./auth-types";
 
 export interface AuthStorageAdapter {
-  getUsers(): User[];
-  saveUser(user: User): void;
-  getUserByEmail(email: string): User | undefined;
+  getUsers(): Promise<User[]>;
+  saveUser(user: User): Promise<void>;
+  getUserByEmail(email: string): Promise<User | undefined>;
 
-  saveWorkspace(workspace: Workspace): void;
-  getWorkspace(workspaceId: string): Workspace | undefined;
+  saveWorkspace(workspace: Workspace): Promise<void>;
+  getWorkspace(workspaceId: string): Promise<Workspace | undefined>;
 
-  addMembership(membership: Membership): void;
-  getMemberships(userId: string): Membership[];
+  addMembership(membership: Membership): Promise<void>;
+  getMemberships(userId: string): Promise<Membership[]>;
 
-  saveSession(session: Session): void;
-  getSession(token: string): Session | undefined;
+  saveSession(session: Session): Promise<void>;
+  getSession(token: string): Promise<Session | undefined>;
 
   grantEntitlement(
     entitlement: MarketplaceEntitlement,
-  ): void;
+  ): Promise<void>;
 
   getWorkspaceEntitlements(
     workspaceId: string,
-  ): MarketplaceEntitlement[];
+  ): Promise<MarketplaceEntitlement[]>;
 }

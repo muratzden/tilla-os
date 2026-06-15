@@ -10,14 +10,14 @@ import {
   getActiveWorkspaceMarketplacePackageByType,
 } from "./workspace-marketplace-registry";
 
-export function getActiveWorkspaceMarketplacePayloadByType(
+export async function getActiveWorkspaceMarketplacePayloadByType(
   workspaceId: string,
-  type: MarketplacePackageType
+  type: MarketplacePackageType,
 ) {
   const active =
-    getActiveWorkspaceMarketplacePackageByType(
+    await getActiveWorkspaceMarketplacePackageByType(
       workspaceId,
-      type
+      type,
     );
 
   if (!active) {
@@ -25,33 +25,33 @@ export function getActiveWorkspaceMarketplacePayloadByType(
   }
 
   return getMarketplacePayload(
-    active.packageId
+    active.packageId,
   )?.payload;
 }
 
-export function getActiveWorkspaceIndustryPayload(
-  workspaceId: string
+export async function getActiveWorkspaceIndustryPayload(
+  workspaceId: string,
 ) {
   return getActiveWorkspaceMarketplacePayloadByType(
     workspaceId,
-    "industry"
+    "industry",
   );
 }
 
-export function getActiveWorkspaceLanguagePayload(
-  workspaceId: string
+export async function getActiveWorkspaceLanguagePayload(
+  workspaceId: string,
 ) {
   return getActiveWorkspaceMarketplacePayloadByType(
     workspaceId,
-    "language"
+    "language",
   );
 }
 
-export function getActiveWorkspacePersonalBrandPayload(
-  workspaceId: string
+export async function getActiveWorkspacePersonalBrandPayload(
+  workspaceId: string,
 ) {
   return getActiveWorkspaceMarketplacePayloadByType(
     workspaceId,
-    "personal_brand"
+    "personal_brand",
   );
 }

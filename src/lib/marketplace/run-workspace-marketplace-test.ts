@@ -1,3 +1,9 @@
+import "dotenv/config";
+
+import {
+  ensureOwnerAccount,
+} from "../auth/auth-service";
+
 import {
   bootstrapMarketplace,
 } from "./bootstrap-marketplace";
@@ -12,52 +18,71 @@ import {
   getActiveWorkspaceIndustryPayload,
 } from "./workspace-marketplace-payloads";
 
-bootstrapMarketplace();
+async function runWorkspaceMarketplaceTest() {
+  bootstrapMarketplace();
 
-const workspaceId =
-  "workspace-marketplace-test";
+  const owner = await ensureOwnerAccount(
+    "workspace-marketplace@tilla.test",
+    "123456",
+    "Workspace Marketplace Test",
+  );
 
-installWorkspaceMarketplacePackage(
-  workspaceId,
-  "restaurant-industry-pack",
-  "industry",
-  "0.1.0"
-);
+  const workspaceId = owner.workspace.id;
 
-activateWorkspaceMarketplacePackage(
-  workspaceId,
-  "restaurant-industry-pack"
-);
-
-const activeIndustry =
-  getActiveWorkspaceMarketplacePackageByType(
+  await installWorkspaceMarketplacePackage(
     workspaceId,
-    "industry"
+    "restaurant-industry-pack",
+    "industry",
+    "0.1.0",
   );
 
-const activePayload =
-  getActiveWorkspaceIndustryPayload(
-    workspaceId
+  await activateWorkspaceMarketplacePackage(
+    workspaceId,
+    "restaurant-industry-pack",
   );
 
-console.log(
-  "Workspace Marketplace Test"
+  const activeIndustry =
+    await getActiveWorkspaceMarketplacePackageByType(
+      workspaceId,
+      "industry",
+    );
+
+  const activePayload =
+    await getActiveWorkspaceIndustryPayload(
+      workspaceId,
+    );
+
+  console.log(
+    "Workspace Marketplace Test",
+  );
+
+  console.log({
+    passed:
+      activeIndustry?.packageId ===
+        "restaurant-industry-pack" &&
+      activePayload?.type === "industry",
+
+    workspaceId,
+
+    activePackageId:
+      activeIndustry?.packageId,
+
+    activePackageType:
+      activeIndustry?.type,
+
+    activePayloadType:
+      activePayload?.type,
+  });
+}
+
+runWorkspaceMarketplaceTest().catch(
+  (error) => {
+    console.error(
+      "Workspace Marketplace Test Failed",
+    );
+
+    console.error(error);
+
+    process.exit(1);
+  },
 );
-
-console.log({
-  passed:
-    activeIndustry?.packageId ===
-      "restaurant-industry-pack" &&
-    activePayload?.type === "industry",
-
-  workspaceId,
-
-  activePackageId:
-    activeIndustry?.packageId,
-
-  activePackageType:
-    activeIndustry?.type,
-
-  activePayloadType:
-    activePayload?.type,
-});

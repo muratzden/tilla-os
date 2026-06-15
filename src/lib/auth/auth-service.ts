@@ -26,12 +26,12 @@ function generateToken() {
   return crypto.randomUUID();
 }
 
-export function registerOwner(
+export async function registerOwner(
   email: string,
   password: string,
   workspaceName: string,
 ) {
-  const existing = getUserByEmail(email);
+  const existing = await getUserByEmail(email);
 
   if (existing) {
     throw new Error("User already exists");
@@ -44,7 +44,7 @@ export function registerOwner(
     createdAt: new Date().toISOString(),
   };
 
-  saveUser(user);
+  await saveUser(user);
 
   const workspace: Workspace = {
     id: generateId(),
@@ -53,7 +53,7 @@ export function registerOwner(
     createdAt: new Date().toISOString(),
   };
 
-  saveWorkspace(workspace);
+  await saveWorkspace(workspace);
 
   const membership: Membership = {
     workspaceId: workspace.id,
@@ -61,7 +61,7 @@ export function registerOwner(
     role: "owner",
   };
 
-  addMembership(membership);
+  await addMembership(membership);
 
   return {
     user,
@@ -70,23 +70,19 @@ export function registerOwner(
   };
 }
 
-export function ensureOwnerAccount(
+export async function ensureOwnerAccount(
   email: string,
   password: string,
   workspaceName: string,
 ) {
-  const existing = getUserByEmail(email);
+  const existing = await getUserByEmail(email);
 
   if (!existing) {
-    return registerOwner(
-      email,
-      password,
-      workspaceName,
-    );
+    return registerOwner(email, password, workspaceName);
   }
 
-  const existingMembership =
-    getMemberships(existing.id)[0];
+  const memberships = await getMemberships(existing.id);
+  const existingMembership = memberships[0];
 
   if (!existingMembership) {
     throw new Error(
@@ -94,7 +90,7 @@ export function ensureOwnerAccount(
     );
   }
 
-  const existingWorkspace = getWorkspace(
+  const existingWorkspace = await getWorkspace(
     existingMembership.workspaceId,
   );
 
@@ -111,8 +107,11 @@ export function ensureOwnerAccount(
   };
 }
 
-export function login(email: string, password: string) {
-  const user = getUserByEmail(email);
+export async function login(
+  email: string,
+  password: string,
+) {
+  const user = await getUserByEmail(email);
 
   if (!user) {
     throw new Error("User not found");
@@ -122,7 +121,7 @@ export function login(email: string, password: string) {
     throw new Error("Invalid password");
   }
 
-   const memberships = getMemberships(user.id);
+  const memberships = await getMemberships(user.id);
   const activeMembership = memberships[0];
 
   if (!activeMembership) {
@@ -138,21 +137,20 @@ export function login(email: string, password: string) {
     ).toISOString(),
   };
 
-  saveSession(session);
+  await saveSession(session);
 
   return session;
 }
 
-export function validateSession(token: string) {
-  const session = getSession(token);
+export async function validateSession(token: string) {
+  const session = await getSession(token);
 
   if (!session) {
     return null;
   }
 
   if (
-    new Date(session.expiresAt).getTime() <
-    Date.now()
+    new Date(session.expiresAt).getTime() < Date.now()
   ) {
     return null;
   }
@@ -160,7 +158,7 @@ export function validateSession(token: string) {
   return session;
 }
 
-export function ensureDemoAccount() {
+export async function ensureDemoAccount() {
   return ensureOwnerAccount(
     "demo@tilla-os.dev",
     "demo123",

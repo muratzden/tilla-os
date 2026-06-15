@@ -15,11 +15,11 @@ const sessions: Session[] = [];
 const entitlements: MarketplaceEntitlement[] = [];
 
 export const memoryAuthStorageAdapter: AuthStorageAdapter = {
-  getUsers() {
+  async getUsers() {
     return users;
   },
 
-  saveUser(user: User) {
+  async saveUser(user: User) {
     const index = users.findIndex((item) => item.id === user.id);
 
     if (index >= 0) {
@@ -30,11 +30,11 @@ export const memoryAuthStorageAdapter: AuthStorageAdapter = {
     users.push(user);
   },
 
-  getUserByEmail(email: string) {
+  async getUserByEmail(email: string) {
     return users.find((user) => user.email === email);
   },
 
-  saveWorkspace(workspace: Workspace) {
+  async saveWorkspace(workspace: Workspace) {
     const index = workspaces.findIndex(
       (item) => item.id === workspace.id,
     );
@@ -47,13 +47,13 @@ export const memoryAuthStorageAdapter: AuthStorageAdapter = {
     workspaces.push(workspace);
   },
 
-  getWorkspace(workspaceId: string) {
+  async getWorkspace(workspaceId: string) {
     return workspaces.find(
       (workspace) => workspace.id === workspaceId,
     );
   },
 
-  addMembership(membership: Membership) {
+  async addMembership(membership: Membership) {
     const exists = memberships.some(
       (item) =>
         item.workspaceId === membership.workspaceId &&
@@ -65,11 +65,11 @@ export const memoryAuthStorageAdapter: AuthStorageAdapter = {
     }
   },
 
-  getMemberships(userId: string) {
+  async getMemberships(userId: string) {
     return memberships.filter((item) => item.userId === userId);
   },
 
-  saveSession(session: Session) {
+  async saveSession(session: Session) {
     const index = sessions.findIndex(
       (item) => item.token === session.token,
     );
@@ -82,11 +82,11 @@ export const memoryAuthStorageAdapter: AuthStorageAdapter = {
     sessions.push(session);
   },
 
-  getSession(token: string) {
+  async getSession(token: string) {
     return sessions.find((session) => session.token === token);
   },
 
-  grantEntitlement(entitlement: MarketplaceEntitlement) {
+  async grantEntitlement(entitlement: MarketplaceEntitlement) {
     const exists = entitlements.some(
       (item) =>
         item.workspaceId === entitlement.workspaceId &&
@@ -98,7 +98,7 @@ export const memoryAuthStorageAdapter: AuthStorageAdapter = {
     }
   },
 
-  getWorkspaceEntitlements(workspaceId: string) {
+  async getWorkspaceEntitlements(workspaceId: string) {
     return entitlements.filter(
       (item) => item.workspaceId === workspaceId,
     );

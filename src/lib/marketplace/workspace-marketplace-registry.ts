@@ -11,11 +11,6 @@ import type {
 } from "./workspace-marketplace-types";
 
 import {
-  loadWorkspaceMarketplaceInstallations,
-  saveWorkspaceMarketplaceInstallations,
-} from "./workspace-marketplace-storage";
-
-import {
   activationScope,
 } from "./marketplace-activation-scope";
 
@@ -23,89 +18,59 @@ import {
   hasMarketplaceEntitlement,
 } from "@/src/lib/auth/entitlement-service";
 
-let loaded = false;
+import {
+  activateWorkspaceMarketplaceInstallation,
+  deactivateWorkspaceMarketplacePackagesByType,
+  getWorkspaceMarketplaceInstallation,
+  getWorkspaceMarketplaceInstallationsFromPostgres,
+  upsertWorkspaceMarketplaceInstallation,
+} from "./postgres-workspace-marketplace-storage";
 
-const installations = new Map<
-  string,
-  WorkspaceMarketplaceInstallation
->();
-
-function key(
-  workspaceId: string,
-  packageId: string,
-) {
-  return `${workspaceId}:${packageId}`;
-}
-
-function ensureLoaded() {
-  if (loaded) {
-    return;
-  }
-
-  for (const installation of loadWorkspaceMarketplaceInstallations()) {
-    installations.set(
-      key(
-        installation.workspaceId,
-        installation.packageId,
-      ),
-      installation,
-    );
-  }
-
-  loaded = true;
-}
-
-function persist() {
-  saveWorkspaceMarketplaceInstallations(
-    Array.from(installations.values()),
-  );
-}
-
-export function installWorkspaceMarketplacePackage(
+export async function installWorkspaceMarketplacePackage(
   workspaceId: string,
   packageId: string,
   type: MarketplacePackageType,
   version: string,
   entitlement: MarketplaceEntitlement = "free",
 ) {
-  ensureLoaded();
-
   if (
     entitlement !== "free" &&
-    !hasMarketplaceEntitlement(
+    !(await hasMarketplaceEntitlement(
       workspaceId,
       packageId,
-    )
+    ))
   ) {
     throw new Error(
       `Workspace '${workspaceId}' does not have entitlement for package '${packageId}'`,
     );
   }
 
-  installations.set(
-    key(workspaceId, packageId),
-    {
-      workspaceId,
-      packageId,
-      type,
-      version,
-      entitlement,
-      active: false,
-      installedAt: new Date().toISOString(),
-    },
+  const installation: WorkspaceMarketplaceInstallation = {
+    workspaceId,
+    packageId,
+    type,
+    version,
+    entitlement,
+    active: false,
+    installedAt: new Date().toISOString(),
+  };
+
+  await upsertWorkspaceMarketplaceInstallation(
+    installation,
   );
 
-  persist();
+  return installation;
 }
 
-export function activateWorkspaceMarketplacePackage(
+export async function activateWorkspaceMarketplacePackage(
   workspaceId: string,
   packageId: string,
 ) {
-  ensureLoaded();
-
   const installation =
-    installations.get(key(workspaceId, packageId));
+    await getWorkspaceMarketplaceInstallation(
+      workspaceId,
+      packageId,
+    );
 
   if (!installation) {
     throw new Error(
@@ -116,46 +81,47 @@ export function activateWorkspaceMarketplacePackage(
   const scope = activationScope[installation.type];
 
   if (scope === "single") {
-    for (const item of installations.values()) {
-      if (
-        item.workspaceId === workspaceId &&
-        item.type === installation.type
-      ) {
-        item.active = false;
-      }
-    }
+    await deactivateWorkspaceMarketplacePackagesByType(
+      workspaceId,
+      installation.type,
+    );
   }
 
-  installation.active = true;
-
-  persist();
-}
-
-export function getWorkspaceMarketplaceInstallations(
-  workspaceId: string,
-) {
-  ensureLoaded();
-
-  return Array.from(
-    installations.values(),
-  ).filter(
-    (item) => item.workspaceId === workspaceId,
+  await activateWorkspaceMarketplaceInstallation(
+    workspaceId,
+    packageId,
   );
 }
 
-export function getActiveWorkspaceMarketplacePackages(
+export async function getWorkspaceMarketplaceInstallations(
   workspaceId: string,
 ) {
-  return getWorkspaceMarketplaceInstallations(
+  return getWorkspaceMarketplaceInstallationsFromPostgres(
     workspaceId,
-  ).filter((item) => item.active);
+  );
 }
 
-export function getActiveWorkspaceMarketplacePackageByType(
+export async function getActiveWorkspaceMarketplacePackages(
+  workspaceId: string,
+) {
+  const installations =
+    await getWorkspaceMarketplaceInstallations(
+      workspaceId,
+    );
+
+  return installations.filter((item) => item.active);
+}
+
+export async function getActiveWorkspaceMarketplacePackageByType(
   workspaceId: string,
   type: MarketplacePackageType,
 ) {
-  return getActiveWorkspaceMarketplacePackages(
-    workspaceId,
-  ).find((item) => item.type === type);
+  const activePackages =
+    await getActiveWorkspaceMarketplacePackages(
+      workspaceId,
+    );
+
+  return activePackages.find(
+    (item) => item.type === type,
+  );
 }

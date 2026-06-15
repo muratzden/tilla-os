@@ -8,18 +8,21 @@ import type {
 
 import { jsonAuthStorageAdapter } from "./json-auth-storage-adapter";
 import { memoryAuthStorageAdapter } from "./memory-auth-storage-adapter";
+import { postgresAuthStorageAdapter } from "./postgres-auth-storage-adapter";
 
 const authStorage =
-  process.env.VERCEL === "1"
-    ? memoryAuthStorageAdapter
-    : jsonAuthStorageAdapter;
+  process.env.AUTH_STORAGE_ADAPTER === "postgres"
+    ? postgresAuthStorageAdapter
+    : process.env.VERCEL === "1"
+      ? memoryAuthStorageAdapter
+      : jsonAuthStorageAdapter;
 
 export function getUsers() {
   return authStorage.getUsers();
 }
 
 export function saveUser(user: User) {
-  authStorage.saveUser(user);
+  return authStorage.saveUser(user);
 }
 
 export function getUserByEmail(email: string) {
@@ -27,7 +30,7 @@ export function getUserByEmail(email: string) {
 }
 
 export function saveWorkspace(workspace: Workspace) {
-  authStorage.saveWorkspace(workspace);
+  return authStorage.saveWorkspace(workspace);
 }
 
 export function getWorkspace(workspaceId: string) {
@@ -35,7 +38,7 @@ export function getWorkspace(workspaceId: string) {
 }
 
 export function addMembership(membership: Membership) {
-  authStorage.addMembership(membership);
+  return authStorage.addMembership(membership);
 }
 
 export function getMemberships(userId: string) {
@@ -43,7 +46,7 @@ export function getMemberships(userId: string) {
 }
 
 export function saveSession(session: Session) {
-  authStorage.saveSession(session);
+  return authStorage.saveSession(session);
 }
 
 export function getSession(token: string) {
@@ -53,7 +56,7 @@ export function getSession(token: string) {
 export function grantEntitlement(
   entitlement: MarketplaceEntitlement,
 ) {
-  authStorage.grantEntitlement(entitlement);
+  return authStorage.grantEntitlement(entitlement);
 }
 
 export function getWorkspaceEntitlements(

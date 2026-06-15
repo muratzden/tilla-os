@@ -23,7 +23,7 @@ export async function GET() {
   }
 
   const context =
-    getCurrentAuthContext(sessionToken);
+    await getCurrentAuthContext(sessionToken);
 
   if (!context) {
     return NextResponse.json(

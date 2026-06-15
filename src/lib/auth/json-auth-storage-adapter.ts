@@ -14,11 +14,11 @@ import {
 } from "./json-auth-storage";
 
 export const jsonAuthStorageAdapter: AuthStorageAdapter = {
-  getUsers() {
+  async getUsers() {
     return loadJsonAuthStorageState().users;
   },
 
-  saveUser(user: User) {
+  async saveUser(user: User) {
     const state = loadJsonAuthStorageState();
 
     state.users = [
@@ -29,13 +29,13 @@ export const jsonAuthStorageAdapter: AuthStorageAdapter = {
     saveJsonAuthStorageState(state);
   },
 
-  getUserByEmail(email: string) {
+  async getUserByEmail(email: string) {
     return loadJsonAuthStorageState().users.find(
       (user) => user.email === email,
     );
   },
 
-  saveWorkspace(workspace: Workspace) {
+  async saveWorkspace(workspace: Workspace) {
     const state = loadJsonAuthStorageState();
 
     state.workspaces = [
@@ -48,13 +48,13 @@ export const jsonAuthStorageAdapter: AuthStorageAdapter = {
     saveJsonAuthStorageState(state);
   },
 
-  getWorkspace(workspaceId: string) {
+  async getWorkspace(workspaceId: string) {
     return loadJsonAuthStorageState().workspaces.find(
       (workspace) => workspace.id === workspaceId,
     );
   },
 
-  addMembership(membership: Membership) {
+  async addMembership(membership: Membership) {
     const state = loadJsonAuthStorageState();
 
     const exists = state.memberships.some(
@@ -70,13 +70,13 @@ export const jsonAuthStorageAdapter: AuthStorageAdapter = {
     saveJsonAuthStorageState(state);
   },
 
-  getMemberships(userId: string) {
+  async getMemberships(userId: string) {
     return loadJsonAuthStorageState().memberships.filter(
       (item) => item.userId === userId,
     );
   },
 
-  saveSession(session: Session) {
+  async saveSession(session: Session) {
     const state = loadJsonAuthStorageState();
 
     state.sessions = [
@@ -89,13 +89,13 @@ export const jsonAuthStorageAdapter: AuthStorageAdapter = {
     saveJsonAuthStorageState(state);
   },
 
-  getSession(token: string) {
+  async getSession(token: string) {
     return loadJsonAuthStorageState().sessions.find(
       (session) => session.token === token,
     );
   },
 
-  grantEntitlement(
+  async grantEntitlement(
     entitlement: MarketplaceEntitlement,
   ) {
     const state = loadJsonAuthStorageState();
@@ -113,7 +113,7 @@ export const jsonAuthStorageAdapter: AuthStorageAdapter = {
     saveJsonAuthStorageState(state);
   },
 
-  getWorkspaceEntitlements(workspaceId: string) {
+  async getWorkspaceEntitlements(workspaceId: string) {
     return loadJsonAuthStorageState().entitlements.filter(
       (item) => item.workspaceId === workspaceId,
     );

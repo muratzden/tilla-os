@@ -1,28 +1,29 @@
 import type { BrandSetup } from "@/src/lib/brand/setup/brand-setup-types";
+
 import {
   getWorkspaceSettings,
   upsertWorkspaceSettings,
 } from "./workspace-settings-storage";
 
-export function getWorkspaceBrandSetup(
-  workspaceId: string
-): BrandSetup | null {
-  const settings = getWorkspaceSettings(workspaceId);
+export async function getWorkspaceBrandSetup(
+  workspaceId: string,
+): Promise<BrandSetup | null> {
+  const settings = await getWorkspaceSettings(workspaceId);
 
   return settings?.brandSetup ?? null;
 }
 
-export function saveWorkspaceBrandSetup(
+export async function saveWorkspaceBrandSetup(
   workspaceId: string,
-  brandSetup: BrandSetup
-): BrandSetup {
-  const existing = getWorkspaceSettings(workspaceId);
+  brandSetup: BrandSetup,
+): Promise<BrandSetup> {
+  const existing = await getWorkspaceSettings(workspaceId);
 
-  upsertWorkspaceSettings({
+  await upsertWorkspaceSettings({
+    ...existing,
     workspaceId,
     brandSetup,
     updatedAt: new Date().toISOString(),
-    ...existing,
   });
 
   return brandSetup;

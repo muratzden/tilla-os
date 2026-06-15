@@ -17,23 +17,24 @@ export type CurrentAuthContext = {
   membership: Membership;
 };
 
-export function getCurrentAuthContext(
+export async function getCurrentAuthContext(
   sessionToken: string,
-): CurrentAuthContext | null {
-  const session = getSession(sessionToken);
+): Promise<CurrentAuthContext | null> {
+  const session = await getSession(sessionToken);
 
   if (!session) {
     return null;
   }
 
   if (
-    new Date(session.expiresAt).getTime() <
-    Date.now()
+    new Date(session.expiresAt).getTime() < Date.now()
   ) {
     return null;
   }
 
-  const user = getUsers().find(
+  const users = await getUsers();
+
+  const user = users.find(
     (item) => item.id === session.userId,
   );
 
@@ -41,13 +42,14 @@ export function getCurrentAuthContext(
     return null;
   }
 
-  const membership = getMemberships(user.id)[0];
+  const memberships = await getMemberships(user.id);
+  const membership = memberships[0];
 
   if (!membership) {
     return null;
   }
 
-  const workspace = getWorkspace(
+  const workspace = await getWorkspace(
     membership.workspaceId,
   );
 
