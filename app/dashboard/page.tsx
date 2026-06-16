@@ -23,7 +23,7 @@ import { ActivityTimeline } from "./components/activity-timeline";
 import { MobileCommandCenter } from "./components/mobile-command-center";
 import { normalizeBrandSetup } from "@/src/lib/brand/setup/default-brand-setup";
 import { WorkspaceGrid } from "./components/workspace-grid";
-import { BrandHealthStrip } from "./components/brand-health-strip";
+
 import { ActiveModuleShell } from "./components/active-module-shell";
 
 type OutputLanguage = "tr" | "en" | "de";
@@ -551,8 +551,6 @@ export default function DashboardPage() {
             onOpenWorkspace={() => setWorkspaceOpen((current) => !current)}
           />
           <MissionControl readinessScore={brandReadiness.score} />
-
-          <BrandHealthStrip readinessScore={brandReadiness.score} />
 
           <ActivityTimeline />
 
