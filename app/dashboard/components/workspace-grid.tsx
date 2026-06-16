@@ -1,11 +1,16 @@
 "use client";
 
+import { getDashboardText } from "@/src/lib/i18n/dashboard-text";
+
+type UILanguage = "tr" | "en";
+
 type WorkspaceTarget = "decision" | "brandHealth" | "studios" | "marketplace";
 
 type WorkspaceGridProps = {
   activeTab: WorkspaceTarget | string;
   readinessScore: number;
   marketplaceUpdates: number;
+  uiLanguage: UILanguage;
   onNavigate: (tab: WorkspaceTarget) => void;
 };
 
@@ -16,47 +21,58 @@ type WorkspaceItem = {
   target: WorkspaceTarget;
 };
 
-const primaryWorkspace: WorkspaceItem = {
-  title: "Decision Engine",
-  description:
-    "Primary workspace for governed decisions, brand reasoning and operational direction.",
-  symbol: "✦",
-  target: "decision",
-};
-
-const secondaryWorkspaces: WorkspaceItem[] = [
-  {
-    title: "Governance Center",
-    description:
-      "Protect positioning consistency and constitutional integrity.",
-    symbol: "◆",
-    target: "brandHealth",
-  },
-  {
-    title: "Studios",
-    description: "Generate content, campaigns and operational outputs.",
-    symbol: "✎",
-    target: "studios",
-  },
-  {
-    title: "Marketplace",
-    description: "Install language packs, industry modules and workflows.",
-    symbol: "▣",
-    target: "marketplace",
-  },
-];
-
 export function WorkspaceGrid({
   activeTab,
   readinessScore,
   marketplaceUpdates,
+  uiLanguage,
   onNavigate,
 }: WorkspaceGridProps) {
+  const primaryWorkspace: WorkspaceItem = {
+    title: getDashboardText("decisionEngine", uiLanguage),
+    description:
+      uiLanguage === "tr"
+        ? "Yönetilen kararlar, marka muhakemesi ve operasyonel yön için ana çalışma alanı."
+        : "Primary workspace for governed decisions, brand reasoning and operational direction.",
+    symbol: "✦",
+    target: "decision",
+  };
+
+  const secondaryWorkspaces: WorkspaceItem[] = [
+    {
+      title: uiLanguage === "tr" ? "Yönetişim Merkezi" : "Governance Center",
+      description:
+        uiLanguage === "tr"
+          ? "Konumlandırma tutarlılığını ve anayasal bütünlüğü korur."
+          : "Protect positioning consistency and constitutional integrity.",
+      symbol: "◆",
+      target: "brandHealth",
+    },
+    {
+      title: "Studios",
+      description:
+        uiLanguage === "tr"
+          ? "İçerik, kampanya ve operasyonel çıktılar üretir."
+          : "Generate content, campaigns and operational outputs.",
+      symbol: "✎",
+      target: "studios",
+    },
+    {
+      title: "Marketplace",
+      description:
+        uiLanguage === "tr"
+          ? "Dil paketleri, sektör modülleri ve iş akışları kurar."
+          : "Install language packs, industry modules and workflows.",
+      symbol: "▣",
+      target: "marketplace",
+    },
+  ];
+
   function getStatus(target: WorkspaceTarget) {
     if (target === "decision") {
       return {
-        label: "PRIMARY",
-        value: "Decision Engine Ready",
+        label: getDashboardText("primaryStatus", uiLanguage),
+        value: getDashboardText("decisionEngineReady", uiLanguage),
       };
     }
 
@@ -64,27 +80,36 @@ export function WorkspaceGrid({
       return {
         label:
           readinessScore >= 80
-            ? "HEALTHY"
+            ? getDashboardText("healthy", uiLanguage)
             : readinessScore >= 60
-              ? "STABLE"
-              : "ATTENTION",
-        value: `${readinessScore}% Readiness`,
+              ? getDashboardText("stable", uiLanguage)
+              : getDashboardText("attention", uiLanguage),
+        value: `${readinessScore}% ${getDashboardText(
+          "readiness",
+          uiLanguage,
+        )}`,
       };
     }
 
     if (target === "studios") {
       return {
-        label: "ACTIVE",
-        value: "Content Studio Online",
+        label: getDashboardText("activeStatus", uiLanguage),
+        value: getDashboardText("contentStudioOnline", uiLanguage),
       };
     }
 
     return {
-      label: marketplaceUpdates > 0 ? "UPDATES" : "CURRENT",
+      label:
+        marketplaceUpdates > 0
+          ? getDashboardText("updates", uiLanguage)
+          : getDashboardText("current", uiLanguage),
       value:
         marketplaceUpdates > 0
-          ? `${marketplaceUpdates} Updates Available`
-          : "All Packages Current",
+          ? `${marketplaceUpdates} ${getDashboardText(
+              "updatesAvailable",
+              uiLanguage,
+            )}`
+          : getDashboardText("allPackagesCurrent", uiLanguage),
     };
   }
 
@@ -93,17 +118,16 @@ export function WorkspaceGrid({
       <div className="mb-5 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="text-xs uppercase tracking-[0.3em] text-zinc-500">
-            Workspace
+            {getDashboardText("workspace", uiLanguage)}
           </p>
 
           <h2 className="mt-2 text-2xl font-semibold text-white">
-            Operating System Modules
+            {getDashboardText("operatingSystemModules", uiLanguage)}
           </h2>
         </div>
 
         <p className="max-w-md text-sm leading-6 text-zinc-500">
-          Decision Engine is the primary workspace. Governance, Studios and
-          Marketplace support the operating system.
+          {getDashboardText("workspaceGridDescription", uiLanguage)}
         </p>
       </div>
 
@@ -112,6 +136,7 @@ export function WorkspaceGrid({
           item={primaryWorkspace}
           status={getStatus(primaryWorkspace.target)}
           isActive={activeTab === primaryWorkspace.target}
+          uiLanguage={uiLanguage}
           onNavigate={onNavigate}
           variant="primary"
         />
@@ -123,6 +148,7 @@ export function WorkspaceGrid({
               item={workspace}
               status={getStatus(workspace.target)}
               isActive={activeTab === workspace.target}
+              uiLanguage={uiLanguage}
               onNavigate={onNavigate}
               variant="secondary"
             />
@@ -137,6 +163,7 @@ function WorkspaceCard({
   item,
   status,
   isActive,
+  uiLanguage,
   onNavigate,
   variant,
 }: {
@@ -146,6 +173,7 @@ function WorkspaceCard({
     value: string;
   };
   isActive: boolean;
+  uiLanguage: UILanguage;
   onNavigate: (tab: WorkspaceTarget) => void;
   variant: "primary" | "secondary";
 }) {
@@ -187,7 +215,9 @@ function WorkspaceCard({
 
       <div className={variant === "primary" ? "mt-12" : "mt-5"}>
         <div className="mb-3 inline-flex rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[11px] uppercase tracking-[0.18em] text-zinc-400">
-          {variant === "primary" ? "Primary Workspace" : "Supporting Module"}
+          {variant === "primary"
+            ? getDashboardText("primaryWorkspace", uiLanguage)
+            : getDashboardText("supportingModule", uiLanguage)}
         </div>
 
         <h3
@@ -218,7 +248,7 @@ function WorkspaceCard({
       >
         <div>
           <p className="text-xs uppercase tracking-[0.18em] text-zinc-600">
-            Status
+            {getDashboardText("status", uiLanguage)}
           </p>
 
           <p className="mt-1 text-sm text-zinc-300">{status.value}</p>
@@ -231,7 +261,7 @@ function WorkspaceCard({
 
       {isActive && (
         <div className="mt-4 inline-flex rounded-full border border-white/15 bg-white/[0.08] px-3 py-1 text-xs uppercase tracking-[0.18em] text-white">
-          Active
+          {getDashboardText("active", uiLanguage)}
         </div>
       )}
     </button>

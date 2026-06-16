@@ -48,47 +48,35 @@ export function DecisionTab({
           </p>
         </div>
 
-        <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-6">
+        <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-5">
           <Input
-            label="Type"
+            label={getDashboardText("typeLabel", uiLanguage)}
             value={input.type}
             onChange={(value) => onInputChange({ ...input, type: value })}
           />
 
           <Input
-            label="Material"
+            label={getDashboardText("materialLabel", uiLanguage)}
             value={input.material}
             onChange={(value) => onInputChange({ ...input, material: value })}
           />
 
           <Input
-            label="Color"
+            label={getDashboardText("colorLabel", uiLanguage)}
             value={input.color}
             onChange={(value) => onInputChange({ ...input, color: value })}
           />
 
           <Input
-            label="Size"
+            label={getDashboardText("sizeLabel", uiLanguage)}
             value={input.size}
             onChange={(value) => onInputChange({ ...input, size: value })}
           />
 
           <Input
-            label="Channel"
+            label={getDashboardText("channelLabel", uiLanguage)}
             value={input.channel}
             onChange={(value) => onInputChange({ ...input, channel: value })}
-          />
-
-          <SelectInput
-            label={getDashboardText("outputLanguage", uiLanguage)}
-            value={input.outputLanguage}
-            options={["tr", "en", "de"]}
-            onChange={(value) =>
-              onInputChange({
-                ...input,
-                outputLanguage: value as OutputLanguage,
-              })
-            }
           />
         </div>
 
@@ -106,14 +94,14 @@ export function DecisionTab({
 
       <section className="grid gap-4 lg:grid-cols-3">
         <DecisionMetric
-          label="Archetype"
+          label={getDashboardText("archetypeLabel", uiLanguage)}
           value={pipeline?.debug?.archetype ?? "-"}
         />
 
-        <DecisionMetric label="World" value={pipeline?.debug?.world ?? "-"} />
+        <DecisionMetric label={getDashboardText("worldLabel", uiLanguage)} value={pipeline?.debug?.world ?? "-"} />
 
         <DecisionMetric
-          label="Confidence"
+          label={getDashboardText("confidenceLabel", uiLanguage)}
           value={pipeline?.confidence?.confidence ?? "-"}
           detail={pipeline?.confidence?.confidenceLevel ?? "waiting"}
         />
@@ -126,12 +114,12 @@ export function DecisionTab({
 
         <div className="mt-5 grid gap-4 lg:grid-cols-2">
           <OutputBlock
-            title="Positive Prompt"
+            title={getDashboardText("positivePrompt", uiLanguage)}
             value={pipeline?.visualPrompt?.positivePrompt}
           />
 
           <OutputBlock
-            title="Negative Prompt"
+            title={getDashboardText("negativePrompt", uiLanguage)}
             value={pipeline?.visualPrompt?.negativePrompt}
           />
         </div>

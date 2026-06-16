@@ -165,72 +165,103 @@ export default function DashboardPage() {
   const pipeline = data?.pipeline;
   const visibleTabs = isMobileNav ? mobileTabs : desktopTabs;
   const activeOutputLanguage = (
-    languageMarketplace.active === "tr" ||
-    languageMarketplace.active === "en" ||
-    languageMarketplace.active === "de"
-      ? languageMarketplace.active
-      : "en"
-  ) as OutputLanguage;
-
+  brandSetup.identity.contentLanguage === "tr" ||
+  brandSetup.identity.contentLanguage === "en" ||
+  brandSetup.identity.contentLanguage === "de"
+    ? brandSetup.identity.contentLanguage
+    : "en"
+) as OutputLanguage;
   function getTabLabel(tab: DashboardTab) {
-    if (tab === "overview") return text.dashboard.navigation.overview;
-    if (tab === "foundation") return text.dashboard.navigation.foundation;
-    if (tab === "manifesto") return text.dashboard.navigation.manifesto;
-    if (tab === "brandHealth") return text.dashboard.navigation.governance;
-    if (tab === "audit") return text.dashboard.navigation.audit;
-    if (tab === "decision") return "Decision Engine";
-    if (tab === "studios") return "Studios";
-    return "Marketplace";
-  }
+    if (tab === "overview") {
+      return getDashboardText("overview", uiLanguage);
+    }
 
-  function getActiveModuleMeta(tab: DashboardTab) {
+    if (tab === "foundation") {
+      return getDashboardText("foundation", uiLanguage);
+    }
+
+    if (tab === "manifesto") {
+      return getDashboardText("manifestoInterview", uiLanguage);
+    }
+
+    if (tab === "brandHealth") {
+      return getDashboardText("governanceCenter", uiLanguage);
+    }
+
+    if (tab === "audit") {
+      return getDashboardText("auditCenter", uiLanguage);
+    }
+
+    if (tab === "decision") {
+      return getDashboardText("decisionEngine", uiLanguage);
+    }
+
+    if (tab === "studios") {
+      return getDashboardText("studios", uiLanguage);
+    }
+
+    return getDashboardText("marketplace", uiLanguage);
+  }
+     function getActiveModuleMeta(tab: DashboardTab) {
     switch (tab) {
       case "decision":
         return {
-          title: "Decision Engine",
-          description: "Evaluate and generate governed brand decisions.",
+          title: getDashboardText("decisionEngine", uiLanguage),
+          description: getDashboardText(
+            "decisionEngineDescription",
+            uiLanguage,
+          ),
         };
 
       case "brandHealth":
         return {
-          title: "Governance Center",
-          description: "Monitor alignment, consistency and governance.",
+          title: getDashboardText("governanceCenter", uiLanguage),
+          description: getDashboardText(
+            "governanceCenterDescription",
+            uiLanguage,
+          ),
         };
 
       case "audit":
         return {
-          title: "Audit Center",
-          description: "Review brand health and governance reports.",
+          title: getDashboardText("auditCenter", uiLanguage),
+          description: getDashboardText("auditCenterDescription", uiLanguage),
         };
 
       case "studios":
         return {
-          title: "Studios",
-          description: "Create content and operational outputs.",
+          title: getDashboardText("studios", uiLanguage),
+          description: getDashboardText("studiosDescription", uiLanguage),
         };
 
       case "marketplace":
         return {
-          title: "Marketplace",
-          description: "Manage language packs and system modules.",
+          title: getDashboardText("marketplace", uiLanguage),
+          description: getDashboardText("marketplaceDescription", uiLanguage),
         };
 
       case "foundation":
         return {
-          title: "Foundation",
-          description: "Core brand identity and strategic structure.",
+          title: getDashboardText("foundation", uiLanguage),
+          description: getDashboardText(
+            "foundationModuleDescription",
+            uiLanguage,
+          ),
         };
 
       case "manifesto":
         return {
-          title: "Manifesto",
-          description: "Brand constitution and guiding principles.",
+          title: getDashboardText("manifestoInterview", uiLanguage),
+          description: getDashboardText(
+            "manifestoModuleDescription",
+            uiLanguage,
+          ),
         };
 
       default:
         return {
-          title: "Overview",
-          description: "High-level operating system overview.",
+          title: getDashboardText("overview", uiLanguage),
+          description: getDashboardText("overviewDescription", uiLanguage),
         };
     }
   }
@@ -247,7 +278,7 @@ export default function DashboardPage() {
           brandId: currentBrand?.id,
           uiLanguage: brandSetup.identity.uiLanguage,
           contentLanguage: activeOutputLanguage,
-          promptLanguage: activeOutputLanguage,
+          promptLanguage: "en",
         }),
       });
 
@@ -398,7 +429,7 @@ export default function DashboardPage() {
                   </h1>
 
                   <p className="text-xs text-zinc-500">
-                    Brand Operating System
+                    {getDashboardText("brandOperatingSystem", uiLanguage)}
                   </p>
                 </div>
               )}
@@ -448,7 +479,7 @@ export default function DashboardPage() {
 
                 <div className="mb-3 px-4">
                   <p className="text-[10px] uppercase tracking-[0.3em] text-zinc-600">
-                    Knowledge
+                    {getDashboardText("knowledge", uiLanguage)}
                   </p>
                 </div>
 
@@ -495,7 +526,7 @@ export default function DashboardPage() {
                 onClick={logout}
                 className="mt-4 w-full rounded-2xl border border-white/10 px-3 py-2 text-xs font-medium text-zinc-400 transition hover:border-white/20 hover:text-white"
               >
-                Logout
+                {getDashboardText("logout", uiLanguage)}
               </button>
             </div>
           )}
@@ -505,60 +536,43 @@ export default function DashboardPage() {
           <header className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div>
               <p className="text-xs font-medium uppercase tracking-[0.32em] text-zinc-600">
-                Command Center
+                {getDashboardText("commandCenter", uiLanguage)}
               </p>
 
               <h2 className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-white md:text-5xl">
-                Brand Health Center
+                {getDashboardText("brandHealthCenter", uiLanguage)}
               </h2>
 
               <p className="mt-3 max-w-2xl text-sm leading-6 text-zinc-500 md:text-base">
                 {getDashboardText("dashboardTitle", uiLanguage)}
               </p>
             </div>
-
-            <div className="flex items-center gap-3">
-              <span className="text-xs uppercase tracking-widest text-zinc-600">
-                UI
-              </span>
-
-              <div className="flex rounded-full border border-white/10 bg-white/[0.035] p-1">
-                {(["tr", "en"] as const).map((language) => (
-                  <button
-                    key={language}
-                    type="button"
-                    onClick={() => setUiLanguage(language)}
-                    className={`rounded-full px-4 py-1.5 text-sm font-medium transition ${
-                      uiLanguage === language
-                        ? "bg-white text-zinc-950"
-                        : "text-zinc-500 hover:text-white"
-                    }`}
-                  >
-                    {language.toUpperCase()}
-                  </button>
-                ))}
-              </div>
-            </div>
           </header>
 
           <MobileCommandCenter
             brandName={currentBrand?.name ?? "TILLA"}
-            brandCategory={brandProfile?.category ?? "Premium Brand"}
+            brandCategory={
+  brandProfile?.category ?? getDashboardText("premiumBrand", uiLanguage)
+}
             readinessScore={brandReadiness.score}
             activeOutputLanguage={activeOutputLanguage}
             workspaceName={authContext?.workspace.name}
             userEmail={authContext?.user.email}
             onOpenWorkspace={() => setWorkspaceOpen((current) => !current)}
           />
-          <MissionControl readinessScore={brandReadiness.score} />
+          <MissionControl
+  readinessScore={brandReadiness.score}
+  uiLanguage={uiLanguage}
+/>
 
-          <ActivityTimeline />
+          <ActivityTimeline uiLanguage={uiLanguage} />
 
           <WorkspaceGrid
-            activeTab={activeTab}
-            readinessScore={brandReadiness.score}
-            marketplaceUpdates={languageMarketplace.updates.length}
-            onNavigate={(tab) => {
+  activeTab={activeTab}
+  readinessScore={brandReadiness.score}
+  marketplaceUpdates={languageMarketplace.updates.length}
+  uiLanguage={uiLanguage}
+  onNavigate={(tab) => {
               setActiveTab(tab);
 
               window.scrollTo({
@@ -599,7 +613,7 @@ export default function DashboardPage() {
                       : "text-zinc-500 hover:bg-white/5 hover:text-white"
                   }`}
                 >
-                  More
+                  {getDashboardText("more", uiLanguage)}
                 </button>
 
                 {moreOpen && (
@@ -628,9 +642,10 @@ export default function DashboardPage() {
           </div>
 
           <ActiveModuleShell
-            title={getActiveModuleMeta(activeTab).title}
-            description={getActiveModuleMeta(activeTab).description}
-          >
+  title={getActiveModuleMeta(activeTab).title}
+  description={getActiveModuleMeta(activeTab).description}
+  uiLanguage={uiLanguage}
+>
             <section className="rounded-[2rem] border border-white/10 bg-zinc-950/60 p-4 shadow-2xl shadow-black/30 backdrop-blur-xl md:p-6">
               {activeTab === "overview" && (
                 <OverviewTab pipeline={pipeline} uiLanguage={uiLanguage} />
