@@ -148,7 +148,13 @@ export default function DashboardPage() {
   const brandProfile = getBrandProfile(currentBrand?.id);
   const pipeline = data?.pipeline;
   const visibleTabs = isMobileNav ? mobileTabs : desktopTabs;
-  const activeOutputLanguage = languageMarketplace.active as OutputLanguage;
+  const activeOutputLanguage = (
+  languageMarketplace.active === "tr" ||
+  languageMarketplace.active === "en" ||
+  languageMarketplace.active === "de"
+    ? languageMarketplace.active
+    : "en"
+) as OutputLanguage;
 
   function getTabLabel(tab: DashboardTab) {
     if (tab === "overview") return text.dashboard.navigation.overview;
@@ -262,16 +268,27 @@ export default function DashboardPage() {
     generate(defaultInput);
   }, []);
 
-  async function loadMarketplace() {
-    try {
-      const response = await fetch("/api/language-marketplace");
-      const json = await response.json();
+ async function loadMarketplace() {
+  try {
+    const response = await fetch("/api/language-marketplace");
 
-      setLanguageMarketplace(json);
-    } catch (error) {
-      console.error("Language marketplace load failed", error);
+    if (!response.ok) {
+      console.error("Language marketplace request failed", response.status);
+      return;
     }
+
+    const json = await response.json();
+
+    if (!json?.active || !Array.isArray(json?.installed)) {
+      console.error("Invalid language marketplace payload", json);
+      return;
+    }
+
+    setLanguageMarketplace(json);
+  } catch (error) {
+    console.error("Language marketplace load failed", error);
   }
+}
 
   useEffect(() => {
     loadMarketplace();
