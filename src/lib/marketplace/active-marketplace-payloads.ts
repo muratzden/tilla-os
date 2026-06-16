@@ -1,6 +1,4 @@
-import {
-  getMarketplacePayload,
-} from "./marketplace-package-registry";
+import { getMarketplacePayload } from "./marketplace-package-registry";
 
 import {
   getActiveLanguagePackage,
@@ -15,9 +13,7 @@ export function getActiveLanguagePayload() {
     return undefined;
   }
 
-  return getMarketplacePayload(
-    active.packageId
-  )?.payload;
+  return getMarketplacePayload(active.packageId)?.payload;
 }
 
 export function getActiveIndustryPayload() {
@@ -27,9 +23,7 @@ export function getActiveIndustryPayload() {
     return undefined;
   }
 
-  return getMarketplacePayload(
-    active.packageId
-  )?.payload;
+  return getMarketplacePayload(active.packageId)?.payload;
 }
 
 export function getActivePersonalBrandPayload() {
@@ -39,7 +33,5 @@ export function getActivePersonalBrandPayload() {
     return undefined;
   }
 
-  return getMarketplacePayload(
-    active.packageId
-  )?.payload;
+  return getMarketplacePayload(active.packageId)?.payload;
 }

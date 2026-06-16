@@ -102,19 +102,19 @@ export const semanticRegistry: SemanticRegistry = {
     },
   },
 
- compositions: {
-  premium_editorial: {
-    id: "premium_editorial",
-    domain: "compositions",
-    tags: ["premium", "editorial", "composition"],
-    status: "active",
-  },
+  compositions: {
+    premium_editorial: {
+      id: "premium_editorial",
+      domain: "compositions",
+      tags: ["premium", "editorial", "composition"],
+      status: "active",
+    },
 
-  hero_composition: {
-    id: "hero_composition",
-    domain: "compositions",
-    tags: ["hero", "editorial", "premium"],
-    status: "active",
+    hero_composition: {
+      id: "hero_composition",
+      domain: "compositions",
+      tags: ["hero", "editorial", "premium"],
+      status: "active",
+    },
   },
-},
 };

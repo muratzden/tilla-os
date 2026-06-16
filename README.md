@@ -16,13 +16,13 @@ TILLA-OS aims to generate decisions.
 
 The system treats a brand as an operating system with:
 
-* Identity
-* Constitution
-* Governance
-* Memory
-* Decision Intelligence
-* Marketplace Extensions
-* Localization Infrastructure
+- Identity
+- Constitution
+- Governance
+- Memory
+- Decision Intelligence
+- Marketplace Extensions
+- Localization Infrastructure
 
 ---
 
@@ -30,52 +30,52 @@ The system treats a brand as an operating system with:
 
 ### Foundation
 
-* Multi Brand Architecture
-* Workspace System
-* Membership System
-* Authentication Foundation
-* Session Management
-* Marketplace Entitlement System
+- Multi Brand Architecture
+- Workspace System
+- Membership System
+- Authentication Foundation
+- Session Management
+- Marketplace Entitlement System
 
 ### Brand Intelligence
 
-* Brand Setup Engine
-* Manifesto Interview System
-* Governance Extraction
-* Constitution Generator
-* Constitution Governance Engine
-* Brand Audit Engine
-* Memory Engine
-* Consistency Analysis
-* Advisor System
+- Brand Setup Engine
+- Manifesto Interview System
+- Governance Extraction
+- Constitution Generator
+- Constitution Governance Engine
+- Brand Audit Engine
+- Memory Engine
+- Consistency Analysis
+- Advisor System
 
 ### Localization
 
-* Language Pack Architecture
-* Output Pack Architecture
-* Marketplace Language Packs
-* Version Management
-* Rollback Support
+- Language Pack Architecture
+- Output Pack Architecture
+- Marketplace Language Packs
+- Version Management
+- Rollback Support
 
 ### Marketplace
 
-* Marketplace Registry
-* Package Installation System
-* Entitlement Management
-* Workspace Activation
-* Package Resolution Engine
+- Marketplace Registry
+- Package Installation System
+- Entitlement Management
+- Workspace Activation
+- Package Resolution Engine
 
 ---
 
 ## Technical Stack
 
-* Next.js 16
-* TypeScript
-* React
-* Node.js
-* JSON Persistence Layer
-* Adapter Based Storage Architecture
-* Future MariaDB Support
+- Next.js 16
+- TypeScript
+- React
+- Node.js
+- JSON Persistence Layer
+- Adapter Based Storage Architecture
+- Future MariaDB Support
 
 ---
 
@@ -103,12 +103,12 @@ Output Layer
 
 ## Development Principles
 
-* Domain Driven Design
-* Modular Architecture
-* Type Safety
-* Workspace Isolation
-* Extensibility First
-* Marketplace Ready Infrastructure
+- Domain Driven Design
+- Modular Architecture
+- Type Safety
+- Workspace Isolation
+- Extensibility First
+- Marketplace Ready Infrastructure
 
 ---
 
@@ -116,19 +116,19 @@ Output Layer
 
 Completed:
 
-* Authentication Foundation
-* Workspace Architecture
-* Marketplace Core
-* Brand Governance
-* Audit Infrastructure
-* Language Marketplace
+- Authentication Foundation
+- Workspace Architecture
+- Marketplace Core
+- Brand Governance
+- Audit Infrastructure
+- Language Marketplace
 
 In Progress:
 
-* Database Abstraction
-* MariaDB Storage Adapter
-* Marketplace Productization
-* Public Demo Infrastructure
+- Database Abstraction
+- MariaDB Storage Adapter
+- Marketplace Productization
+- Public Demo Infrastructure
 
 ---
 
@@ -141,8 +141,8 @@ npm run build
 
 Current status:
 
-* TypeScript Clean
-* Production Build Clean
+- TypeScript Clean
+- Production Build Clean
 
 ---
 

@@ -8,22 +8,23 @@ import {
 
 export function rollbackLanguagePack(
   workspaceId: string,
-  language: OutputLanguage
+  language: OutputLanguage,
 ) {
   const workspaceState = getWorkspaceLanguageState(workspaceId);
 
   if (!workspaceState.installed.includes(language)) {
     throw new Error(
-      `Language pack '${language}' is not installed for workspace '${workspaceId}'`
+      `Language pack '${language}' is not installed for workspace '${workspaceId}'`,
     );
   }
 
-  const history = getWorkspaceLanguageVersionHistory(workspaceId)
-    .filter((entry) => entry.language === language);
+  const history = getWorkspaceLanguageVersionHistory(workspaceId).filter(
+    (entry) => entry.language === language,
+  );
 
   if (history.length < 2) {
     throw new Error(
-      `Language pack '${language}' does not have enough version history to rollback`
+      `Language pack '${language}' does not have enough version history to rollback`,
     );
   }
 
@@ -41,8 +42,7 @@ export function rollbackLanguagePack(
         packageId: previous.packageId,
         version: previous.version,
         source: currentInstall?.source ?? "marketplace",
-        installedAt:
-          currentInstall?.installedAt ?? new Date().toISOString(),
+        installedAt: currentInstall?.installedAt ?? new Date().toISOString(),
       },
     },
     versionHistory: [

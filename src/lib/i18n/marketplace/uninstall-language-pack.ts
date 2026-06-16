@@ -3,10 +3,7 @@ import {
   setWorkspaceLanguageState,
 } from "./language-pack-storage";
 
-export function uninstallLanguagePack(
-  workspaceId: string,
-  language: string
-) {
+export function uninstallLanguagePack(workspaceId: string, language: string) {
   if (language === "en") {
     throw new Error("Default language pack 'en' cannot be uninstalled");
   }
@@ -14,7 +11,7 @@ export function uninstallLanguagePack(
   const workspaceState = getWorkspaceLanguageState(workspaceId);
 
   workspaceState.installed = workspaceState.installed.filter(
-    (installedLanguage) => installedLanguage !== language
+    (installedLanguage) => installedLanguage !== language,
   );
 
   if (workspaceState.active === language) {

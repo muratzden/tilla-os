@@ -40,40 +40,29 @@ export function runMarketplaceTest() {
   try {
     const installResult = installMarketplacePack(
       marketplaceWorkspaceId,
-      "de-marketplace"
+      "de-marketplace",
     );
 
     marketplaceInstallPassed =
-      installResult.language === "de" &&
-      installResult.source === "marketplace";
+      installResult.language === "de" && installResult.source === "marketplace";
   } catch {
     marketplaceInstallPassed = false;
   }
 
   activateLanguagePack(marketplaceWorkspaceId, "de");
 
-  const uninstallState = uninstallLanguagePack(
-    marketplaceWorkspaceId,
-    "de"
-  );
+  const uninstallState = uninstallLanguagePack(marketplaceWorkspaceId, "de");
 
   uninstallPassed =
-    uninstallState.active === "en" &&
-    !uninstallState.installed.includes("de");
+    uninstallState.active === "en" && !uninstallState.installed.includes("de");
 
-  installMarketplacePack(
-  updateWorkspaceId,
-  "de-marketplace",
-  "1.0.0"
-);
+  installMarketplacePack(updateWorkspaceId, "de-marketplace", "1.0.0");
 
-  const updateBefore =
-    checkLanguagePackUpdate("de");
+  const updateBefore = checkLanguagePackUpdate("de");
 
   updateLanguagePack(updateWorkspaceId, "de");
 
-  const updateAfter =
-    checkLanguagePackUpdate("de");
+  const updateAfter = checkLanguagePackUpdate("de");
 
   updatePackagePassed =
     updateBefore.installedVersion === "1.0.0" &&

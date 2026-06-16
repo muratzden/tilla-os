@@ -3,15 +3,12 @@ import {
   type MarketplaceCatalogItem,
 } from "./marketplace-catalog";
 
-import {
-  packageRegistry,
-} from "./package-registry";
+import { packageRegistry } from "./package-registry";
 
 function enrichCatalogItem(
-  item: MarketplaceCatalogItem
+  item: MarketplaceCatalogItem,
 ): MarketplaceCatalogItem {
-  const registryEntry =
-    packageRegistry[item.id];
+  const registryEntry = packageRegistry[item.id];
 
   if (!registryEntry) {
     return item;
@@ -23,14 +20,10 @@ function enrichCatalogItem(
   };
 }
 
-export function searchMarketplace(
-  query = ""
-): MarketplaceCatalogItem[] {
-  const normalizedQuery =
-    query.trim().toLowerCase();
+export function searchMarketplace(query = ""): MarketplaceCatalogItem[] {
+  const normalizedQuery = query.trim().toLowerCase();
 
-  const catalog =
-    marketplaceCatalog.map(enrichCatalogItem);
+  const catalog = marketplaceCatalog.map(enrichCatalogItem);
 
   if (!normalizedQuery) {
     return catalog;

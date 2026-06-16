@@ -3,7 +3,7 @@ import type { ImportedLanguagePack } from "./marketplace-types";
 import { verifyLanguagePackSignature } from "./verify-language-pack";
 
 export function assertValidLanguagePackSignature(
-  pack: unknown
+  pack: unknown,
 ): asserts pack is ImportedLanguagePack {
   if (!pack || typeof pack !== "object") {
     throw new Error("Invalid language pack signature target");
@@ -12,7 +12,9 @@ export function assertValidLanguagePackSignature(
   const candidate = pack as Partial<ImportedLanguagePack>;
 
   if (!candidate.manifest || typeof candidate.manifest !== "object") {
-    throw new Error("Language pack manifest is required for signature validation");
+    throw new Error(
+      "Language pack manifest is required for signature validation",
+    );
   }
 
   const signature = candidate.manifest.signature;
@@ -43,7 +45,7 @@ export function assertValidLanguagePackSignature(
     throw new Error("Language pack signature signedAt is invalid");
   }
 
-    if (!verifyLanguagePackSignature(candidate as ImportedLanguagePack)) {
+  if (!verifyLanguagePackSignature(candidate as ImportedLanguagePack)) {
     throw new Error("Language pack signature hash mismatch");
   }
 }

@@ -1,42 +1,18 @@
-import {
-  registerMarketplacePackage,
-}
-from "./marketplace-registry";
+import { registerMarketplacePackage } from "./marketplace-registry";
 
-import {
-  registerMarketplacePayload,
-}
-from "./marketplace-package-registry";
+import { registerMarketplacePayload } from "./marketplace-package-registry";
 
-import {
-  germanLanguagePack,
-}
-from "./sample-packages/german-language-pack";
+import { germanLanguagePack } from "./sample-packages/german-language-pack";
 
-import {
-  restaurantIndustryPackManifest,
-}
-from "./sample-packages/restaurant-industry-pack";
+import { restaurantIndustryPackManifest } from "./sample-packages/restaurant-industry-pack";
 
-import {
-  personalBrandPackManifest,
-}
-from "./sample-packages/personal-brand-pack";
+import { personalBrandPackManifest } from "./sample-packages/personal-brand-pack";
 
-import {
-  germanLanguagePackage,
-}
-from "./sample-packages/german-language-package";
+import { germanLanguagePackage } from "./sample-packages/german-language-package";
 
-import {
-  restaurantIndustryPackage,
-}
-from "./sample-packages/restaurant-industry-package";
+import { restaurantIndustryPackage } from "./sample-packages/restaurant-industry-package";
 
-import {
-  personalBrandPackage,
-}
-from "./sample-packages/personal-brand-package";
+import { personalBrandPackage } from "./sample-packages/personal-brand-package";
 
 let initialized = false;
 
@@ -45,29 +21,17 @@ export function bootstrapMarketplace() {
     return;
   }
 
-  registerMarketplacePackage(
-    germanLanguagePack
-  );
+  registerMarketplacePackage(germanLanguagePack);
 
-  registerMarketplacePackage(
-    restaurantIndustryPackManifest
-  );
+  registerMarketplacePackage(restaurantIndustryPackManifest);
 
-  registerMarketplacePackage(
-    personalBrandPackManifest
-  );
+  registerMarketplacePackage(personalBrandPackManifest);
 
-  registerMarketplacePayload(
-    germanLanguagePackage
-  );
+  registerMarketplacePayload(germanLanguagePackage);
 
-  registerMarketplacePayload(
-    restaurantIndustryPackage
-  );
+  registerMarketplacePayload(restaurantIndustryPackage);
 
-  registerMarketplacePayload(
-    personalBrandPackage
-  );
+  registerMarketplacePayload(personalBrandPackage);
 
   initialized = true;
 }

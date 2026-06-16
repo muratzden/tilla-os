@@ -8,11 +8,11 @@ export function installSpecificLanguagePackVersion(
   workspaceId: string,
   packageId: string,
   language: OutputLanguage,
-  version: string
+  version: string,
 ) {
   if (!packageVersionExists(packageId, version)) {
     throw new Error(
-      `Version '${version}' was not found for package '${packageId}'`
+      `Version '${version}' was not found for package '${packageId}'`,
     );
   }
 
@@ -20,7 +20,7 @@ export function installSpecificLanguagePackVersion(
 
   if (pack.manifest.languageCode !== language) {
     throw new Error(
-      `Package '${packageId}' does not match language '${language}'`
+      `Package '${packageId}' does not match language '${language}'`,
     );
   }
 

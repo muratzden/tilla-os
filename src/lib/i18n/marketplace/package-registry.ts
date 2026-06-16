@@ -10,10 +10,7 @@ export type PackageRegistryEntry = {
   versions: PackageVersionEntry[];
 };
 
-export const packageRegistry: Record<
-  string,
-  PackageRegistryEntry
-> = {
+export const packageRegistry: Record<string, PackageRegistryEntry> = {
   "de-marketplace": {
     packageId: "de-marketplace",
 
@@ -23,9 +20,7 @@ export const packageRegistry: Record<
       {
         version: "1.0.0",
         releasedAt: "2026-06-14",
-        changelog: [
-          "Initial marketplace release",
-        ],
+        changelog: ["Initial marketplace release"],
       },
       {
         version: "1.1.0",
@@ -40,7 +35,7 @@ export const packageRegistry: Record<
 };
 
 export function getPackageRegistryEntry(
-  packageId: string
+  packageId: string,
 ): PackageRegistryEntry {
   const entry = packageRegistry[packageId];
 
@@ -53,38 +48,34 @@ export function getPackageRegistryEntry(
 
 export function getPackageVersionEntry(
   packageId: string,
-  version: string
+  version: string,
 ): PackageVersionEntry {
   const entry = getPackageRegistryEntry(packageId);
 
-  const versionEntry = entry.versions.find(
-    (item) => item.version === version
-  );
+  const versionEntry = entry.versions.find((item) => item.version === version);
 
   if (!versionEntry) {
     throw new Error(
-      `Version '${version}' was not found for package '${packageId}'`
+      `Version '${version}' was not found for package '${packageId}'`,
     );
   }
 
   return versionEntry;
 }
 
-export function getLatestPackageVersion(
-  packageId: string
-): string {
+export function getLatestPackageVersion(packageId: string): string {
   return getPackageRegistryEntry(packageId).latestVersion;
 }
 
 export function getPackageVersionHistory(
-  packageId: string
+  packageId: string,
 ): PackageVersionEntry[] {
   return [...getPackageRegistryEntry(packageId).versions];
 }
 
 export function packageVersionExists(
   packageId: string,
-  version: string
+  version: string,
 ): boolean {
   const entry = packageRegistry[packageId];
 

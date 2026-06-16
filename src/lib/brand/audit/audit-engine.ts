@@ -76,14 +76,14 @@ function calculateConsistencyAlignment(input: BrandAuditInput) {
 
 function detectViolations(input: BrandAuditInput): AuditViolation[] {
   const { content, sourceContext } = input;
-  
-  const runtime = getLanguageRuntime({
-  brandId: input.brandId,
-  uiLanguage: input.uiLanguage,
-  requestedOutputLanguage: input.outputLanguage,
-});
 
-const outputPack = runtime.output;
+  const runtime = getLanguageRuntime({
+    brandId: input.brandId,
+    uiLanguage: input.uiLanguage,
+    requestedOutputLanguage: input.outputLanguage,
+  });
+
+  const outputPack = runtime.output;
 
   return sourceContext.manifesto.forbiddenDirections
     .filter((direction: string) =>
@@ -93,9 +93,9 @@ const outputPack = runtime.output;
       key: direction,
       severity: "high",
       message: applyTemplate(
-  outputPack.auditText.violations.forbiddenDirection,
-  direction,
-),
+        outputPack.auditText.violations.forbiddenDirection,
+        direction,
+      ),
     }));
 }
 
@@ -127,45 +127,44 @@ function generateRecommendations(
 ): AuditRecommendation[] {
   const { sourceContext } = input;
   const runtime = getLanguageRuntime({
-  brandId: input.brandId,
-  uiLanguage: input.uiLanguage,
-  requestedOutputLanguage: input.outputLanguage,
-});
+    brandId: input.brandId,
+    uiLanguage: input.uiLanguage,
+    requestedOutputLanguage: input.outputLanguage,
+  });
 
-const outputPack = runtime.output;
+  const outputPack = runtime.output;
   const violations = detectViolations(input);
 
   if (violations.length > 0) {
     return violations.map((violation) => ({
       key: `fix_${violation.key}`,
       message: applyTemplate(
-  outputPack.auditText.recommendations.removeOrReframe,
-  violation.key,
-),
+        outputPack.auditText.recommendations.removeOrReframe,
+        violation.key,
+      ),
     }));
   }
 
   return sourceContext.manifesto.principles.slice(0, 3).map((principle) => ({
     key: `strengthen_${principle}`,
     message: applyTemplate(
-  outputPack.auditText.recommendations.strengthenBrandSignal,
-  principle,
-),
+      outputPack.auditText.recommendations.strengthenBrandSignal,
+      principle,
+    ),
   }));
 }
-
 
 function generateBrandDriftAnalysis(
   alignmentScore: number,
   input: BrandAuditInput,
 ) {
-	const runtime = getLanguageRuntime({
-  brandId: input.brandId,
-  uiLanguage: input.uiLanguage,
-  requestedOutputLanguage: input.outputLanguage,
-});
+  const runtime = getLanguageRuntime({
+    brandId: input.brandId,
+    uiLanguage: input.uiLanguage,
+    requestedOutputLanguage: input.outputLanguage,
+  });
 
-const outputPack = runtime.output;
+  const outputPack = runtime.output;
   const trendDirection = input.sourceContext.consistency.trendDirection;
 
   if (alignmentScore >= 70) {
@@ -173,7 +172,7 @@ const outputPack = runtime.output;
   }
 
   if (trendDirection === "fragmenting") {
-   return outputPack.auditText.driftAnalysis.fragmenting;
+    return outputPack.auditText.driftAnalysis.fragmenting;
   }
 
   if (trendDirection === "shifting") {
@@ -189,19 +188,20 @@ function generateGovernanceSignals(
   violations: AuditViolation[],
 ) {
   const signals: BrandAuditResult["governanceSignals"] = [];
-const runtime = getLanguageRuntime({
-  brandId: input.brandId,
-  uiLanguage: input.uiLanguage,
-  requestedOutputLanguage: input.outputLanguage,
-});
+  const runtime = getLanguageRuntime({
+    brandId: input.brandId,
+    uiLanguage: input.uiLanguage,
+    requestedOutputLanguage: input.outputLanguage,
+  });
 
-const outputPack = runtime.output;
+  const outputPack = runtime.output;
 
   if (violations.length > 0) {
     signals.push({
       key: "forbidden_direction_detected",
       level: "critical",
-      message: outputPack.auditText.governanceSignals.forbiddenDirectionDetected,
+      message:
+        outputPack.auditText.governanceSignals.forbiddenDirectionDetected,
     });
   }
 
@@ -218,9 +218,9 @@ const outputPack = runtime.output;
       key: "consistency_not_stable",
       level: "warning",
       message: applyTemplate(
-  outputPack.auditText.governanceSignals.consistencyNotStable,
-  input.sourceContext.consistency.trendDirection,
-),
+        outputPack.auditText.governanceSignals.consistencyNotStable,
+        input.sourceContext.consistency.trendDirection,
+      ),
     });
   }
 
@@ -228,13 +228,13 @@ const outputPack = runtime.output;
 }
 
 export function auditEngine(input: BrandAuditInput): BrandAuditResult {
-	const runtime = getLanguageRuntime({
-  brandId: input.brandId,
-  uiLanguage: input.uiLanguage,
-  requestedOutputLanguage: input.outputLanguage,
-});
+  const runtime = getLanguageRuntime({
+    brandId: input.brandId,
+    uiLanguage: input.uiLanguage,
+    requestedOutputLanguage: input.outputLanguage,
+  });
 
-const outputPack = runtime.output;
+  const outputPack = runtime.output;
   const constitutionAlignment = calculateConstitutionAlignment(input);
   const memoryAlignment = calculateMemoryAlignment(input);
   const consistencyAlignment = calculateConsistencyAlignment(input);

@@ -1,11 +1,6 @@
-import type {
-  MarketplaceEntitlement,
-} from "./auth-types";
+import type { MarketplaceEntitlement } from "./auth-types";
 
-import {
-  grantEntitlement,
-  getWorkspaceEntitlements,
-} from "./user-storage";
+import { grantEntitlement, getWorkspaceEntitlements } from "./user-storage";
 
 export async function grantMarketplaceEntitlement(
   workspaceId: string,
@@ -26,16 +21,11 @@ export async function hasMarketplaceEntitlement(
   workspaceId: string,
   packageId: string,
 ) {
-  const entitlements =
-    await getWorkspaceEntitlements(workspaceId);
+  const entitlements = await getWorkspaceEntitlements(workspaceId);
 
-  return entitlements.some(
-    (item) => item.packageId === packageId,
-  );
+  return entitlements.some((item) => item.packageId === packageId);
 }
 
-export async function getMarketplaceEntitlements(
-  workspaceId: string,
-) {
+export async function getMarketplaceEntitlements(workspaceId: string) {
   return getWorkspaceEntitlements(workspaceId);
 }

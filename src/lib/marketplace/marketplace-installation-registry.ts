@@ -1,24 +1,15 @@
-import type {
-  MarketplaceEntitlement,
-} from "./marketplace-entitlements";
+import type { MarketplaceEntitlement } from "./marketplace-entitlements";
 
-import type {
-  InstalledMarketplacePackage,
-} from "./marketplace-installation-types";
+import type { InstalledMarketplacePackage } from "./marketplace-installation-types";
 
 import {
   loadMarketplaceInstallations,
   saveMarketplaceInstallations,
 } from "./marketplace-storage";
 
-import type {
-  MarketplacePackageType,
-} from "./marketplace-package-types";
+import type { MarketplacePackageType } from "./marketplace-package-types";
 
-const installations = new Map<
-  string,
-  InstalledMarketplacePackage
->();
+const installations = new Map<string, InstalledMarketplacePackage>();
 
 let loaded = false;
 
@@ -28,47 +19,39 @@ function ensureLoaded() {
   }
 
   for (const installation of loadMarketplaceInstallations()) {
-    installations.set(
-      installation.packageId,
-      installation
-    );
+    installations.set(installation.packageId, installation);
   }
 
   loaded = true;
 }
 
 function persist() {
-  saveMarketplaceInstallations(
-    Array.from(installations.values())
-  );
+  saveMarketplaceInstallations(Array.from(installations.values()));
 }
 
 export function installMarketplacePackage(
   packageId: string,
   type: MarketplacePackageType,
   version: string,
-  entitlement: MarketplaceEntitlement = "free"
-)  {
+  entitlement: MarketplaceEntitlement = "free",
+) {
   ensureLoaded();
 
   installations.set(packageId, {
     packageId,
-	type,
+    type,
     version,
     entitlement,
 
     active: false,
 
-    installedAt:
-      new Date().toISOString(),
+    installedAt: new Date().toISOString(),
   });
 
   persist();
 }
 
-export function getInstalledPackage(
-  packageId: string
-) {
+export function getInstalledPackage(packageId: string) {
   ensureLoaded();
 
   return installations.get(packageId);
@@ -77,14 +60,10 @@ export function getInstalledPackage(
 export function getInstalledPackages() {
   ensureLoaded();
 
-  return Array.from(
-    installations.values()
-  );
+  return Array.from(installations.values());
 }
 
-export function isPackageInstalled(
-  packageId: string
-) {
+export function isPackageInstalled(packageId: string) {
   ensureLoaded();
 
   return installations.has(packageId);

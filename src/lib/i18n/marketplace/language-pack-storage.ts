@@ -11,7 +11,7 @@ import type {
 const STORAGE_PATH = path.join(
   process.cwd(),
   ".data",
-  "language-pack-state.json"
+  "language-pack-state.json",
 );
 
 function ensureStorage() {
@@ -22,11 +22,7 @@ function ensureStorage() {
   }
 
   if (!fs.existsSync(STORAGE_PATH)) {
-    fs.writeFileSync(
-      STORAGE_PATH,
-      JSON.stringify({}, null, 2),
-      "utf8"
-    );
+    fs.writeFileSync(STORAGE_PATH, JSON.stringify({}, null, 2), "utf8");
   }
 }
 
@@ -57,32 +53,23 @@ export function loadLanguagePackState(): LanguagePackStorage {
   }
 }
 
-export function saveLanguagePackState(
-  state: LanguagePackStorage
-) {
+export function saveLanguagePackState(state: LanguagePackStorage) {
   ensureStorage();
 
-  fs.writeFileSync(
-    STORAGE_PATH,
-    JSON.stringify(state, null, 2),
-    "utf8"
-  );
+  fs.writeFileSync(STORAGE_PATH, JSON.stringify(state, null, 2), "utf8");
 }
 
 export function getWorkspaceLanguageState(
-  workspaceId: string
+  workspaceId: string,
 ): WorkspaceLanguageState {
   const state = loadLanguagePackState();
 
-  return (
-    state[workspaceId]?.workspace ??
-    createDefaultWorkspaceLanguageState()
-  );
+  return state[workspaceId]?.workspace ?? createDefaultWorkspaceLanguageState();
 }
 
 export function setWorkspaceLanguageState(
   workspaceId: string,
-  workspaceState: WorkspaceLanguageState
+  workspaceState: WorkspaceLanguageState,
 ) {
   const state = loadLanguagePackState();
 
@@ -95,7 +82,7 @@ export function setWorkspaceLanguageState(
 
 export function recordWorkspaceLanguageInstall(
   workspaceId: string,
-  installRecord: WorkspaceLanguageInstallRecord
+  installRecord: WorkspaceLanguageInstallRecord,
 ) {
   const workspaceState = getWorkspaceLanguageState(workspaceId);
 
@@ -104,9 +91,7 @@ export function recordWorkspaceLanguageInstall(
     [installRecord.language]: installRecord,
   };
 
-  const installed = workspaceState.installed.includes(
-    installRecord.language
-  )
+  const installed = workspaceState.installed.includes(installRecord.language)
     ? workspaceState.installed
     : [...workspaceState.installed, installRecord.language];
 
@@ -119,24 +104,19 @@ export function recordWorkspaceLanguageInstall(
 
 export function recordWorkspaceLanguageVersionActivation(
   workspaceId: string,
-  historyEntry: WorkspaceLanguageVersionHistoryEntry
+  historyEntry: WorkspaceLanguageVersionHistoryEntry,
 ) {
   const workspaceState = getWorkspaceLanguageState(workspaceId);
 
   setWorkspaceLanguageState(workspaceId, {
     ...workspaceState,
     active: historyEntry.language,
-    versionHistory: [
-      ...(workspaceState.versionHistory ?? []),
-      historyEntry,
-    ],
+    versionHistory: [...(workspaceState.versionHistory ?? []), historyEntry],
   });
 }
 
 export function getWorkspaceLanguageVersionHistory(
-  workspaceId: string
+  workspaceId: string,
 ): WorkspaceLanguageVersionHistoryEntry[] {
-  return [
-    ...(getWorkspaceLanguageState(workspaceId).versionHistory ?? []),
-  ];
+  return [...(getWorkspaceLanguageState(workspaceId).versionHistory ?? [])];
 }

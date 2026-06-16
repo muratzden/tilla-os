@@ -10,21 +10,21 @@ export async function POST(request: Request) {
     if (!body.packageId || typeof body.packageId !== "string") {
       return NextResponse.json(
         { error: "Package id is required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     if (!body.language || typeof body.language !== "string") {
       return NextResponse.json(
         { error: "Language is required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     if (!body.version || typeof body.version !== "string") {
       return NextResponse.json(
         { error: "Version is required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -32,7 +32,7 @@ export async function POST(request: Request) {
       workspaceId,
       body.packageId,
       body.language as OutputLanguage,
-      body.version
+      body.version,
     );
 
     return NextResponse.json({
@@ -47,7 +47,7 @@ export async function POST(request: Request) {
             ? error.message
             : "Failed to install language pack version",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

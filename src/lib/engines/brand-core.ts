@@ -50,7 +50,6 @@ import { getLanguageRuntime } from "@/src/lib/i18n/language-registry";
 import { createLanguageConfig } from "../i18n/language-config";
 import type { OutputLanguage } from "../i18n/language";
 
-
 export function brandCore(input: any) {
   if (!input || typeof input !== "object") {
     return {
@@ -59,24 +58,24 @@ export function brandCore(input: any) {
     };
   }
 
-const governanceBrandId = input.brandId ?? "tilla-leather";
+  const governanceBrandId = input.brandId ?? "tilla-leather";
 
-const languageRuntime = getLanguageRuntime({
-  brandId: governanceBrandId,
-  uiLanguage: input.uiLanguage,
-  requestedOutputLanguage: input.outputLanguage,
-});
+  const languageRuntime = getLanguageRuntime({
+    brandId: governanceBrandId,
+    uiLanguage: input.uiLanguage,
+    requestedOutputLanguage: input.outputLanguage,
+  });
 
-const outputLanguage = languageRuntime.activeOutputLanguage;
-const outputPack = languageRuntime.output;
+  const outputLanguage = languageRuntime.activeOutputLanguage;
+  const outputPack = languageRuntime.output;
 
-const languageConfig = createLanguageConfig(outputLanguage);
+  const languageConfig = createLanguageConfig(outputLanguage);
 
-const uiLanguage = languageRuntime.meta.uiLanguage;
+  const uiLanguage = languageRuntime.meta.uiLanguage;
 
-const contentLanguage = input.contentLanguage ?? outputLanguage;
+  const contentLanguage = input.contentLanguage ?? outputLanguage;
 
-const promptLanguage = input.promptLanguage ?? "en";
+  const promptLanguage = input.promptLanguage ?? "en";
 
   const setup = defaultBrandSetup;
 
@@ -232,10 +231,10 @@ const promptLanguage = input.promptLanguage ?? "en";
   });
 
   const brandAdvice = brandAdvisor({
-  selectedWorld: decisionGraph.selectedWorld,
-  decisionStrength: decisionIntelligence.decisionStrength,
-  outputPack,
-});
+    selectedWorld: decisionGraph.selectedWorld,
+    decisionStrength: decisionIntelligence.decisionStrength,
+    outputPack,
+  });
 
   const selectedCandidate = adjustedWorldCandidates[0];
 
@@ -443,13 +442,13 @@ const promptLanguage = input.promptLanguage ?? "en";
   const consistency = calculateBrandConsistency(memory.recentDecisions);
 
   const advisorV2 = buildAdvisorV2(
-  {
-    consistency,
-    currentArchetype: archetypeDecision?.archetype,
-    currentWorld: world?.worldKey,
-  },
-  outputPack
-);
+    {
+      consistency,
+      currentArchetype: archetypeDecision?.archetype,
+      currentWorld: world?.worldKey,
+    },
+    outputPack,
+  );
 
   const memoryInsights = createMemoryInsights(consistency);
 

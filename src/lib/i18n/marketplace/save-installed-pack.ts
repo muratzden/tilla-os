@@ -1,15 +1,11 @@
-import type {
-  ImportedLanguagePack,
-} from "./marketplace-types";
+import type { ImportedLanguagePack } from "./marketplace-types";
 
 import {
   loadInstalledLanguagePacks,
   saveInstalledLanguagePacks,
 } from "./installed-pack-storage";
 
-export function saveInstalledPack(
-  pack: ImportedLanguagePack
-) {
+export function saveInstalledPack(pack: ImportedLanguagePack) {
   const repository = loadInstalledLanguagePacks();
 
   const language = pack.manifest.languageCode;

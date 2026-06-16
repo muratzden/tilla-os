@@ -55,8 +55,10 @@ const unsignedSampleGermanMarketplacePackV110: ImportedLanguagePack = {
   },
 };
 
-export const sampleGermanMarketplacePack =
-  signLanguagePack(unsignedSampleGermanMarketplacePackV100);
+export const sampleGermanMarketplacePack = signLanguagePack(
+  unsignedSampleGermanMarketplacePackV100,
+);
 
-export const sampleGermanMarketplacePackV110 =
-  signLanguagePack(unsignedSampleGermanMarketplacePackV110);
+export const sampleGermanMarketplacePackV110 = signLanguagePack(
+  unsignedSampleGermanMarketplacePackV110,
+);

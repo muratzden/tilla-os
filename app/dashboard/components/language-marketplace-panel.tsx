@@ -42,7 +42,7 @@ export function LanguageMarketplacePanel({
   async function runMarketplaceAction(
     actionKey: string,
     endpoint: string,
-    body: Record<string, string>
+    body: Record<string, string>,
   ) {
     try {
       setPendingAction(actionKey);
@@ -65,9 +65,7 @@ export function LanguageMarketplacePanel({
       await onRefresh?.();
     } catch (error) {
       setActionError(
-        error instanceof Error
-          ? error.message
-          : "Marketplace action failed"
+        error instanceof Error ? error.message : "Marketplace action failed",
       );
     } finally {
       setPendingAction(null);
@@ -99,7 +97,8 @@ export function LanguageMarketplacePanel({
         </h2>
 
         <p className="mt-2 text-sm text-zinc-400">
-          Manage installed language packs, updates, version history, and rollback.
+          Manage installed language packs, updates, version history, and
+          rollback.
         </p>
       </div>
 
@@ -140,7 +139,7 @@ export function LanguageMarketplacePanel({
                       </div>
                     </div>
 
-                                        <button
+                    <button
                       type="button"
                       disabled={pendingAction === `update-${pack.language}`}
                       onClick={() =>
@@ -149,7 +148,7 @@ export function LanguageMarketplacePanel({
                           "/api/language-marketplace/update",
                           {
                             language: pack.language,
-                          }
+                          },
                         )
                       }
                       className="rounded-lg bg-white px-3 py-2 text-xs font-semibold text-zinc-950 disabled:cursor-not-allowed disabled:opacity-50"
@@ -186,7 +185,7 @@ export function LanguageMarketplacePanel({
                       </div>
                     </div>
 
-                                        <div className="text-right">
+                    <div className="text-right">
                       <div className="text-sm text-zinc-300">
                         v{entry.version}
                       </div>
@@ -209,7 +208,7 @@ export function LanguageMarketplacePanel({
                               packageId: entry.packageId,
                               language: entry.language,
                               version: entry.version,
-                            }
+                            },
                           )
                         }
                         className="mt-3 rounded-lg border border-zinc-700 px-3 py-2 text-xs font-semibold text-zinc-300 disabled:cursor-not-allowed disabled:opacity-50"
@@ -247,7 +246,7 @@ export function LanguageMarketplacePanel({
                     </div>
                   </div>
 
-                                    <button
+                  <button
                     type="button"
                     disabled={pendingAction === `rollback-${entry.language}`}
                     onClick={() =>
@@ -256,7 +255,7 @@ export function LanguageMarketplacePanel({
                         "/api/language-marketplace/rollback",
                         {
                           language: entry.language,
-                        }
+                        },
                       )
                     }
                     className="rounded-lg border border-zinc-700 px-3 py-2 text-xs font-semibold text-zinc-300 disabled:cursor-not-allowed disabled:opacity-50"
@@ -293,9 +292,7 @@ function LanguageRow({ pack }: { pack: InstalledLanguageView }) {
           )}
         </div>
 
-        <div className="mt-1 text-xs text-zinc-500">
-          Source: {pack.source}
-        </div>
+        <div className="mt-1 text-xs text-zinc-500">Source: {pack.source}</div>
 
         <div className="mt-1 text-xs text-zinc-600">
           Installed: {formatDate(pack.installedAt)}
@@ -320,13 +317,7 @@ function LanguageRow({ pack }: { pack: InstalledLanguageView }) {
   );
 }
 
-function StatusCard({
-  label,
-  value,
-}: {
-  label: string;
-  value: string;
-}) {
+function StatusCard({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4">
       <div className="text-xs uppercase tracking-widest text-zinc-500">

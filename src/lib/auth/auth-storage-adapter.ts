@@ -20,9 +20,7 @@ export interface AuthStorageAdapter {
   saveSession(session: Session): Promise<void>;
   getSession(token: string): Promise<Session | undefined>;
 
-  grantEntitlement(
-    entitlement: MarketplaceEntitlement,
-  ): Promise<void>;
+  grantEntitlement(entitlement: MarketplaceEntitlement): Promise<void>;
 
   getWorkspaceEntitlements(
     workspaceId: string,

@@ -6,18 +6,11 @@ import { sampleGermanMarketplacePack } from "./sample-german-pack";
 export function runImportTest() {
   const workspaceId = "marketplace-test";
 
-  installImportedLanguagePack(
-    workspaceId,
-    sampleGermanMarketplacePack
-  );
+  installImportedLanguagePack(workspaceId, sampleGermanMarketplacePack);
 
-  activateLanguagePack(
-    workspaceId,
-    "de" as any
-  );
+  activateLanguagePack(workspaceId, "de" as any);
 
-  const pack =
-    resolveWorkspaceOutputPack(workspaceId);
+  const pack = resolveWorkspaceOutputPack(workspaceId);
 
   return {
     language: pack.meta.id,

@@ -10,11 +10,11 @@ This document records the major architectural milestones of the TILLA-OS project
 
 Implemented:
 
-* Brand Setup
-* Brand Profile
-* Brand Registry
-* Brand Context
-* Readiness Scoring
+- Brand Setup
+- Brand Profile
+- Brand Registry
+- Brand Context
+- Readiness Scoring
 
 ---
 
@@ -24,10 +24,10 @@ Implemented:
 
 Implemented:
 
-* Manifesto Interview
-* Governance Extraction
-* Governance Scoring
-* Dominant Principle Detection
+- Manifesto Interview
+- Governance Extraction
+- Governance Scoring
+- Dominant Principle Detection
 
 ---
 
@@ -37,10 +37,10 @@ Implemented:
 
 Implemented:
 
-* Constitution Generator
-* Constitution Registry
-* Constitution Persistence
-* Constitution Approval Flow
+- Constitution Generator
+- Constitution Registry
+- Constitution Persistence
+- Constitution Approval Flow
 
 ---
 
@@ -50,10 +50,10 @@ Implemented:
 
 Implemented:
 
-* Governance Enforcement
-* Forbidden Direction Protection
-* Governance Signals
-* Decision Veto System
+- Governance Enforcement
+- Forbidden Direction Protection
+- Governance Signals
+- Decision Veto System
 
 ---
 
@@ -63,10 +63,10 @@ Implemented:
 
 Implemented:
 
-* Decision Memory
-* Consistency Engine
-* Distribution Tracking
-* Memory Insights
+- Decision Memory
+- Consistency Engine
+- Distribution Tracking
+- Memory Insights
 
 ---
 
@@ -76,10 +76,10 @@ Implemented:
 
 Implemented:
 
-* Brand Audit Engine
-* Governance Audit
-* Alignment Audit
-* Drift Detection
+- Brand Audit Engine
+- Governance Audit
+- Alignment Audit
+- Drift Detection
 
 ---
 
@@ -89,10 +89,10 @@ Implemented:
 
 Implemented:
 
-* Language Pack Architecture
-* Output Pack Architecture
-* Runtime Resolution
-* Localization Registry
+- Language Pack Architecture
+- Output Pack Architecture
+- Runtime Resolution
+- Localization Registry
 
 ---
 
@@ -102,10 +102,10 @@ Implemented:
 
 Implemented:
 
-* Semantic Layer
-* Archetype Registry
-* World Registry
-* Scene Registry
+- Semantic Layer
+- Archetype Registry
+- World Registry
+- Scene Registry
 
 ---
 
@@ -115,10 +115,10 @@ Implemented:
 
 Implemented:
 
-* Marketplace Catalog
-* Package Installation
-* Entitlement Resolution
-* Workspace Activation
+- Marketplace Catalog
+- Package Installation
+- Entitlement Resolution
+- Workspace Activation
 
 ---
 
@@ -128,10 +128,10 @@ Implemented:
 
 Implemented:
 
-* Registration
-* Login
-* Logout
-* Session Management
+- Registration
+- Login
+- Logout
+- Session Management
 
 ---
 
@@ -141,10 +141,10 @@ Implemented:
 
 Implemented:
 
-* Workspace Model
-* Membership Model
-* Workspace Settings
-* Workspace Persistence
+- Workspace Model
+- Membership Model
+- Workspace Settings
+- Workspace Persistence
 
 ---
 
@@ -154,17 +154,17 @@ Implemented:
 
 Implemented:
 
-* AuthStorageAdapter
-* JsonAuthStorageAdapter
-* Storage Delegation Layer
+- AuthStorageAdapter
+- JsonAuthStorageAdapter
+- Storage Delegation Layer
 
 Current persistence:
 
-* JSON Storage
+- JSON Storage
 
 Planned:
 
-* MariaDB Adapter
+- MariaDB Adapter
 
 ---
 
@@ -172,12 +172,12 @@ Planned:
 
 Build Status:
 
-* TypeScript Clean
-* Production Build Clean
+- TypeScript Clean
+- Production Build Clean
 
 Current Focus:
 
-* GitHub Professionalization
-* Documentation
-* Repository Structuring
-* Portfolio Preparation
+- GitHub Professionalization
+- Documentation
+- Repository Structuring
+- Portfolio Preparation

@@ -1,6 +1,4 @@
-import type {
-  MarketplacePackageType,
-} from "./marketplace-package-types";
+import type { MarketplacePackageType } from "./marketplace-package-types";
 
 export const activationScope: Record<
   MarketplacePackageType,

@@ -5,8 +5,7 @@ export const authTables = {
   sessions: "sessions",
   marketplaceEntitlements: "marketplace_entitlements",
   workspaceSettings: "workspace_settings",
-  workspaceMarketplaceInstallations:
-    "workspace_marketplace_installations",
+  workspaceMarketplaceInstallations: "workspace_marketplace_installations",
 } as const;
 
 export const postgresAuthSchema = [

@@ -82,9 +82,7 @@ export function AuthShell({
                 Built for modern brands
               </p>
 
-              <p className="text-xs text-zinc-600">
-                Prototype environment
-              </p>
+              <p className="text-xs text-zinc-600">Prototype environment</p>
             </div>
 
             <div className="grid grid-cols-4 gap-3">

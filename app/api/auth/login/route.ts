@@ -25,11 +25,7 @@ export async function POST(request: Request) {
       );
     }
 
-    await ensureOwnerAccount(
-      email,
-      password,
-      "Tilla Workspace",
-    );
+    await ensureOwnerAccount(email, password, "Tilla Workspace");
 
     const session = await login(email, password);
 
@@ -37,26 +33,19 @@ export async function POST(request: Request) {
       success: true,
     });
 
-    response.cookies.set(
-      "tilla_session",
-      session.token,
-      {
-        httpOnly: true,
-        sameSite: "lax",
-        path: "/",
-        maxAge: 60 * 60 * 24 * 30,
-      },
-    );
+    response.cookies.set("tilla_session", session.token, {
+      httpOnly: true,
+      sameSite: "lax",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 30,
+    });
 
     return response;
   } catch (err) {
     return NextResponse.json(
       {
         success: false,
-        error:
-          err instanceof Error
-            ? err.message
-            : "Login failed",
+        error: err instanceof Error ? err.message : "Login failed",
       },
       { status: 401 },
     );

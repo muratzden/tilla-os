@@ -1,8 +1,4 @@
-import type {
-  User,
-  Workspace,
-  Membership,
-} from "./auth-types";
+import type { User, Workspace, Membership } from "./auth-types";
 
 import {
   getSession,
@@ -26,17 +22,13 @@ export async function getCurrentAuthContext(
     return null;
   }
 
-  if (
-    new Date(session.expiresAt).getTime() < Date.now()
-  ) {
+  if (new Date(session.expiresAt).getTime() < Date.now()) {
     return null;
   }
 
   const users = await getUsers();
 
-  const user = users.find(
-    (item) => item.id === session.userId,
-  );
+  const user = users.find((item) => item.id === session.userId);
 
   if (!user) {
     return null;
@@ -49,9 +41,7 @@ export async function getCurrentAuthContext(
     return null;
   }
 
-  const workspace = await getWorkspace(
-    membership.workspaceId,
-  );
+  const workspace = await getWorkspace(membership.workspaceId);
 
   if (!workspace) {
     return null;

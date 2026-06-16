@@ -7,13 +7,13 @@ import {
 
 export function installLanguagePack(
   workspaceId: string,
-  language: OutputLanguage
+  language: OutputLanguage,
 ) {
   const entitlements = getLanguagePackEntitlements(workspaceId);
 
   if (language !== "en" && !entitlements.purchased.includes(language)) {
     throw new Error(
-      `Workspace '${workspaceId}' does not have entitlement for language pack '${language}'`
+      `Workspace '${workspaceId}' does not have entitlement for language pack '${language}'`,
     );
   }
 

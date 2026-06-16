@@ -8,22 +8,19 @@ import {
 
 export function activateLanguagePack(
   workspaceId: string,
-  language: OutputLanguage
+  language: OutputLanguage,
 ) {
   const workspaceState = getWorkspaceLanguageState(workspaceId);
 
   if (!workspaceState.installed.includes(language)) {
     throw new Error(
-      `Language pack '${language}' is not installed for workspace '${workspaceId}'`
+      `Language pack '${language}' is not installed for workspace '${workspaceId}'`,
     );
   }
 
   const installRecord = workspaceState.installs?.[language];
 
-  if (
-    installRecord?.packageId &&
-    installRecord.version
-  ) {
+  if (installRecord?.packageId && installRecord.version) {
     recordWorkspaceLanguageVersionActivation(workspaceId, {
       language,
       packageId: installRecord.packageId,
@@ -34,15 +31,12 @@ export function activateLanguagePack(
     return getWorkspaceLanguageState(workspaceId);
   }
 
-    const nextWorkspaceState = {
+  const nextWorkspaceState = {
     ...workspaceState,
     active: language,
   };
 
-  setWorkspaceLanguageState(
-    workspaceId,
-    nextWorkspaceState
-  );
+  setWorkspaceLanguageState(workspaceId, nextWorkspaceState);
 
   return nextWorkspaceState;
 }

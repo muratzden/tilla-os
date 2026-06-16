@@ -38,7 +38,7 @@ export function assetComposer(input: AssetComposerInput): AssetBlueprint {
     color: input.dna?.color,
     size: input.dna?.size,
 
-   purposeKey: config.purposeKey,
+    purposeKey: config.purposeKey,
     channel: config.channel,
     format: config.format,
 

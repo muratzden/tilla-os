@@ -1,10 +1,6 @@
 import "dotenv/config";
 
-import {
-  ensureOwnerAccount,
-  login,
-  validateSession,
-} from "./auth-service";
+import { ensureOwnerAccount, login, validateSession } from "./auth-service";
 
 async function runAuthTest() {
   const owner = await ensureOwnerAccount(
@@ -13,14 +9,9 @@ async function runAuthTest() {
     "Tilla Workspace",
   );
 
-  const session = await login(
-    "owner@tilla.test",
-    "123456",
-  );
+  const session = await login("owner@tilla.test", "123456");
 
-  const validated = await validateSession(
-    session.token,
-  );
+  const validated = await validateSession(session.token);
 
   console.log("Auth Test");
 

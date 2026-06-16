@@ -70,18 +70,18 @@ export function createRenderLanguage(pack: OutputPack) {
     },
 
     cameras: {
-  leica_m11: semanticLabel(pack, "leica_m11"),
-  "Leica M11": semanticLabel(pack, "leica_m11"),
+      leica_m11: semanticLabel(pack, "leica_m11"),
+      "Leica M11": semanticLabel(pack, "leica_m11"),
 
-  hasselblad_x2d: semanticLabel(pack, "hasselblad_x2d"),
-  "Hasselblad X2D": semanticLabel(pack, "hasselblad_x2d"),
+      hasselblad_x2d: semanticLabel(pack, "hasselblad_x2d"),
+      "Hasselblad X2D": semanticLabel(pack, "hasselblad_x2d"),
 
-  phase_one: semanticLabel(pack, "phase_one"),
-  "Phase One": semanticLabel(pack, "phase_one"),
+      phase_one: semanticLabel(pack, "phase_one"),
+      "Phase One": semanticLabel(pack, "phase_one"),
 
-  canon_r5: semanticLabel(pack, "canon_r5"),
-  "Canon R5": semanticLabel(pack, "canon_r5"),
-},
+      canon_r5: semanticLabel(pack, "canon_r5"),
+      "Canon R5": semanticLabel(pack, "canon_r5"),
+    },
 
     lenses: {
       summilux_50: "50mm Leica Summilux lens",
@@ -101,32 +101,40 @@ export function createRenderLanguage(pack: OutputPack) {
     },
 
     environments: {
-  private_study: expressionLabel(pack, "environments", "private_study"),
-  executive_office: expressionLabel(pack, "environments", "executive_office"),
-  artisan_workshop: expressionLabel(pack, "environments", "artisan_workshop"),
-  modern_travel: expressionLabel(pack, "environments", "modern_travel"),
-  minimal_gallery: expressionLabel(pack, "environments", "minimal_gallery"),
-  creative_studio: expressionLabel(pack, "environments", "creative_studio"),
-  private_library: expressionLabel(pack, "environments", "private_library"),
-},
-materials: {
-  frisco: expressionLabel(pack, "materials", "frisco"),
-  crazy_horse: expressionLabel(pack, "materials", "crazy_horse"),
-  nubuck: expressionLabel(pack, "materials", "nubuck"),
-  suede: expressionLabel(pack, "materials", "suede"),
-  vegetable_tanned: expressionLabel(pack, "materials", "vegetable_tanned"),
-},
+      private_study: expressionLabel(pack, "environments", "private_study"),
+      executive_office: expressionLabel(
+        pack,
+        "environments",
+        "executive_office",
+      ),
+      artisan_workshop: expressionLabel(
+        pack,
+        "environments",
+        "artisan_workshop",
+      ),
+      modern_travel: expressionLabel(pack, "environments", "modern_travel"),
+      minimal_gallery: expressionLabel(pack, "environments", "minimal_gallery"),
+      creative_studio: expressionLabel(pack, "environments", "creative_studio"),
+      private_library: expressionLabel(pack, "environments", "private_library"),
+    },
+    materials: {
+      frisco: expressionLabel(pack, "materials", "frisco"),
+      crazy_horse: expressionLabel(pack, "materials", "crazy_horse"),
+      nubuck: expressionLabel(pack, "materials", "nubuck"),
+      suede: expressionLabel(pack, "materials", "suede"),
+      vegetable_tanned: expressionLabel(pack, "materials", "vegetable_tanned"),
+    },
 
     colors: {
-  camel: expressionLabel(pack, "colors", "camel"),
-  warm_brown: expressionLabel(pack, "colors", "warm_brown"),
-  tan: expressionLabel(pack, "colors", "tan"),
-  ivory: expressionLabel(pack, "colors", "ivory"),
-  black: expressionLabel(pack, "colors", "black"),
-  dark_brown: expressionLabel(pack, "colors", "dark_brown"),
-  cognac: expressionLabel(pack, "colors", "cognac"),
-  natural: expressionLabel(pack, "colors", "natural"),
-},
+      camel: expressionLabel(pack, "colors", "camel"),
+      warm_brown: expressionLabel(pack, "colors", "warm_brown"),
+      tan: expressionLabel(pack, "colors", "tan"),
+      ivory: expressionLabel(pack, "colors", "ivory"),
+      black: expressionLabel(pack, "colors", "black"),
+      dark_brown: expressionLabel(pack, "colors", "dark_brown"),
+      cognac: expressionLabel(pack, "colors", "cognac"),
+      natural: expressionLabel(pack, "colors", "natural"),
+    },
 
     composition: {
       negative_space: "generous negative space",

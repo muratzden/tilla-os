@@ -5,29 +5,19 @@ export function getMarketplaceCatalog() {
 }
 
 export function getFeaturedMarketplacePackages() {
-  return getMarketplacePackages().filter(
-    (pkg) => pkg.featured
-  );
+  return getMarketplacePackages().filter((pkg) => pkg.featured);
 }
 
-export function getMarketplacePackagesByType(
-  type: string
-) {
-  return getMarketplacePackages().filter(
-    (pkg) => pkg.type === type
-  );
+export function getMarketplacePackagesByType(type: string) {
+  return getMarketplacePackages().filter((pkg) => pkg.type === type);
 }
 
-export function searchMarketplacePackages(
-  query: string
-) {
+export function searchMarketplacePackages(query: string) {
   const normalized = query.toLowerCase();
 
   return getMarketplacePackages().filter(
     (pkg) =>
       pkg.name.toLowerCase().includes(normalized) ||
-      pkg.description
-        .toLowerCase()
-        .includes(normalized)
+      pkg.description.toLowerCase().includes(normalized),
   );
 }

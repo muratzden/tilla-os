@@ -44,11 +44,7 @@ export async function upsertWorkspaceSettings(
       brand_setup = EXCLUDED.brand_setup,
       updated_at = EXCLUDED.updated_at
     `,
-    [
-      settings.workspaceId,
-      settings.brandSetup ?? null,
-      settings.updatedAt,
-    ],
+    [settings.workspaceId, settings.brandSetup ?? null, settings.updatedAt],
   );
 
   return settings;

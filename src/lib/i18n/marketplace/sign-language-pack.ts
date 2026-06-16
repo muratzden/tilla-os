@@ -9,7 +9,7 @@ import {
 } from "./language-pack-signature";
 
 export function signLanguagePack(
-  pack: ImportedLanguagePack
+  pack: ImportedLanguagePack,
 ): ImportedLanguagePack {
   const payload = createLanguagePackSignaturePayload(pack);
 

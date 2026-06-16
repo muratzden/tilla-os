@@ -7,18 +7,14 @@ export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   const isProtected = protectedRoutes.some(
-    (route) =>
-      pathname === route ||
-      pathname.startsWith(`${route}/`),
+    (route) => pathname === route || pathname.startsWith(`${route}/`),
   );
 
   if (!isProtected) {
     return NextResponse.next();
   }
 
-  const sessionToken = request.cookies.get(
-    "tilla_session",
-  )?.value;
+  const sessionToken = request.cookies.get("tilla_session")?.value;
 
   if (!sessionToken) {
     const loginUrl = request.nextUrl.clone();

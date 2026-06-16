@@ -14,12 +14,12 @@ Accepted
 
 TILLA-OS requires persistence for:
 
-* Users
-* Sessions
-* Workspaces
-* Memberships
-* Marketplace entitlements
-* Brand setup data
+- Users
+- Sessions
+- Workspaces
+- Memberships
+- Marketplace entitlements
+- Brand setup data
 
 A relational database such as MariaDB was considered early in development.
 
@@ -37,9 +37,9 @@ All persistence access must be routed through adapter interfaces.
 
 Current implementation:
 
-* AuthStorageAdapter
-* JsonAuthStorageAdapter
-* Adapter delegation through user-storage
+- AuthStorageAdapter
+- JsonAuthStorageAdapter
+- Adapter delegation through user-storage
 
 ---
 
@@ -47,18 +47,18 @@ Current implementation:
 
 ### Positive
 
-* Faster development
-* Easier local testing
-* No database provisioning
-* Lower operational complexity
-* Storage abstraction validated before database integration
+- Faster development
+- Easier local testing
+- No database provisioning
+- Lower operational complexity
+- Storage abstraction validated before database integration
 
 ### Negative
 
-* Limited scalability
-* No transactional guarantees
-* File-based persistence risks
-* Concurrency limitations
+- Limited scalability
+- No transactional guarantees
+- File-based persistence risks
+- Concurrency limitations
 
 ---
 

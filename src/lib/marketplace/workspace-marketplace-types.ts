@@ -1,10 +1,6 @@
-import type {
-  MarketplacePackageType,
-} from "./marketplace-package-types";
+import type { MarketplacePackageType } from "./marketplace-package-types";
 
-import type {
-  MarketplaceEntitlement,
-} from "./marketplace-entitlements";
+import type { MarketplaceEntitlement } from "./marketplace-entitlements";
 
 export type WorkspaceMarketplaceInstallation = {
   workspaceId: string;

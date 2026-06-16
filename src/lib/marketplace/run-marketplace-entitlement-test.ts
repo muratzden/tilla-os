@@ -1,16 +1,10 @@
-import {
-  installWorkspaceMarketplacePackage,
-} from "./workspace-marketplace-registry";
+import { installWorkspaceMarketplacePackage } from "./workspace-marketplace-registry";
 
-import {
-  grantMarketplaceEntitlement,
-} from "@/src/lib/auth/entitlement-service";
+import { grantMarketplaceEntitlement } from "@/src/lib/auth/entitlement-service";
 
-const workspaceWithoutEntitlement =
-  "workspace-without-entitlement-test";
+const workspaceWithoutEntitlement = "workspace-without-entitlement-test";
 
-const workspaceWithEntitlement =
-  "workspace-with-entitlement-test";
+const workspaceWithEntitlement = "workspace-with-entitlement-test";
 
 let blockedWithoutEntitlement = false;
 

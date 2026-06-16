@@ -3,34 +3,20 @@ import type {
   MarketplacePayload,
 } from "./marketplace-payload-types";
 
-const packageRegistry = new Map<
-  string,
-  MarketplacePackage
->();
+const packageRegistry = new Map<string, MarketplacePackage>();
 
-export function registerMarketplacePayload(
-  pkg: MarketplacePackage
-) {
-  packageRegistry.set(
-    pkg.manifest.id,
-    pkg
-  );
+export function registerMarketplacePayload(pkg: MarketplacePackage) {
+  packageRegistry.set(pkg.manifest.id, pkg);
 }
 
-export function getMarketplacePayload(
-  packageId: string
-) {
+export function getMarketplacePayload(packageId: string) {
   return packageRegistry.get(packageId);
 }
 
 export function getMarketplacePayloads() {
-  return Array.from(
-    packageRegistry.values()
-  );
+  return Array.from(packageRegistry.values());
 }
 
-export function hasMarketplacePayload(
-  packageId: string
-) {
+export function hasMarketplacePayload(packageId: string) {
   return packageRegistry.has(packageId);
 }

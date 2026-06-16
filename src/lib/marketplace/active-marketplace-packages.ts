@@ -1,31 +1,21 @@
-import type {
-  MarketplacePackageType,
-} from "./marketplace-package-types";
+import type { MarketplacePackageType } from "./marketplace-package-types";
 
-import type {
-  InstalledMarketplacePackage,
-} from "./marketplace-installation-types";
+import type { InstalledMarketplacePackage } from "./marketplace-installation-types";
 
-import {
-  getInstalledPackages,
-} from "./marketplace-installation-registry";
+import { getInstalledPackages } from "./marketplace-installation-registry";
 
 export function getActiveMarketplacePackages() {
-  return getInstalledPackages().filter(
-    (pkg) => pkg.active
-  );
+  return getInstalledPackages().filter((pkg) => pkg.active);
 }
 
 export function getActiveMarketplacePackagesByType(
-  type: MarketplacePackageType
+  type: MarketplacePackageType,
 ) {
-  return getActiveMarketplacePackages().filter(
-    (pkg) => pkg.type === type
-  );
+  return getActiveMarketplacePackages().filter((pkg) => pkg.type === type);
 }
 
 export function getActiveMarketplacePackageByType(
-  type: MarketplacePackageType
+  type: MarketplacePackageType,
 ): InstalledMarketplacePackage | undefined {
   return getActiveMarketplacePackagesByType(type)[0];
 }

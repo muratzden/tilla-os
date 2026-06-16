@@ -72,10 +72,10 @@ MariaDB Adapter
 
 GitHub Professionalization
 
-* Documentation
-* ADR Records
-* Architecture Visibility
-* Portfolio Readiness
+- Documentation
+- ADR Records
+- Architecture Visibility
+- Portfolio Readiness
 
 ---
 

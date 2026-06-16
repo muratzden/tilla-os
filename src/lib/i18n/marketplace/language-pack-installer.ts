@@ -15,7 +15,7 @@ import {
 
 export function installImportedLanguagePack(
   workspaceId: string,
-  pack: unknown
+  pack: unknown,
 ) {
   assertValidLanguagePack(pack);
   assertValidLanguagePackEncoding(pack);
@@ -34,7 +34,7 @@ export function installImportedLanguagePack(
     installedAt: new Date().toISOString(),
   };
 
-    recordWorkspaceLanguageInstall(workspaceId, {
+  recordWorkspaceLanguageInstall(workspaceId, {
     language,
     packageId: languagePack.manifest.id,
     version: languagePack.manifest.version.packVersion,

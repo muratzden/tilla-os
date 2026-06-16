@@ -68,9 +68,9 @@ The architecture is intentionally adapter-based so the storage layer can later m
 
 ## Design Goals
 
-* Type-safe domain modeling
-* Workspace isolation
-* Marketplace extensibility
-* Governance before generation
-* Long-term brand memory
-* Replaceable persistence layer
+- Type-safe domain modeling
+- Workspace isolation
+- Marketplace extensibility
+- Governance before generation
+- Long-term brand memory
+- Replaceable persistence layer

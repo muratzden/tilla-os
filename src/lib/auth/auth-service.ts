@@ -6,12 +6,7 @@ import {
   isPasswordHashed,
 } from "./password-hashing";
 
-import type {
-  User,
-  Workspace,
-  Membership,
-  Session,
-} from "./auth-types";
+import type { User, Workspace, Membership, Session } from "./auth-types";
 
 import {
   saveUser,
@@ -37,23 +32,17 @@ export async function registerOwner(
   password: string,
   workspaceName: string,
 ) {
-	if (password.length < 8) {
-  throw new Error(
-    "Password must be at least 8 characters",
-  );
-}
+  if (password.length < 8) {
+    throw new Error("Password must be at least 8 characters");
+  }
 
-if (!/[A-Za-z]/.test(password)) {
-  throw new Error(
-    "Password must contain at least one letter",
-  );
-}
+  if (!/[A-Za-z]/.test(password)) {
+    throw new Error("Password must contain at least one letter");
+  }
 
-if (!/[0-9]/.test(password)) {
-  throw new Error(
-    "Password must contain at least one number",
-  );
-}
+  if (!/[0-9]/.test(password)) {
+    throw new Error("Password must contain at least one number");
+  }
   const existing = await getUserByEmail(email);
 
   if (existing) {
@@ -108,14 +97,10 @@ export async function ensureOwnerAccount(
   const existingMembership = memberships[0];
 
   if (!existingMembership) {
-    throw new Error(
-      `Existing user '${email}' has no workspace membership`,
-    );
+    throw new Error(`Existing user '${email}' has no workspace membership`);
   }
 
-  const existingWorkspace = await getWorkspace(
-    existingMembership.workspaceId,
-  );
+  const existingWorkspace = await getWorkspace(existingMembership.workspaceId);
 
   if (!existingWorkspace) {
     throw new Error(
@@ -130,10 +115,7 @@ export async function ensureOwnerAccount(
   };
 }
 
-export async function login(
-  email: string,
-  password: string,
-) {
+export async function login(email: string, password: string) {
   const user = await getUserByEmail(email);
 
   if (!user) {
@@ -168,9 +150,7 @@ export async function login(
     token: generateToken(),
     userId: user.id,
     activeWorkspaceId: activeMembership.workspaceId,
-    expiresAt: new Date(
-      Date.now() + 1000 * 60 * 60 * 24 * 30,
-    ).toISOString(),
+    expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30).toISOString(),
   };
 
   await saveSession(session);
@@ -185,9 +165,7 @@ export async function validateSession(token: string) {
     return null;
   }
 
-  if (
-    new Date(session.expiresAt).getTime() < Date.now()
-  ) {
+  if (new Date(session.expiresAt).getTime() < Date.now()) {
     return null;
   }
 

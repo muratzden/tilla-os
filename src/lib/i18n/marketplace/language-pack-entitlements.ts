@@ -12,7 +12,7 @@ export function getLanguagePackEntitlements(workspaceId: string) {
 
 export function purchaseLanguagePack(
   workspaceId: string,
-  language: OutputLanguage
+  language: OutputLanguage,
 ) {
   const current = entitlements[workspaceId] ?? [];
 

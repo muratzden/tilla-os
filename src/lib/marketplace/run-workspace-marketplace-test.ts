@@ -1,12 +1,8 @@
 import "dotenv/config";
 
-import {
-  ensureOwnerAccount,
-} from "../auth/auth-service";
+import { ensureOwnerAccount } from "../auth/auth-service";
 
-import {
-  bootstrapMarketplace,
-} from "./bootstrap-marketplace";
+import { bootstrapMarketplace } from "./bootstrap-marketplace";
 
 import {
   installWorkspaceMarketplacePackage,
@@ -14,9 +10,7 @@ import {
   getActiveWorkspaceMarketplacePackageByType,
 } from "./workspace-marketplace-registry";
 
-import {
-  getActiveWorkspaceIndustryPayload,
-} from "./workspace-marketplace-payloads";
+import { getActiveWorkspaceIndustryPayload } from "./workspace-marketplace-payloads";
 
 async function runWorkspaceMarketplaceTest() {
   bootstrapMarketplace();
@@ -41,48 +35,34 @@ async function runWorkspaceMarketplaceTest() {
     "restaurant-industry-pack",
   );
 
-  const activeIndustry =
-    await getActiveWorkspaceMarketplacePackageByType(
-      workspaceId,
-      "industry",
-    );
-
-  const activePayload =
-    await getActiveWorkspaceIndustryPayload(
-      workspaceId,
-    );
-
-  console.log(
-    "Workspace Marketplace Test",
+  const activeIndustry = await getActiveWorkspaceMarketplacePackageByType(
+    workspaceId,
+    "industry",
   );
+
+  const activePayload = await getActiveWorkspaceIndustryPayload(workspaceId);
+
+  console.log("Workspace Marketplace Test");
 
   console.log({
     passed:
-      activeIndustry?.packageId ===
-        "restaurant-industry-pack" &&
+      activeIndustry?.packageId === "restaurant-industry-pack" &&
       activePayload?.type === "industry",
 
     workspaceId,
 
-    activePackageId:
-      activeIndustry?.packageId,
+    activePackageId: activeIndustry?.packageId,
 
-    activePackageType:
-      activeIndustry?.type,
+    activePackageType: activeIndustry?.type,
 
-    activePayloadType:
-      activePayload?.type,
+    activePayloadType: activePayload?.type,
   });
 }
 
-runWorkspaceMarketplaceTest().catch(
-  (error) => {
-    console.error(
-      "Workspace Marketplace Test Failed",
-    );
+runWorkspaceMarketplaceTest().catch((error) => {
+  console.error("Workspace Marketplace Test Failed");
 
-    console.error(error);
+  console.error(error);
 
-    process.exit(1);
-  },
-);
+  process.exit(1);
+});

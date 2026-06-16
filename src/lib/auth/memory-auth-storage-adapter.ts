@@ -35,9 +35,7 @@ export const memoryAuthStorageAdapter: AuthStorageAdapter = {
   },
 
   async saveWorkspace(workspace: Workspace) {
-    const index = workspaces.findIndex(
-      (item) => item.id === workspace.id,
-    );
+    const index = workspaces.findIndex((item) => item.id === workspace.id);
 
     if (index >= 0) {
       workspaces[index] = workspace;
@@ -48,9 +46,7 @@ export const memoryAuthStorageAdapter: AuthStorageAdapter = {
   },
 
   async getWorkspace(workspaceId: string) {
-    return workspaces.find(
-      (workspace) => workspace.id === workspaceId,
-    );
+    return workspaces.find((workspace) => workspace.id === workspaceId);
   },
 
   async addMembership(membership: Membership) {
@@ -70,9 +66,7 @@ export const memoryAuthStorageAdapter: AuthStorageAdapter = {
   },
 
   async saveSession(session: Session) {
-    const index = sessions.findIndex(
-      (item) => item.token === session.token,
-    );
+    const index = sessions.findIndex((item) => item.token === session.token);
 
     if (index >= 0) {
       sessions[index] = session;
@@ -99,8 +93,6 @@ export const memoryAuthStorageAdapter: AuthStorageAdapter = {
   },
 
   async getWorkspaceEntitlements(workspaceId: string) {
-    return entitlements.filter(
-      (item) => item.workspaceId === workspaceId,
-    );
+    return entitlements.filter((item) => item.workspaceId === workspaceId);
   },
 };

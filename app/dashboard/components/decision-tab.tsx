@@ -1,198 +1,254 @@
-import type { OutputLanguage } from "@/src/lib/i18n/language";
 import { getDashboardText } from "@/src/lib/i18n/dashboard-text";
+
+type OutputLanguage = "tr" | "en" | "de";
+type UILanguage = "tr" | "en";
+
+type InputState = {
+  type: string;
+  material: string;
+  color: string;
+  size: string;
+  channel: string;
+  outputLanguage: OutputLanguage;
+};
 
 type DecisionTabProps = {
   pipeline: any;
-  uiLanguage: string;
-  language?: OutputLanguage;
+  uiLanguage: UILanguage;
+  language: OutputLanguage;
+  input: InputState;
+  loading: boolean;
+  onInputChange: (input: InputState) => void;
+  onGenerate: () => void;
 };
 
 export function DecisionTab({
   pipeline,
   uiLanguage,
-  language = "tr",
+  input,
+  loading,
+  onInputChange,
+  onGenerate,
 }: DecisionTabProps) {
-  const resolvedUiLanguage = language === "en" ? "en" : "tr";
-
-  const text = (key: Parameters<typeof getDashboardText>[0]) =>
-    getDashboardText(key, resolvedUiLanguage);
-
   return (
     <div className="space-y-6">
-      <section className="rounded-[2rem] border border-[#e7e2d8] bg-white p-6 shadow-sm">
-        <div className="text-xs uppercase tracking-[0.35em] text-zinc-400">
-          {text("decisionEngine")}
+      <section className="rounded-[2rem] border border-white/10 bg-white/[0.035] p-4 md:p-6">
+        <div>
+          <p className="text-xs uppercase tracking-[0.32em] text-zinc-600">
+            Decision Engine
+          </p>
+
+          <h3 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-white">
+            Generate a governed brand decision
+          </h3>
+
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-500">
+            Use this module when you need a new decision. The dashboard remains
+            focused on brand health, governance, memory and alignment.
+          </p>
         </div>
 
-        <h2 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-zinc-900">
-          {text("worldSelection")}
-        </h2>
+        <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-6">
+          <Input
+            label="Type"
+            value={input.type}
+            onChange={(value) => onInputChange({ ...input, type: value })}
+          />
+
+          <Input
+            label="Material"
+            value={input.material}
+            onChange={(value) => onInputChange({ ...input, material: value })}
+          />
+
+          <Input
+            label="Color"
+            value={input.color}
+            onChange={(value) => onInputChange({ ...input, color: value })}
+          />
+
+          <Input
+            label="Size"
+            value={input.size}
+            onChange={(value) => onInputChange({ ...input, size: value })}
+          />
+
+          <Input
+            label="Channel"
+            value={input.channel}
+            onChange={(value) => onInputChange({ ...input, channel: value })}
+          />
+
+          <SelectInput
+            label={getDashboardText("outputLanguage", uiLanguage)}
+            value={input.outputLanguage}
+            options={["tr", "en", "de"]}
+            onChange={(value) =>
+              onInputChange({
+                ...input,
+                outputLanguage: value as OutputLanguage,
+              })
+            }
+          />
+        </div>
+
+        <button
+          type="button"
+          onClick={onGenerate}
+          disabled={loading}
+          className="mt-6 rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-zinc-950 shadow-xl shadow-white/10 transition hover:bg-zinc-200 disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          {loading
+            ? getDashboardText("generating", uiLanguage)
+            : getDashboardText("generateDecision", uiLanguage)}
+        </button>
       </section>
 
-      <section className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <div className="rounded-[2rem] border border-[#e7e2d8] bg-white p-6 shadow-sm">
-          <div className="text-xs uppercase tracking-[0.35em] text-zinc-400">
-            {text("worldAnalysis")}
-          </div>
+      <section className="grid gap-4 lg:grid-cols-3">
+        <DecisionMetric
+          label="Archetype"
+          value={pipeline?.debug?.archetype ?? "-"}
+        />
 
-          <div className="mt-5 space-y-3">
-            {pipeline?.worldExplorer?.map((world: any) => (
-              <div
-                key={world.key}
-                className={`rounded-2xl border p-5 ${
-                  pipeline?.world?.worldKey === world.key
-                    ? "border-zinc-900 bg-[#f8f6f2]"
-                    : "border-[#e7e2d8] bg-white"
-                }`}
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <div className="text-lg font-semibold text-zinc-900">
-                      {world.key}
-                    </div>
+        <DecisionMetric label="World" value={pipeline?.debug?.world ?? "-"} />
 
-                    <div className="mt-1 text-xs uppercase tracking-widest text-zinc-400">
-                      {pipeline?.world?.worldKey === world.key
-                        ? text("selected")
-                        : text("candidate")}
-                    </div>
-                  </div>
+        <DecisionMetric
+          label="Confidence"
+          value={pipeline?.confidence?.confidence ?? "-"}
+          detail={pipeline?.confidence?.confidenceLevel ?? "waiting"}
+        />
+      </section>
 
-                  <div className="text-right">
-                    <div className="text-3xl font-semibold tracking-[-0.04em] text-zinc-900">
-                      {world.score}
-                    </div>
+      <section className="rounded-[2rem] border border-white/10 bg-white/[0.025] p-4 md:p-6">
+        <p className="text-xs uppercase tracking-[0.32em] text-zinc-600">
+          Decision Output
+        </p>
 
-                    <div className="text-xs uppercase tracking-widest text-zinc-400">
-                      {text("final")}
-                    </div>
-                  </div>
-                </div>
+        <div className="mt-5 grid gap-4 lg:grid-cols-2">
+          <OutputBlock
+            title="Positive Prompt"
+            value={pipeline?.visualPrompt?.positivePrompt}
+          />
 
-                <div className="mt-4 grid grid-cols-2 gap-2 text-xs text-zinc-600">
-                  <Score
-                    label={text("heritage")}
-                    value={world.breakdown?.heritageFit}
-                  />
-                  <Score
-                    label={text("craft")}
-                    value={world.breakdown?.craftSignal}
-                  />
-                  <Score
-                    label={text("material")}
-                    value={world.breakdown?.materialWarmth}
-                  />
-                  <Score
-                    label={text("campaign")}
-                    value={world.breakdown?.campaignUsability}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="rounded-[2rem] border border-[#e7e2d8] bg-white p-6 shadow-sm">
-          <div className="text-xs uppercase tracking-[0.35em] text-zinc-400">
-            {text("decisionGraph")}
-          </div>
-
-          <div className="mt-6 space-y-4">
-            <GraphStep label="DNA" value={pipeline?.decisionGraph?.archetype} />
-
-            <div className="h-6 border-l border-[#d8d1c5] ml-4" />
-
-            <div className="rounded-2xl border border-[#e7e2d8] bg-[#fcfbf8] p-4">
-              <div className="text-xs uppercase tracking-widest text-zinc-400">
-                {text("worldCandidates")}
-              </div>
-
-              <div className="mt-3 space-y-2">
-                {pipeline?.decisionGraph?.worldCandidates?.map((world: any) => (
-                  <div
-                    key={world.key}
-                    className={`flex justify-between rounded-xl border px-3 py-2 text-sm ${
-                      world.key === pipeline?.decisionGraph?.selectedWorld
-                        ? "border-zinc-900 bg-white font-medium text-zinc-900"
-                        : "border-[#e7e2d8] bg-white text-zinc-600"
-                    }`}
-                  >
-                    <span>{world.key}</span>
-                    <span>{world.score}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="h-6 border-l border-[#d8d1c5] ml-4" />
-
-            <GraphStep
-              label={text("selectedWorld")}
-              value={pipeline?.decisionGraph?.selectedWorld}
-            />
-
-            <GraphStep
-              label={text("scene")}
-              value={pipeline?.decisionGraph?.scene}
-            />
-          </div>
+          <OutputBlock
+            title="Negative Prompt"
+            value={pipeline?.visualPrompt?.negativePrompt}
+          />
         </div>
       </section>
 
-      <section className="rounded-[2rem] border border-[#e7e2d8] bg-white p-6 shadow-sm">
-        <div className="text-xs uppercase tracking-[0.35em] text-zinc-400">
-          {text("rejectedAlternatives")}
-        </div>
+      <section className="rounded-[2rem] border border-white/10 bg-white/[0.025] p-4 md:p-6">
+        <p className="text-xs uppercase tracking-[0.32em] text-zinc-600">
+          Governance Notes
+        </p>
 
         <div className="mt-5 space-y-3">
-          {pipeline?.rejectedAlternatives?.map((item: any) => (
-            <div
-              key={item.key}
-              className="rounded-2xl border border-[#e7e2d8] bg-[#fcfbf8] p-5"
-            >
-              <div className="flex items-start justify-between gap-4">
-                <div className="font-semibold text-zinc-900">{item.key}</div>
-
-                <div className="text-sm font-medium text-zinc-500">
-                  {item.score}
-                </div>
-              </div>
-
-              <div className="mt-3 space-y-1">
-                {item.lostBecause?.map((reason: string) => (
-                  <div key={reason} className="text-sm leading-6 text-zinc-600">
-                    • {reason}
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
+          {(pipeline?.advisorV2?.warnings ?? []).length > 0 ? (
+            pipeline.advisorV2.warnings.map((item: any, index: number) => (
+              <p
+                key={index}
+                className="rounded-2xl border border-white/10 bg-black/20 p-4 text-sm leading-6 text-zinc-400"
+              >
+                {item.warning ?? item.message ?? String(item)}
+              </p>
+            ))
+          ) : (
+            <p className="text-sm text-zinc-500">
+              No governance warning generated yet.
+            </p>
+          )}
         </div>
       </section>
     </div>
   );
 }
 
-function Score({ label, value }: { label: string; value: any }) {
+function DecisionMetric({
+  label,
+  value,
+  detail,
+}: {
+  label: string;
+  value: string | number;
+  detail?: string | number;
+}) {
   return (
-    <div className="rounded-xl border border-[#e7e2d8] bg-white p-3">
-      <div className="text-[10px] uppercase tracking-widest text-zinc-400">
+    <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.035] p-5">
+      <p className="text-xs uppercase tracking-[0.22em] text-zinc-600">
         {label}
-      </div>
+      </p>
 
-      <div className="mt-1 font-medium text-zinc-900">{value ?? "-"}</div>
+      <p className="mt-3 text-2xl font-semibold tracking-[-0.04em] text-white">
+        {value}
+      </p>
+
+      {detail && (
+        <p className="mt-2 text-xs leading-5 text-zinc-500">{detail}</p>
+      )}
     </div>
   );
 }
 
-function GraphStep({ label, value }: { label: string; value: any }) {
+function OutputBlock({ title, value }: { title: string; value?: string }) {
   return (
-    <div className="rounded-2xl border border-[#e7e2d8] bg-white p-4">
-      <div className="text-xs uppercase tracking-widest text-zinc-400">
-        {label}
-      </div>
+    <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
+      <p className="text-sm font-medium text-white">{title}</p>
 
-      <div className="mt-2 font-semibold text-zinc-900">{value ?? "-"}</div>
+      <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-zinc-400">
+        {value ?? "-"}
+      </p>
     </div>
+  );
+}
+
+function Input({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+}) {
+  return (
+    <label className="block">
+      <span className="text-sm text-zinc-500">{label}</span>
+
+      <input
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        className="mt-2 w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white outline-none transition placeholder:text-zinc-700 focus:border-white/30 focus:bg-black/40"
+      />
+    </label>
+  );
+}
+
+function SelectInput({
+  label,
+  value,
+  options,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  options: string[];
+  onChange: (value: string) => void;
+}) {
+  return (
+    <label className="block">
+      <span className="text-sm text-zinc-500">{label}</span>
+
+      <select
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        className="mt-2 w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white outline-none transition focus:border-white/30 focus:bg-black/40"
+      >
+        {options.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+    </label>
   );
 }

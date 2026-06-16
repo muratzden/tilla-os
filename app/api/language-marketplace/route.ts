@@ -31,7 +31,7 @@ export async function GET() {
     });
 
     const updates = installedLanguages.filter(
-      (language) => language.updateAvailable
+      (language) => language.updateAvailable,
     );
 
     return NextResponse.json({
@@ -48,7 +48,7 @@ export async function GET() {
       },
       {
         status: 500,
-      }
+      },
     );
   }
 }

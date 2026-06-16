@@ -1,8 +1,6 @@
 import "dotenv/config";
 
-import {
-  ensureOwnerAccount,
-} from "./auth-service";
+import { ensureOwnerAccount } from "./auth-service";
 
 import {
   grantMarketplaceEntitlement,
@@ -22,16 +20,12 @@ async function runEntitlementTest() {
     "restaurant-industry-pack",
   );
 
-  const hasRestaurantPack =
-    await hasMarketplaceEntitlement(
-      owner.workspace.id,
-      "restaurant-industry-pack",
-    );
+  const hasRestaurantPack = await hasMarketplaceEntitlement(
+    owner.workspace.id,
+    "restaurant-industry-pack",
+  );
 
-  const entitlements =
-    await getMarketplaceEntitlements(
-      owner.workspace.id,
-    );
+  const entitlements = await getMarketplaceEntitlements(owner.workspace.id);
 
   console.log("Entitlement Test");
 
@@ -39,15 +33,11 @@ async function runEntitlementTest() {
     passed:
       hasRestaurantPack &&
       entitlements.some(
-        (item) =>
-          item.packageId ===
-          "restaurant-industry-pack",
+        (item) => item.packageId === "restaurant-industry-pack",
       ),
     workspaceId: owner.workspace.id,
     entitlementCount: entitlements.length,
-    packageIds: entitlements.map(
-      (item) => item.packageId,
-    ),
+    packageIds: entitlements.map((item) => item.packageId),
   });
 }
 

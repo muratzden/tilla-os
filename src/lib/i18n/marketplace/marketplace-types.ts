@@ -1,9 +1,6 @@
 import type { OutputPack } from "@/src/lib/i18n/output-packs/output-pack-types";
 
-export type LanguagePackInstallSource =
-  | "system"
-  | "imported"
-  | "marketplace";
+export type LanguagePackInstallSource = "system" | "imported" | "marketplace";
 
 export type LanguagePackVersion = {
   schemaVersion: string;
@@ -56,8 +53,10 @@ export type LanguagePackRegistryRecord = {
   versions: Record<string, LanguagePackVersionRecord>;
 };
 
-export type InstalledLanguagePackRepository =
-  Record<string, LanguagePackRegistryRecord>;
+export type InstalledLanguagePackRepository = Record<
+  string,
+  LanguagePackRegistryRecord
+>;
 
 export type WorkspaceLanguageInstallRecord = {
   language: string;

@@ -1,9 +1,6 @@
 import { semanticRegistry } from "./semantic-registry";
 
-import type {
-  SemanticDomain,
-  SemanticEntry,
-} from "./semantic-registry-types";
+import type { SemanticDomain, SemanticEntry } from "./semantic-registry-types";
 
 export function getSemanticEntry(
   domain: SemanticDomain,

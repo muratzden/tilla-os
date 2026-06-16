@@ -6,9 +6,7 @@ function getDatabasePool() {
   const databaseUrl = process.env.DATABASE_URL;
 
   if (!databaseUrl) {
-    throw new Error(
-      "DATABASE_URL environment variable is missing",
-    );
+    throw new Error("DATABASE_URL environment variable is missing");
   }
 
   if (!databasePool) {
@@ -20,9 +18,6 @@ function getDatabasePool() {
   return databasePool;
 }
 
-export async function executeSql(
-  statement: string,
-  values: unknown[] = [],
-) {
+export async function executeSql(statement: string, values: unknown[] = []) {
   return getDatabasePool().query(statement, values);
 }

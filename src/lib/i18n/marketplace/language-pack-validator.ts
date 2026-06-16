@@ -21,7 +21,7 @@ function addMissingKeyIssues(
   target: Record<string, unknown>,
   requiredKeys: readonly string[],
   path: string,
-  issues: LanguagePackValidationIssue[]
+  issues: LanguagePackValidationIssue[],
 ) {
   for (const key of requiredKeys) {
     if (!(key in target)) {
@@ -34,7 +34,7 @@ function addMissingKeyIssues(
 }
 
 export function validateLanguagePack(
-  pack: unknown
+  pack: unknown,
 ): LanguagePackValidationResult {
   const issues: LanguagePackValidationIssue[] = [];
 
@@ -50,12 +50,7 @@ export function validateLanguagePack(
     };
   }
 
-  addMissingKeyIssues(
-    pack,
-    REQUIRED_LANGUAGE_PACK_ROOT_KEYS,
-    "$",
-    issues
-  );
+  addMissingKeyIssues(pack, REQUIRED_LANGUAGE_PACK_ROOT_KEYS, "$", issues);
 
   const manifest = pack.manifest;
 
@@ -69,7 +64,7 @@ export function validateLanguagePack(
       manifest,
       REQUIRED_LANGUAGE_PACK_MANIFEST_KEYS,
       "$.manifest",
-      issues
+      issues,
     );
 
     const version = manifest.version;
@@ -84,14 +79,14 @@ export function validateLanguagePack(
         version,
         REQUIRED_LANGUAGE_PACK_VERSION_KEYS,
         "$.manifest.version",
-        issues
+        issues,
       );
 
       if (version.schemaVersion !== LANGUAGE_PACK_SCHEMA_VERSION) {
         issues.push({
           path: "$.manifest.version.schemaVersion",
           message: `Unsupported schema version '${String(
-            version.schemaVersion
+            version.schemaVersion,
           )}'. Expected '${LANGUAGE_PACK_SCHEMA_VERSION}'`,
         });
       }
@@ -100,7 +95,7 @@ export function validateLanguagePack(
         issues.push({
           path: "$.manifest.version.minRuntimeVersion",
           message: `Unsupported runtime version '${String(
-            version.minRuntimeVersion
+            version.minRuntimeVersion,
           )}'. Expected '${LANGUAGE_PACK_RUNTIME_VERSION}'`,
         });
       }
@@ -119,7 +114,7 @@ export function validateLanguagePack(
       outputPack,
       REQUIRED_OUTPUT_PACK_ROOT_KEYS,
       "$.outputPack",
-      issues
+      issues,
     );
   }
 
@@ -130,7 +125,7 @@ export function validateLanguagePack(
 }
 
 export function assertValidLanguagePack(
-  pack: unknown
+  pack: unknown,
 ): asserts pack is ImportedLanguagePack {
   const result = validateLanguagePack(pack);
 
@@ -138,7 +133,7 @@ export function assertValidLanguagePack(
     throw new Error(
       result.issues
         .map((issue) => `${issue.path}: ${issue.message}`)
-        .join("\n")
+        .join("\n"),
     );
   }
 }

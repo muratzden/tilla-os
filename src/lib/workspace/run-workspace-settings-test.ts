@@ -58,41 +58,25 @@ async function runWorkspaceSettingsTest() {
     },
   } as const;
 
-  await saveWorkspaceBrandSetup(
-    owner.workspace.id,
-    brandSetup as any,
-  );
+  await saveWorkspaceBrandSetup(owner.workspace.id, brandSetup as any);
 
-  const loaded =
-    await getWorkspaceBrandSetup(
-      owner.workspace.id,
-    );
+  const loaded = await getWorkspaceBrandSetup(owner.workspace.id);
 
-  console.log(
-    "Workspace Settings Test",
-  );
+  console.log("Workspace Settings Test");
 
   console.log({
-    passed:
-      loaded?.identity.brandName ===
-      brandSetup.identity.brandName,
+    passed: loaded?.identity.brandName === brandSetup.identity.brandName,
 
-    workspaceId:
-      owner.workspace.id,
+    workspaceId: owner.workspace.id,
 
-    brandName:
-      loaded?.identity.brandName,
+    brandName: loaded?.identity.brandName,
   });
 }
 
-runWorkspaceSettingsTest().catch(
-  (error) => {
-    console.error(
-      "Workspace Settings Test Failed",
-    );
+runWorkspaceSettingsTest().catch((error) => {
+  console.error("Workspace Settings Test Failed");
 
-    console.error(error);
+  console.error(error);
 
-    process.exit(1);
-  },
-);
+  process.exit(1);
+});

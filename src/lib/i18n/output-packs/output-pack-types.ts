@@ -4,8 +4,6 @@ export type OutputPackStatus = "core" | "installed" | "draft" | "disabled";
 
 export type OutputPackSource = "system" | "imported" | "marketplace";
 
-
-
 export type OutputPackMeta = {
   id: OutputLanguage;
   name: string;
@@ -195,7 +193,6 @@ export type OutputPack = {
   expressions: OutputPackExpressions;
   semantic: OutputPackSemantic;
   advisor: OutputPackAdvisor;
-  
 };
 
 export type OutputExpressionEntry = {
@@ -214,4 +211,3 @@ export type OutputPackExpressions = {
   environments: Record<string, OutputExpressionEntry>;
   emotions: Record<string, OutputExpressionEntry>;
 };
-

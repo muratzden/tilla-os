@@ -15,9 +15,7 @@ function getBrandHealthStatusKey(score: number): DashboardTextKey {
   return "brandHealthStatusCritical";
 }
 
-function getDriftRiskKey(
-  driftLevel: string | undefined,
-): DashboardTextKey {
+function getDriftRiskKey(driftLevel: string | undefined): DashboardTextKey {
   if (driftLevel === "critical" || driftLevel === "high") {
     return "statusHigh";
   }
@@ -35,9 +33,7 @@ function getPublishReadinessKey(
   return blocked ? "statusBlocked" : "statusReady";
 }
 
-function getStatusLabelKey(
-  value: string | undefined,
-): DashboardTextKey | null {
+function getStatusLabelKey(value: string | undefined): DashboardTextKey | null {
   if (!value) return null;
 
   const normalized = value.toLowerCase();
@@ -69,7 +65,7 @@ function getStatusLabel(
 ) {
   const key = getStatusLabelKey(value);
 
-  return key ? text(key) : value ?? "-";
+  return key ? text(key) : (value ?? "-");
 }
 
 type OverviewTabProps = {
@@ -77,21 +73,14 @@ type OverviewTabProps = {
   uiLanguage?: UILanguage;
 };
 
-export function OverviewTab({
-  pipeline,
-  uiLanguage = "tr",
-}: OverviewTabProps) {
+export function OverviewTab({ pipeline, uiLanguage = "tr" }: OverviewTabProps) {
   const text = createText(uiLanguage);
 
   const brandHealthScore = pipeline?.consistency?.consistencyScore ?? 0;
 
-  const brandHealthStatus = text(
-    getBrandHealthStatusKey(brandHealthScore),
-  );
+  const brandHealthStatus = text(getBrandHealthStatusKey(brandHealthScore));
 
-  const driftRisk = text(
-    getDriftRiskKey(pipeline?.audit?.driftLevel),
-  );
+  const driftRisk = text(getDriftRiskKey(pipeline?.audit?.driftLevel));
 
   const publishReadiness = text(
     getPublishReadinessKey(pipeline?.audit?.blocked),
@@ -136,15 +125,9 @@ export function OverviewTab({
                   )}
                 />
 
-                <StatusCard
-                  label={text("driftRisk")}
-                  value={driftRisk}
-                />
+                <StatusCard label={text("driftRisk")} value={driftRisk} />
 
-                <StatusCard
-                  label={text("publish")}
-                  value={publishReadiness}
-                />
+                <StatusCard label={text("publish")} value={publishReadiness} />
               </div>
             </div>
 
@@ -238,10 +221,7 @@ export function OverviewTab({
               )}
             />
 
-            <HealthRow
-              label="Audit"
-              value={getStatusLabel("ready", text)}
-            />
+            <HealthRow label="Audit" value={getStatusLabel("ready", text)} />
           </div>
         </div>
       </section>

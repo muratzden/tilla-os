@@ -5,7 +5,7 @@ export function runEncodingTest() {
   const workspaceId = `encoding-test-${Date.now()}`;
 
   const brokenPack = {
-        ...sampleGermanMarketplacePack,
+    ...sampleGermanMarketplacePack,
     manifest: {
       ...sampleGermanMarketplacePack.manifest,
       name: "German Ã¼ Output Pack",

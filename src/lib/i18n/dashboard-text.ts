@@ -117,7 +117,7 @@ export type DashboardTextKey =
   | "noForbiddenDirectionsDetected"
   | "decisionRules"
   | "noDecisionRulesGenerated"
-    | "brandHealthStatusHealthy"
+  | "brandHealthStatusHealthy"
   | "brandHealthStatusWarning"
   | "brandHealthStatusCritical"
   | "statusLow"
@@ -721,7 +721,7 @@ const dashboardText: Record<
     tr: "Trend",
     en: "Trend",
   },
-      brandHealthStatusHealthy: {
+  brandHealthStatusHealthy: {
     tr: "Sağlıklı",
     en: "Healthy",
   },

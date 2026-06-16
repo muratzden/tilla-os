@@ -23,7 +23,7 @@ const BROKEN_UTF8_PATTERNS = [
 function scanValue(
   value: unknown,
   path: string,
-  issues: LanguagePackValidationIssue[]
+  issues: LanguagePackValidationIssue[],
 ) {
   if (typeof value === "string") {
     for (const pattern of BROKEN_UTF8_PATTERNS) {
@@ -54,7 +54,7 @@ function scanValue(
 }
 
 export function validateLanguagePackEncoding(
-  pack: unknown
+  pack: unknown,
 ): LanguagePackValidationResult {
   const issues: LanguagePackValidationIssue[] = [];
 
@@ -66,16 +66,14 @@ export function validateLanguagePackEncoding(
   };
 }
 
-export function assertValidLanguagePackEncoding(
-  pack: unknown
-) {
+export function assertValidLanguagePackEncoding(pack: unknown) {
   const result = validateLanguagePackEncoding(pack);
 
   if (!result.valid) {
     throw new Error(
       result.issues
         .map((issue) => `${issue.path}: ${issue.message}`)
-        .join("\n")
+        .join("\n"),
     );
   }
 }

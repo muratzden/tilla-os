@@ -3,15 +3,10 @@ import {
   personalBrandPackPayload,
 } from "./personal-brand-pack";
 
-import type {
-  MarketplacePackage,
-} from "../marketplace-payload-types";
+import type { MarketplacePackage } from "../marketplace-payload-types";
 
-export const personalBrandPackage:
-MarketplacePackage = {
-  manifest:
-    personalBrandPackManifest,
+export const personalBrandPackage: MarketplacePackage = {
+  manifest: personalBrandPackManifest,
 
-  payload:
-    personalBrandPackPayload,
+  payload: personalBrandPackPayload,
 };

@@ -20,7 +20,7 @@ export const personalBrandPackManifest: MarketplaceManifest = {
   price: 39,
 
   currency: "USD",
-  
+
   requiredEntitlement: "purchased",
 
   categories: ["personal_brand"],
@@ -39,12 +39,7 @@ export const personalBrandPackManifest: MarketplaceManifest = {
 export const personalBrandPackPayload: PersonalBrandMarketplacePayload = {
   type: "personal_brand",
 
-  personaTypes: [
-    "founder",
-    "maker",
-    "consultant",
-    "solo_operator",
-  ],
+  personaTypes: ["founder", "maker", "consultant", "solo_operator"],
 
   contentPillars: [
     "point_of_view",

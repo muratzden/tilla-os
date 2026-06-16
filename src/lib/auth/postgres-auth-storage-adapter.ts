@@ -83,12 +83,7 @@ export const postgresAuthStorageAdapter: AuthStorageAdapter = {
         password_hash = EXCLUDED.password_hash,
         created_at = EXCLUDED.created_at
       `,
-      [
-        user.id,
-        user.email,
-        user.passwordHash,
-        user.createdAt,
-      ],
+      [user.id, user.email, user.passwordHash, user.createdAt],
     );
   },
 
@@ -162,11 +157,7 @@ export const postgresAuthStorageAdapter: AuthStorageAdapter = {
       DO UPDATE SET
         role = EXCLUDED.role
       `,
-      [
-        membership.workspaceId,
-        membership.userId,
-        membership.role,
-      ],
+      [membership.workspaceId, membership.userId, membership.role],
     );
   },
 
@@ -224,9 +215,7 @@ export const postgresAuthStorageAdapter: AuthStorageAdapter = {
     return row ? mapSession(row) : undefined;
   },
 
-  async grantEntitlement(
-    entitlement: MarketplaceEntitlement,
-  ) {
+  async grantEntitlement(entitlement: MarketplaceEntitlement) {
     await executeSql(
       `
       INSERT INTO marketplace_entitlements (
@@ -239,11 +228,7 @@ export const postgresAuthStorageAdapter: AuthStorageAdapter = {
       DO UPDATE SET
         granted_at = EXCLUDED.granted_at
       `,
-      [
-        entitlement.workspaceId,
-        entitlement.packageId,
-        entitlement.grantedAt,
-      ],
+      [entitlement.workspaceId, entitlement.packageId, entitlement.grantedAt],
     );
   },
 

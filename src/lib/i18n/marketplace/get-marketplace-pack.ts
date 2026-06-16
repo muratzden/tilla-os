@@ -8,10 +8,7 @@ import {
   sampleGermanMarketplacePackV110,
 } from "./sample-german-pack";
 
-const marketplacePacks: Record<
-  string,
-  Record<string, ImportedLanguagePack>
-> = {
+const marketplacePacks: Record<string, Record<string, ImportedLanguagePack>> = {
   "de-marketplace": {
     "1.0.0": sampleGermanMarketplacePack,
     "1.1.0": sampleGermanMarketplacePackV110,
@@ -20,30 +17,25 @@ const marketplacePacks: Record<
 
 export function getMarketplacePack(
   packId: string,
-  version = "1.0.0"
+  version = "1.0.0",
 ): ImportedLanguagePack {
   bootstrapMarketplace();
 
-  const marketplaceProduct =
-    getMarketplacePackage(packId);
+  const marketplaceProduct = getMarketplacePackage(packId);
 
   if (!marketplaceProduct) {
-    throw new Error(
-      `Marketplace product '${packId}' was not found`
-    );
+    throw new Error(`Marketplace product '${packId}' was not found`);
   }
 
   if (marketplaceProduct.type !== "language") {
-    throw new Error(
-      `Marketplace product '${packId}' is not a language pack`
-    );
+    throw new Error(`Marketplace product '${packId}' is not a language pack`);
   }
 
   const packVersions = marketplacePacks[packId];
 
   if (!packVersions) {
     throw new Error(
-      `Language payload for marketplace product '${packId}' was not found`
+      `Language payload for marketplace product '${packId}' was not found`,
     );
   }
 
@@ -51,7 +43,7 @@ export function getMarketplacePack(
 
   if (!pack) {
     throw new Error(
-      `Marketplace pack '${packId}' version '${version}' was not found`
+      `Marketplace pack '${packId}' version '${version}' was not found`,
     );
   }
 

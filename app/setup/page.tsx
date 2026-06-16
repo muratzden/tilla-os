@@ -14,7 +14,7 @@ import {
 
 export default function SetupPage() {
   const [setup, setSetup] = useState(defaultBrandSetup);
-    useEffect(() => {
+  useEffect(() => {
     async function loadWorkspaceBrandSetup() {
       const response = await fetch("/api/workspace/brand-setup");
 
@@ -25,10 +25,8 @@ export default function SetupPage() {
       const result = await response.json();
 
       if (result.brandSetup) {
-  setSetup(
-    normalizeBrandSetup(result.brandSetup),
-  );
-}
+        setSetup(normalizeBrandSetup(result.brandSetup));
+      }
     }
 
     loadWorkspaceBrandSetup();
@@ -282,7 +280,7 @@ export default function SetupPage() {
               </div>
             </div>
           </div>
-                    <button
+          <button
             type="button"
             onClick={async () => {
               const response = await fetch("/api/workspace/brand-setup", {

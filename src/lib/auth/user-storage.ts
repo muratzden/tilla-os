@@ -19,9 +19,8 @@ async function getAuthStorage() {
   }
 
   if (process.env.AUTH_STORAGE_ADAPTER === "postgres") {
-    const { postgresAuthStorageAdapter } = await import(
-      "./postgres-auth-storage-adapter"
-    );
+    const { postgresAuthStorageAdapter } =
+      await import("./postgres-auth-storage-adapter");
 
     authStorage = postgresAuthStorageAdapter;
     return authStorage;
@@ -71,14 +70,10 @@ export async function getSession(token: string) {
   return (await getAuthStorage()).getSession(token);
 }
 
-export async function grantEntitlement(
-  entitlement: MarketplaceEntitlement,
-) {
+export async function grantEntitlement(entitlement: MarketplaceEntitlement) {
   return (await getAuthStorage()).grantEntitlement(entitlement);
 }
 
-export async function getWorkspaceEntitlements(
-  workspaceId: string,
-) {
+export async function getWorkspaceEntitlements(workspaceId: string) {
   return (await getAuthStorage()).getWorkspaceEntitlements(workspaceId);
 }

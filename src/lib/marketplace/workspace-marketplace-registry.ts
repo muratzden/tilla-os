@@ -1,22 +1,12 @@
-import type {
-  MarketplacePackageType,
-} from "./marketplace-package-types";
+import type { MarketplacePackageType } from "./marketplace-package-types";
 
-import type {
-  MarketplaceEntitlement,
-} from "./marketplace-entitlements";
+import type { MarketplaceEntitlement } from "./marketplace-entitlements";
 
-import type {
-  WorkspaceMarketplaceInstallation,
-} from "./workspace-marketplace-types";
+import type { WorkspaceMarketplaceInstallation } from "./workspace-marketplace-types";
 
-import {
-  activationScope,
-} from "./marketplace-activation-scope";
+import { activationScope } from "./marketplace-activation-scope";
 
-import {
-  hasMarketplaceEntitlement,
-} from "@/src/lib/auth/entitlement-service";
+import { hasMarketplaceEntitlement } from "@/src/lib/auth/entitlement-service";
 
 import {
   activateWorkspaceMarketplaceInstallation,
@@ -35,10 +25,7 @@ export async function installWorkspaceMarketplacePackage(
 ) {
   if (
     entitlement !== "free" &&
-    !(await hasMarketplaceEntitlement(
-      workspaceId,
-      packageId,
-    ))
+    !(await hasMarketplaceEntitlement(workspaceId, packageId))
   ) {
     throw new Error(
       `Workspace '${workspaceId}' does not have entitlement for package '${packageId}'`,
@@ -55,9 +42,7 @@ export async function installWorkspaceMarketplacePackage(
     installedAt: new Date().toISOString(),
   };
 
-  await upsertWorkspaceMarketplaceInstallation(
-    installation,
-  );
+  await upsertWorkspaceMarketplaceInstallation(installation);
 
   return installation;
 }
@@ -66,11 +51,10 @@ export async function activateWorkspaceMarketplacePackage(
   workspaceId: string,
   packageId: string,
 ) {
-  const installation =
-    await getWorkspaceMarketplaceInstallation(
-      workspaceId,
-      packageId,
-    );
+  const installation = await getWorkspaceMarketplaceInstallation(
+    workspaceId,
+    packageId,
+  );
 
   if (!installation) {
     throw new Error(
@@ -87,27 +71,19 @@ export async function activateWorkspaceMarketplacePackage(
     );
   }
 
-  await activateWorkspaceMarketplaceInstallation(
-    workspaceId,
-    packageId,
-  );
+  await activateWorkspaceMarketplaceInstallation(workspaceId, packageId);
 }
 
 export async function getWorkspaceMarketplaceInstallations(
   workspaceId: string,
 ) {
-  return getWorkspaceMarketplaceInstallationsFromPostgres(
-    workspaceId,
-  );
+  return getWorkspaceMarketplaceInstallationsFromPostgres(workspaceId);
 }
 
 export async function getActiveWorkspaceMarketplacePackages(
   workspaceId: string,
 ) {
-  const installations =
-    await getWorkspaceMarketplaceInstallations(
-      workspaceId,
-    );
+  const installations = await getWorkspaceMarketplaceInstallations(workspaceId);
 
   return installations.filter((item) => item.active);
 }
@@ -117,11 +93,7 @@ export async function getActiveWorkspaceMarketplacePackageByType(
   type: MarketplacePackageType,
 ) {
   const activePackages =
-    await getActiveWorkspaceMarketplacePackages(
-      workspaceId,
-    );
+    await getActiveWorkspaceMarketplacePackages(workspaceId);
 
-  return activePackages.find(
-    (item) => item.type === type,
-  );
+  return activePackages.find((item) => item.type === type);
 }

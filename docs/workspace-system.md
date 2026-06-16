@@ -12,12 +12,12 @@ A workspace represents the operational container of a brand or organization.
 
 The Workspace System is responsible for:
 
-* Workspace creation
-* Workspace settings persistence
-* Brand setup persistence
-* Membership based access
-* Workspace scoped marketplace activation
-* Future multi-tenant isolation
+- Workspace creation
+- Workspace settings persistence
+- Brand setup persistence
+- Membership based access
+- Workspace scoped marketplace activation
+- Future multi-tenant isolation
 
 ---
 
@@ -29,11 +29,11 @@ Represents a brand, organization, project, or tenant.
 
 A workspace owns:
 
-* Brand setup
-* Marketplace activations
-* Language configuration
-* Output preferences
-* Future billing and subscription state
+- Brand setup
+- Marketplace activations
+- Language configuration
+- Output preferences
+- Future billing and subscription state
 
 ### Membership
 
@@ -41,9 +41,9 @@ Connects a user to a workspace.
 
 A membership defines:
 
-* User access
-* Role
-* Workspace relationship
+- User access
+- Role
+- Workspace relationship
 
 ### Workspace Settings
 
@@ -51,10 +51,10 @@ Stores workspace-specific configuration.
 
 Current examples:
 
-* Brand setup
-* Installed marketplace packages
-* Active output package
-* Language choices
+- Brand setup
+- Installed marketplace packages
+- Active output package
+- Language choices
 
 ---
 
@@ -104,11 +104,11 @@ The workspace model exists to prevent the system from becoming a single-brand pr
 
 It prepares TILLA-OS for:
 
-* Multiple brands
-* Multiple users
-* Role based access
-* Marketplace personalization
-* SaaS productization
+- Multiple brands
+- Multiple users
+- Role based access
+- Marketplace personalization
+- SaaS productization
 
 ---
 
@@ -116,8 +116,8 @@ It prepares TILLA-OS for:
 
 Planned improvements:
 
-* Workspace invitation flow
-* Role based permissions
-* Organization level billing
-* Workspace switching
-* Team collaboration
+- Workspace invitation flow
+- Role based permissions
+- Organization level billing
+- Workspace switching
+- Team collaboration

@@ -1,20 +1,12 @@
-import type {
-  MarketplacePackageType,
-} from "./marketplace-package-types";
+import type { MarketplacePackageType } from "./marketplace-package-types";
 
-import type {
-  MarketplaceEntitlement,
-} from "./marketplace-entitlements";
+import type { MarketplaceEntitlement } from "./marketplace-entitlements";
 
-import type {
-  WorkspaceMarketplaceInstallation,
-} from "./workspace-marketplace-types";
+import type { WorkspaceMarketplaceInstallation } from "./workspace-marketplace-types";
 
 import { executeSql } from "../database/database-client";
 
-function mapInstallation(
-  row: any,
-): WorkspaceMarketplaceInstallation {
+function mapInstallation(row: any): WorkspaceMarketplaceInstallation {
   return {
     workspaceId: row.workspace_id,
     packageId: row.package_id,

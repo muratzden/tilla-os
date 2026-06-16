@@ -22,6 +22,9 @@ import { MissionControl } from "./components/mission-control";
 import { ActivityTimeline } from "./components/activity-timeline";
 import { MobileCommandCenter } from "./components/mobile-command-center";
 import { normalizeBrandSetup } from "@/src/lib/brand/setup/default-brand-setup";
+import { WorkspaceGrid } from "./components/workspace-grid";
+import { BrandHealthStrip } from "./components/brand-health-strip";
+import { ActiveModuleShell } from "./components/active-module-shell";
 
 type OutputLanguage = "tr" | "en" | "de";
 type UILanguage = "tr" | "en";
@@ -139,8 +142,7 @@ export default function DashboardPage() {
   const [workspaceOpen, setWorkspaceOpen] = useState(false);
   const [isMobileNav, setIsMobileNav] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] =
-  useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [authContext, setAuthContext] = useState<AuthContextState | null>(null);
 
   const [languageMarketplace, setLanguageMarketplace] =
@@ -163,12 +165,12 @@ export default function DashboardPage() {
   const pipeline = data?.pipeline;
   const visibleTabs = isMobileNav ? mobileTabs : desktopTabs;
   const activeOutputLanguage = (
-  languageMarketplace.active === "tr" ||
-  languageMarketplace.active === "en" ||
-  languageMarketplace.active === "de"
-    ? languageMarketplace.active
-    : "en"
-) as OutputLanguage;
+    languageMarketplace.active === "tr" ||
+    languageMarketplace.active === "en" ||
+    languageMarketplace.active === "de"
+      ? languageMarketplace.active
+      : "en"
+  ) as OutputLanguage;
 
   function getTabLabel(tab: DashboardTab) {
     if (tab === "overview") return text.dashboard.navigation.overview;
@@ -179,6 +181,58 @@ export default function DashboardPage() {
     if (tab === "decision") return "Decision Engine";
     if (tab === "studios") return "Studios";
     return "Marketplace";
+  }
+
+  function getActiveModuleMeta(tab: DashboardTab) {
+    switch (tab) {
+      case "decision":
+        return {
+          title: "Decision Engine",
+          description: "Evaluate and generate governed brand decisions.",
+        };
+
+      case "brandHealth":
+        return {
+          title: "Governance Center",
+          description: "Monitor alignment, consistency and governance.",
+        };
+
+      case "audit":
+        return {
+          title: "Audit Center",
+          description: "Review brand health and governance reports.",
+        };
+
+      case "studios":
+        return {
+          title: "Studios",
+          description: "Create content and operational outputs.",
+        };
+
+      case "marketplace":
+        return {
+          title: "Marketplace",
+          description: "Manage language packs and system modules.",
+        };
+
+      case "foundation":
+        return {
+          title: "Foundation",
+          description: "Core brand identity and strategic structure.",
+        };
+
+      case "manifesto":
+        return {
+          title: "Manifesto",
+          description: "Brand constitution and guiding principles.",
+        };
+
+      default:
+        return {
+          title: "Overview",
+          description: "High-level operating system overview.",
+        };
+    }
   }
 
   async function generate(nextInput = input) {
@@ -282,27 +336,27 @@ export default function DashboardPage() {
     generate(defaultInput);
   }, []);
 
- async function loadMarketplace() {
-  try {
-    const response = await fetch("/api/language-marketplace");
+  async function loadMarketplace() {
+    try {
+      const response = await fetch("/api/language-marketplace");
 
-    if (!response.ok) {
-      console.error("Language marketplace request failed", response.status);
-      return;
+      if (!response.ok) {
+        console.error("Language marketplace request failed", response.status);
+        return;
+      }
+
+      const json = await response.json();
+
+      if (!json?.active || !Array.isArray(json?.installed)) {
+        console.error("Invalid language marketplace payload", json);
+        return;
+      }
+
+      setLanguageMarketplace(json);
+    } catch (error) {
+      console.error("Language marketplace load failed", error);
     }
-
-    const json = await response.json();
-
-    if (!json?.active || !Array.isArray(json?.installed)) {
-      console.error("Invalid language marketplace payload", json);
-      return;
-    }
-
-    setLanguageMarketplace(json);
-  } catch (error) {
-    console.error("Language marketplace load failed", error);
   }
-}
 
   useEffect(() => {
     loadMarketplace();
@@ -320,14 +374,13 @@ export default function DashboardPage() {
       </div>
 
       <div
-  className={`relative grid min-h-screen grid-cols-1 transition-all duration-300 ${
-    sidebarCollapsed
-      ? "md:grid-cols-[5rem_1fr]"
-      : "md:grid-cols-[17rem_1fr]"
-  }`}
->
-
-                        <aside className="hidden border-r border-white/10 bg-black/30 px-5 py-6 backdrop-blur-xl md:block">
+        className={`relative grid min-h-screen grid-cols-1 transition-all duration-300 ${
+          sidebarCollapsed
+            ? "md:grid-cols-[5rem_1fr]"
+            : "md:grid-cols-[17rem_1fr]"
+        }`}
+      >
+        <aside className="hidden border-r border-white/10 bg-black/30 px-5 py-6 backdrop-blur-xl md:block">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3 overflow-hidden">
               <Image
@@ -360,30 +413,67 @@ export default function DashboardPage() {
             </button>
           </div>
 
-          <nav className="mt-10 space-y-2">
-            {desktopTabs.map((key) => (
-              <button
-                key={key}
-                type="button"
-                title={getTabLabel(key)}
-                onClick={() => setActiveTab(key)}
-                className={`flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition ${
-                  activeTab === key
-                    ? "bg-white text-zinc-950"
-                    : "text-zinc-500 hover:bg-white/5 hover:text-white"
-                } ${sidebarCollapsed ? "justify-center px-0" : "text-left"}`}
-              >
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center text-base">
-                  {tabIcons[key]}
-                </span>
+          <nav className="mt-10">
+            <div className="space-y-2">
+              {desktopTabs
+                .filter((key) => key !== "foundation" && key !== "manifesto")
+                .map((key) => (
+                  <button
+                    key={key}
+                    type="button"
+                    title={getTabLabel(key)}
+                    onClick={() => setActiveTab(key)}
+                    className={`flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition ${
+                      activeTab === key
+                        ? "bg-white text-zinc-950"
+                        : "text-zinc-500 hover:bg-white/5 hover:text-white"
+                    } ${
+                      sidebarCollapsed ? "justify-center px-0" : "text-left"
+                    }`}
+                  >
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center text-base">
+                      {tabIcons[key]}
+                    </span>
 
-                {!sidebarCollapsed && (
-                  <span className="truncate">
-                    {getTabLabel(key)}
-                  </span>
-                )}
-              </button>
-            ))}
+                    {!sidebarCollapsed && (
+                      <span className="truncate">{getTabLabel(key)}</span>
+                    )}
+                  </button>
+                ))}
+            </div>
+
+            {!sidebarCollapsed && (
+              <>
+                <div className="my-6 border-t border-white/10" />
+
+                <div className="mb-3 px-4">
+                  <p className="text-[10px] uppercase tracking-[0.3em] text-zinc-600">
+                    Knowledge
+                  </p>
+                </div>
+
+                <div className="space-y-2">
+                  {["foundation", "manifesto"].map((key) => (
+                    <button
+                      key={key}
+                      type="button"
+                      onClick={() => setActiveTab(key as DashboardTab)}
+                      className={`flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition ${
+                        activeTab === key
+                          ? "bg-white text-zinc-950"
+                          : "text-zinc-500 hover:bg-white/5 hover:text-white"
+                      }`}
+                    >
+                      <span className="flex h-6 w-6 shrink-0 items-center justify-center text-base">
+                        {tabIcons[key as keyof typeof tabIcons]}
+                      </span>
+
+                      <span>{getTabLabel(key as DashboardTab)}</span>
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
           </nav>
 
           {authContext && !sidebarCollapsed && (
@@ -450,106 +540,35 @@ export default function DashboardPage() {
               </div>
             </div>
           </header>
-		  
-<MobileCommandCenter
-  brandName={currentBrand?.name ?? "TILLA"}
-  brandCategory={brandProfile?.category ?? "Premium Brand"}
-  readinessScore={brandReadiness.score}
-  activeOutputLanguage={activeOutputLanguage}
-  workspaceName={authContext?.workspace.name}
-  userEmail={authContext?.user.email}
-  onOpenWorkspace={() =>
-    setWorkspaceOpen((current) => !current)
-  }
-/>
-          <MissionControl
-  readinessScore={brandReadiness.score}
-/>
-<ActivityTimeline />
-          <section className="mb-6 rounded-[2rem] border border-white/10 bg-white/[0.035] p-4 shadow-2xl shadow-black/30 backdrop-blur-xl md:p-6">
-            <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-              <div>
-                <p className="text-xs uppercase tracking-[0.32em] text-zinc-600">
-                  Decision Workspace
-                </p>
 
-                <h3 className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-white">
-                  Generate a governed brand decision
-                </h3>
+          <MobileCommandCenter
+            brandName={currentBrand?.name ?? "TILLA"}
+            brandCategory={brandProfile?.category ?? "Premium Brand"}
+            readinessScore={brandReadiness.score}
+            activeOutputLanguage={activeOutputLanguage}
+            workspaceName={authContext?.workspace.name}
+            userEmail={authContext?.user.email}
+            onOpenWorkspace={() => setWorkspaceOpen((current) => !current)}
+          />
+          <MissionControl readinessScore={brandReadiness.score} />
 
-                <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-500">
-                  Use the input layer only when you need a new decision. The
-                  primary dashboard remains focused on brand health,
-                  governance, and alignment.
-                </p>
-              </div>
+          <BrandHealthStrip readinessScore={brandReadiness.score} />
 
-              <button
-                type="button"
-                onClick={() => setWorkspaceOpen((current) => !current)}
-                className="rounded-2xl border border-white/10 bg-black/20 px-5 py-3 text-sm font-medium text-zinc-300 transition hover:border-white/20 hover:text-white"
-              >
-                {workspaceOpen ? "Hide Workspace" : "Open Workspace"}
-              </button>
-            </div>
+          <ActivityTimeline />
 
-            <div className={`mt-6 ${workspaceOpen ? "block" : "hidden"}`}>
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-6">
-                <Input
-                  label="Type"
-                  value={input.type}
-                  onChange={(value) => setInput({ ...input, type: value })}
-                />
+          <WorkspaceGrid
+            activeTab={activeTab}
+            readinessScore={brandReadiness.score}
+            marketplaceUpdates={languageMarketplace.updates.length}
+            onNavigate={(tab) => {
+              setActiveTab(tab);
 
-                <Input
-                  label="Material"
-                  value={input.material}
-                  onChange={(value) => setInput({ ...input, material: value })}
-                />
-
-                <Input
-                  label="Color"
-                  value={input.color}
-                  onChange={(value) => setInput({ ...input, color: value })}
-                />
-
-                <Input
-                  label="Size"
-                  value={input.size}
-                  onChange={(value) => setInput({ ...input, size: value })}
-                />
-
-                <Input
-                  label="Channel"
-                  value={input.channel}
-                  onChange={(value) => setInput({ ...input, channel: value })}
-                />
-
-                <SelectInput
-                  label={getDashboardText("outputLanguage", uiLanguage)}
-                  value={input.outputLanguage}
-                  options={["tr", "en", "de"]}
-                  onChange={(value) =>
-                    setInput({
-                      ...input,
-                      outputLanguage: value as OutputLanguage,
-                    })
-                  }
-                />
-              </div>
-
-              <button
-                type="button"
-                onClick={() => generate()}
-                disabled={loading}
-                className="mt-6 rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-zinc-950 shadow-xl shadow-white/10 transition hover:bg-zinc-200 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                {loading
-                  ? getDashboardText("generating", uiLanguage)
-                  : getDashboardText("generateDecision", uiLanguage)}
-              </button>
-            </div>
-          </section>
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+              });
+            }}
+          />
 
           <div className="relative mb-5 flex gap-2 overflow-x-auto rounded-2xl border border-white/10 bg-white/[0.035] p-2 md:hidden">
             {visibleTabs.map((key) => (
@@ -566,8 +585,8 @@ export default function DashboardPage() {
                 }`}
               >
                 {sidebarCollapsed
-  ? getTabLabel(key).charAt(0)
-  : getTabLabel(key)}
+                  ? getTabLabel(key).charAt(0)
+                  : getTabLabel(key)}
               </button>
             ))}
 
@@ -610,64 +629,76 @@ export default function DashboardPage() {
             )}
           </div>
 
-          <section className="rounded-[2rem] border border-white/10 bg-zinc-950/60 p-4 shadow-2xl shadow-black/30 backdrop-blur-xl md:p-6">
-            {activeTab === "overview" && (
-              <OverviewTab pipeline={pipeline} uiLanguage={uiLanguage} />
-            )}
+          <ActiveModuleShell
+            title={getActiveModuleMeta(activeTab).title}
+            description={getActiveModuleMeta(activeTab).description}
+          >
+            <section className="rounded-[2rem] border border-white/10 bg-zinc-950/60 p-4 shadow-2xl shadow-black/30 backdrop-blur-xl md:p-6">
+              {activeTab === "overview" && (
+                <OverviewTab pipeline={pipeline} uiLanguage={uiLanguage} />
+              )}
 
-            {activeTab === "foundation" && (
-              <FoundationTab
-                currentBrand={currentBrand}
-                brandReadiness={brandReadiness}
-                brandProfile={brandProfile}
-                language={activeOutputLanguage}
-              />
-            )}
+              {activeTab === "foundation" && (
+                <FoundationTab
+                  currentBrand={currentBrand}
+                  brandReadiness={brandReadiness}
+                  brandProfile={brandProfile}
+                  language={activeOutputLanguage}
+                />
+              )}
 
-            {activeTab === "manifesto" && (
-              <ManifestoTab
-                brandId={currentBrand?.id}
-                language={activeOutputLanguage}
-              />
-            )}
+              {activeTab === "manifesto" && (
+                <ManifestoTab
+                  brandId={currentBrand?.id}
+                  language={activeOutputLanguage}
+                />
+              )}
 
-            {activeTab === "decision" && (
-              <DecisionTab
-                pipeline={pipeline}
-                uiLanguage={uiLanguage}
-                language={activeOutputLanguage}
-              />
-            )}
+              {activeTab === "decision" && (
+                <DecisionTab
+                  pipeline={pipeline}
+                  uiLanguage={uiLanguage}
+                  language={activeOutputLanguage}
+                  input={input}
+                  loading={loading}
+                  onInputChange={setInput}
+                  onGenerate={() => generate()}
+                />
+              )}
 
-            {activeTab === "brandHealth" && (
-              <AuditTab
-                brandId={currentBrand?.id}
-                language={activeOutputLanguage}
-              />
-            )}
+              {activeTab === "brandHealth" && (
+                <AuditTab
+                  brandId={currentBrand?.id}
+                  language={activeOutputLanguage}
+                />
+              )}
 
-            {activeTab === "audit" && (
-              <AuditReportTab
-                brandId={currentBrand?.id}
-                language={activeOutputLanguage}
-              />
-            )}
+              {activeTab === "audit" && (
+                <AuditReportTab
+                  brandId={currentBrand?.id}
+                  language={activeOutputLanguage}
+                />
+              )}
 
-            {activeTab === "studios" && (
-              <OutputTab pipeline={pipeline} language={activeOutputLanguage} />
-            )}
+              {activeTab === "studios" && (
+                <OutputTab
+                  pipeline={pipeline}
+                  language={activeOutputLanguage}
+                />
+              )}
 
-            {activeTab === "marketplace" && (
-              <LanguageMarketplacePanel
-                active={languageMarketplace.active}
-                installed={languageMarketplace.installed}
-                installedLanguages={languageMarketplace.installedLanguages}
-                updates={languageMarketplace.updates}
-                versionHistory={languageMarketplace.versionHistory}
-                onRefresh={loadMarketplace}
-              />
-            )}
-          </section>
+              {activeTab === "marketplace" && (
+                <LanguageMarketplacePanel
+                  active={languageMarketplace.active}
+                  installed={languageMarketplace.installed}
+                  installedLanguages={languageMarketplace.installedLanguages}
+                  updates={languageMarketplace.updates}
+                  versionHistory={languageMarketplace.versionHistory}
+                  onRefresh={loadMarketplace}
+                />
+              )}
+            </section>
+          </ActiveModuleShell>
         </section>
       </div>
     </main>

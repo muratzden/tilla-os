@@ -63,9 +63,7 @@ export function MobileCommandCenter({
             {brandName}
           </h2>
 
-          <p className="mt-1 text-sm text-zinc-500">
-            {brandCategory}
-          </p>
+          <p className="mt-1 text-sm text-zinc-500">{brandCategory}</p>
         </div>
 
         <div className="mt-4 grid grid-cols-[1fr_0.8fr] gap-3">
@@ -79,9 +77,7 @@ export function MobileCommandCenter({
               <span className="text-xl text-zinc-600">%</span>
             </p>
 
-            <p className="mt-2 text-xs text-zinc-500">
-              Foundation strength
-            </p>
+            <p className="mt-2 text-xs text-zinc-500">Foundation strength</p>
           </div>
 
           <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.035] p-4">
@@ -93,9 +89,7 @@ export function MobileCommandCenter({
               {activeOutputLanguage.toUpperCase()}
             </p>
 
-            <p className="mt-2 text-xs text-zinc-500">
-              Marketplace controlled
-            </p>
+            <p className="mt-2 text-xs text-zinc-500">Marketplace controlled</p>
           </div>
         </div>
 
@@ -142,9 +136,7 @@ export function MobileCommandCenter({
           )}
 
           {userEmail && (
-            <p className="mt-1 truncate text-xs text-zinc-500">
-              {userEmail}
-            </p>
+            <p className="mt-1 truncate text-xs text-zinc-500">{userEmail}</p>
           )}
         </div>
       )}

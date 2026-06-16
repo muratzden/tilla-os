@@ -5,7 +5,7 @@ import { getLatestPackageVersion } from "./package-registry";
 export function installMarketplacePack(
   workspaceId: string,
   packId: string,
-  version?: string
+  version?: string,
 ) {
   const resolvedVersion = version ?? getLatestPackageVersion(packId);
 

@@ -20,7 +20,7 @@ export const restaurantIndustryPackManifest: MarketplaceManifest = {
   price: 49,
 
   currency: "USD",
-  
+
   requiredEntitlement: "purchased",
 
   categories: ["industry", "restaurant", "hospitality"],
@@ -43,22 +43,9 @@ export const restaurantIndustryPackPayload: IndustryMarketplacePayload = {
 
   industryName: "Restaurant",
 
-  defaultArchetypes: [
-    "warm_host",
-    "local_craft",
-    "premium_hospitality",
-  ],
+  defaultArchetypes: ["warm_host", "local_craft", "premium_hospitality"],
 
-  defaultWorlds: [
-    "neighborhood_table",
-    "open_kitchen",
-    "slow_evening",
-  ],
+  defaultWorlds: ["neighborhood_table", "open_kitchen", "slow_evening"],
 
-  recommendedChannels: [
-    "instagram",
-    "google_business",
-    "menu",
-    "local_ads",
-  ],
+  recommendedChannels: ["instagram", "google_business", "menu", "local_ads"],
 };

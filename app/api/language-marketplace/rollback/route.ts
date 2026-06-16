@@ -14,13 +14,13 @@ export async function POST(request: Request) {
         },
         {
           status: 400,
-        }
+        },
       );
     }
 
     const result = rollbackLanguagePack(
       workspaceId,
-      body.language as OutputLanguage
+      body.language as OutputLanguage,
     );
 
     return NextResponse.json({
@@ -37,7 +37,7 @@ export async function POST(request: Request) {
       },
       {
         status: 500,
-      }
+      },
     );
   }
 }

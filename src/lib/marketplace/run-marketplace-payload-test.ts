@@ -1,44 +1,23 @@
-import { bootstrapMarketplace }
-from "./bootstrap-marketplace";
+import { bootstrapMarketplace } from "./bootstrap-marketplace";
 
-import {
-  getMarketplacePayload,
-}
-from "./marketplace-package-registry";
+import { getMarketplacePayload } from "./marketplace-package-registry";
 
 bootstrapMarketplace();
 
-const language =
-  getMarketplacePayload(
-    "de-marketplace"
-  );
+const language = getMarketplacePayload("de-marketplace");
 
-const restaurant =
-  getMarketplacePayload(
-    "restaurant-industry-pack"
-  );
+const restaurant = getMarketplacePayload("restaurant-industry-pack");
 
-const personal =
-  getMarketplacePayload(
-    "personal-brand-founder-pack"
-  );
+const personal = getMarketplacePayload("personal-brand-founder-pack");
 
-console.log(
-  "Marketplace Payload Test"
-);
+console.log("Marketplace Payload Test");
 
 console.log({
-  passed:
-    !!language &&
-    !!restaurant &&
-    !!personal,
+  passed: !!language && !!restaurant && !!personal,
 
-  languageType:
-    language?.payload.type,
+  languageType: language?.payload.type,
 
-  restaurantType:
-    restaurant?.payload.type,
+  restaurantType: restaurant?.payload.type,
 
-  personalType:
-    personal?.payload.type,
+  personalType: personal?.payload.type,
 });

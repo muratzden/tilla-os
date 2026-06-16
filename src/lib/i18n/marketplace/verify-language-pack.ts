@@ -6,7 +6,7 @@ import {
 } from "./language-pack-signature";
 
 export function verifyLanguagePackSignature(
-  pack: ImportedLanguagePack
+  pack: ImportedLanguagePack,
 ): boolean {
   const signature = pack.manifest.signature;
 

@@ -3,11 +3,7 @@ import path from "path";
 
 import type { AuthStorageState } from "./auth-storage-types";
 
-const storagePath = path.join(
-  process.cwd(),
-  ".data",
-  "auth-storage.json",
-);
+const storagePath = path.join(process.cwd(), ".data", "auth-storage.json");
 
 export function createDefaultAuthStorageState(): AuthStorageState {
   return {
@@ -46,13 +42,8 @@ export function loadJsonAuthStorageState(): AuthStorageState {
   return JSON.parse(raw) as AuthStorageState;
 }
 
-export function saveJsonAuthStorageState(
-  state: AuthStorageState,
-) {
+export function saveJsonAuthStorageState(state: AuthStorageState) {
   ensureJsonAuthStorageFile();
 
-  fs.writeFileSync(
-    storagePath,
-    JSON.stringify(state, null, 2),
-  );
+  fs.writeFileSync(storagePath, JSON.stringify(state, null, 2));
 }

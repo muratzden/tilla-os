@@ -1,6 +1,4 @@
-import {
-  loadInstalledLanguagePacks,
-} from "./installed-pack-storage";
+import { loadInstalledLanguagePacks } from "./installed-pack-storage";
 
 export function getInstalledPack(language: string) {
   const repository = loadInstalledLanguagePacks();
@@ -11,7 +9,5 @@ export function getInstalledPack(language: string) {
     return undefined;
   }
 
-  return registryRecord.versions[
-    registryRecord.latestVersion
-  ];
+  return registryRecord.versions[registryRecord.latestVersion];
 }

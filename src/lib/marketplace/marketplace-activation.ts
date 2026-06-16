@@ -4,35 +4,22 @@ import {
   saveInstalledPackages,
 } from "./marketplace-installation-registry";
 
-import {
-  activationScope,
-} from "./marketplace-activation-scope";
+import { activationScope } from "./marketplace-activation-scope";
 
-export function activateMarketplacePackage(
-  packageId: string
-) {
-  const installed =
-    getInstalledPackage(packageId);
+export function activateMarketplacePackage(packageId: string) {
+  const installed = getInstalledPackage(packageId);
 
   if (!installed) {
-    throw new Error(
-      `Package '${packageId}' is not installed`
-    );
+    throw new Error(`Package '${packageId}' is not installed`);
   }
 
-  const scope =
-    activationScope[
-      installed.type as keyof typeof activationScope
-    ];
+  const scope = activationScope[installed.type as keyof typeof activationScope];
 
   if (scope === "single") {
-    const packages =
-      getInstalledPackages();
+    const packages = getInstalledPackages();
 
     for (const pkg of packages) {
-      if (
-        pkg.type === installed.type
-      ) {
+      if (pkg.type === installed.type) {
         pkg.active = false;
       }
     }
@@ -43,16 +30,11 @@ export function activateMarketplacePackage(
   saveInstalledPackages();
 }
 
-export function deactivateMarketplacePackage(
-  packageId: string
-) {
-  const installed =
-    getInstalledPackage(packageId);
+export function deactivateMarketplacePackage(packageId: string) {
+  const installed = getInstalledPackage(packageId);
 
   if (!installed) {
-    throw new Error(
-      `Package '${packageId}' is not installed`
-    );
+    throw new Error(`Package '${packageId}' is not installed`);
   }
 
   installed.active = false;

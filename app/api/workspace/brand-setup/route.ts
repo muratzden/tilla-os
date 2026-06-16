@@ -25,13 +25,11 @@ export async function GET() {
   if (!auth) {
     return NextResponse.json(
       { success: false, error: "Unauthorized" },
-      { status: 401 }
+      { status: 401 },
     );
   }
 
-  const brandSetup = getWorkspaceBrandSetup(
-    auth.workspace.id
-  );
+  const brandSetup = getWorkspaceBrandSetup(auth.workspace.id);
 
   return NextResponse.json({
     success: true,
@@ -45,16 +43,13 @@ export async function POST(request: Request) {
   if (!auth) {
     return NextResponse.json(
       { success: false, error: "Unauthorized" },
-      { status: 401 }
+      { status: 401 },
     );
   }
 
   const brandSetup = await request.json();
 
-  saveWorkspaceBrandSetup(
-    auth.workspace.id,
-    brandSetup
-  );
+  saveWorkspaceBrandSetup(auth.workspace.id, brandSetup);
 
   return NextResponse.json({
     success: true,

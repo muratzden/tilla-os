@@ -48,7 +48,9 @@ export type MarketplacePayload =
   | ComplianceMarketplacePayload
   | ThemeMarketplacePayload;
 
-export type MarketplacePackage<TPayload extends MarketplacePayload = MarketplacePayload> = {
+export type MarketplacePackage<
+  TPayload extends MarketplacePayload = MarketplacePayload,
+> = {
   manifest: MarketplaceManifest;
   payload: TPayload;
 };

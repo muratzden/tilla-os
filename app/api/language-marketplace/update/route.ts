@@ -13,14 +13,11 @@ export async function POST(request: Request) {
         },
         {
           status: 400,
-        }
+        },
       );
     }
 
-    const result = updateLanguagePack(
-      workspaceId,
-      body.language
-    );
+    const result = updateLanguagePack(workspaceId, body.language);
 
     return NextResponse.json({
       success: true,
@@ -36,7 +33,7 @@ export async function POST(request: Request) {
       },
       {
         status: 500,
-      }
+      },
     );
   }
 }

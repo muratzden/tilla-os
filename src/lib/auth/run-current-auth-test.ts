@@ -1,13 +1,8 @@
 import "dotenv/config";
 
-import {
-  ensureOwnerAccount,
-  login,
-} from "./auth-service";
+import { ensureOwnerAccount, login } from "./auth-service";
 
-import {
-  getCurrentAuthContext,
-} from "./current-auth";
+import { getCurrentAuthContext } from "./current-auth";
 
 async function runCurrentAuthTest() {
   const owner = await ensureOwnerAccount(
@@ -16,14 +11,9 @@ async function runCurrentAuthTest() {
     "Tilla Workspace",
   );
 
-  const session = await login(
-    "owner@tilla.test",
-    "123456",
-  );
+  const session = await login("owner@tilla.test", "123456");
 
-  const context = await getCurrentAuthContext(
-    session.token,
-  );
+  const context = await getCurrentAuthContext(session.token);
 
   console.log("Current Auth Test");
 

@@ -1,5 +1,4 @@
-import type { MarketplaceManifest }
-from "../marketplace-manifest-types";
+import type { MarketplaceManifest } from "../marketplace-manifest-types";
 
 export const germanLanguagePack: MarketplaceManifest = {
   id: "de-marketplace",
@@ -10,8 +9,7 @@ export const germanLanguagePack: MarketplaceManifest = {
 
   nativeName: "Deutsch",
 
-  description:
-    "German language output pack for TILLA-OS",
+  description: "German language output pack for TILLA-OS",
 
   version: "1.1.0",
 
@@ -22,16 +20,12 @@ export const germanLanguagePack: MarketplaceManifest = {
   price: 0,
 
   currency: "USD",
-  
+
   requiredEntitlement: "free",
 
   categories: ["language"],
 
-  tags: [
-    "german",
-    "translation",
-    "output"
-  ],
+  tags: ["german", "translation", "output"],
 
   screenshots: [],
 

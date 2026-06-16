@@ -23,48 +23,49 @@ const cards = [
   },
 ];
 
-export function MissionControl({
-  readinessScore,
-}: MissionControlProps) {
+export function MissionControl({ readinessScore }: MissionControlProps) {
   return (
-    <section className="mb-6">
-      <div className="mb-4 flex items-center justify-between">
+    <section className="mb-8 overflow-hidden rounded-[2.25rem] border border-white/10 bg-gradient-to-br from-white/[0.065] to-white/[0.018] p-5 shadow-[0_24px_90px_rgba(0,0,0,0.48)] backdrop-blur-xl md:p-8">
+      <div className="mb-7 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
         <div>
-          <p className="text-xs uppercase tracking-[0.3em] text-zinc-600">
+          <p className="text-xs uppercase tracking-[0.34em] text-zinc-600">
             Mission Control
           </p>
 
-          <h2 className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-white">
+          <h2 className="mt-3 text-3xl font-semibold tracking-[-0.05em] text-white md:text-4xl">
             Brand Health Center
           </h2>
+
+          <p className="mt-3 max-w-3xl text-sm leading-7 text-zinc-400 md:text-base">
+            Executive command layer for brand readiness, governance, memory and
+            alignment.
+          </p>
         </div>
 
-        <div className="hidden rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1 text-xs font-medium text-emerald-300 md:block">
+        <div className="w-fit rounded-full border border-white/10 bg-white/[0.05] px-4 py-2 text-xs font-medium uppercase tracking-[0.18em] text-zinc-300">
           Governance Active
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <div className="rounded-[2rem] border border-white/10 bg-gradient-to-b from-white/[0.08] to-white/[0.03] p-5 shadow-2xl shadow-black/30 backdrop-blur-xl">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+        <div className="rounded-[2rem] border border-white/10 bg-black/25 p-5 shadow-2xl shadow-black/30 backdrop-blur">
           <p className="text-xs uppercase tracking-[0.24em] text-zinc-600">
             Brand Health
           </p>
 
           <div className="mt-5">
-            <div className="text-5xl font-semibold tracking-[-0.08em] text-white">
+            <div className="text-6xl font-semibold tracking-[-0.09em] text-white">
               {readinessScore}
             </div>
 
-            <div className="mt-2 text-sm text-zinc-500">
-              Foundation Score
-            </div>
+            <div className="mt-2 text-sm text-zinc-500">Foundation Score</div>
           </div>
         </div>
 
         {cards.map((card) => (
           <div
             key={card.id}
-            className="rounded-[2rem] border border-white/10 bg-white/[0.035] p-5 shadow-xl shadow-black/20 backdrop-blur"
+            className="rounded-[2rem] border border-white/10 bg-black/20 p-5 shadow-xl shadow-black/20 backdrop-blur"
           >
             <p className="text-xs uppercase tracking-[0.24em] text-zinc-600">
               {card.title}
@@ -75,9 +76,7 @@ export function MissionControl({
                 {card.value}
               </div>
 
-              <div className="mt-2 text-sm text-zinc-500">
-                {card.status}
-              </div>
+              <div className="mt-2 text-sm text-zinc-500">{card.status}</div>
             </div>
           </div>
         ))}

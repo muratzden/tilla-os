@@ -25,33 +25,35 @@ export const trOutputPack: OutputPack = {
     risky: "Riskli",
     blocked: "Engellendi",
   },
-  
+
   auditText: {
-  violations: {
-    forbiddenDirection: "İçerik yasaklı marka yönü sinyali veriyor: {{value}}",
+    violations: {
+      forbiddenDirection:
+        "İçerik yasaklı marka yönü sinyali veriyor: {{value}}",
+    },
+    recommendations: {
+      removeOrReframe:
+        "{{value}} yönünü çağrıştıran içeriği kaldır veya yeniden çerçevele.",
+      strengthenBrandSignal: "{{value}} etrafındaki marka sinyalini güçlendir.",
+    },
+    driftAnalysis: {
+      aligned:
+        "İçerik; manifesto, constitution ve mevcut marka hafızasıyla genel olarak uyumlu.",
+      fragmenting:
+        "İçerik marka parçalanmasını artırabilir; mevcut hafıza zaten tutarsız yön gösteriyor.",
+      shifting:
+        "İçerik dikkatle incelenmeli; marka hafızası yön değişimi sinyali veriyor.",
+      partialDrift:
+        "İçerik kısmi marka sapması gösteriyor ve yayın öncesi düzeltilmeli.",
+      critical:
+        "İçerik temel governance kurallarını ihlal ediyor ve yayınlanmamalı.",
+    },
+    governanceSignals: {
+      forbiddenDirectionDetected: "Yasaklı marka yönü tespit edildi.",
+      lowAlignment: "Marka uyumu kabul edilebilir çalışma aralığının altında.",
+      consistencyNotStable: "Marka tutarlılık trendi stabil değil: {{value}}.",
+    },
   },
-  recommendations: {
-    removeOrReframe: "{{value}} yönünü çağrıştıran içeriği kaldır veya yeniden çerçevele.",
-    strengthenBrandSignal: "{{value}} etrafındaki marka sinyalini güçlendir.",
-  },
-  driftAnalysis: {
-    aligned:
-      "İçerik; manifesto, constitution ve mevcut marka hafızasıyla genel olarak uyumlu.",
-    fragmenting:
-      "İçerik marka parçalanmasını artırabilir; mevcut hafıza zaten tutarsız yön gösteriyor.",
-    shifting:
-      "İçerik dikkatle incelenmeli; marka hafızası yön değişimi sinyali veriyor.",
-    partialDrift:
-      "İçerik kısmi marka sapması gösteriyor ve yayın öncesi düzeltilmeli.",
-    critical:
-      "İçerik temel governance kurallarını ihlal ediyor ve yayınlanmamalı.",
-  },
-  governanceSignals: {
-    forbiddenDirectionDetected: "Yasaklı marka yönü tespit edildi.",
-    lowAlignment: "Marka uyumu kabul edilebilir çalışma aralığının altında.",
-    consistencyNotStable: "Marka tutarlılık trendi stabil değil: {{value}}.",
-  },
-},
 
   decisionLabels: {
     selected: "Seçildi",
@@ -71,102 +73,101 @@ export const trOutputPack: OutputPack = {
     lighting: "Işık",
     composition: "Kompozisyon",
   },
-  
+
   visualPromptText: {
-  subject: {
-    premiumHandcraftedLeather: "Ultra premium el yapımı deri",
-    honestArtisanPhotography: "dürüst zanaatkâr ürün fotoğrafçılığı",
+    subject: {
+      premiumHandcraftedLeather: "Ultra premium el yapımı deri",
+      honestArtisanPhotography: "dürüst zanaatkâr ürün fotoğrafçılığı",
+    },
+
+    material: {
+      visibleNaturalGrain: "görünür doğal deri dokusu",
+      subtleSurfaceVariation: "ince gözenekler ve yüzey farklılıkları",
+      controlledHandmadeCharacter: "kontrollü el yapımı karakter",
+      notFactoryPerfect:
+        "fabrika kusursuzluğunda değil, birebir aynı değil, steril değil",
+    },
+
+    lighting: {
+      controlledShadows: "kontrollü gölgeler",
+      softHighlightDiscipline: "yumuşak vurgu ışığı disiplini",
+    },
+
+    camera: {
+      realisticEditorialProductPhotography:
+        "gerçekçi editoryal ürün fotoğrafçılığı",
+    },
+
+    composition: {
+      premiumNegativeSpace: "premium negatif alan",
+      quietLuxuryProductPlacement: "sessiz lüks ürün yerleşimi",
+      colorPalette: "renk paleti",
+    },
+
+    atmosphere: {
+      earnedConfidence: "hak edilmiş özgüven",
+      calmEuropeanArtisanLuxury: "sakin Avrupa zanaatkâr lüksü",
+    },
+
+    microDetails: {
+      title: "MİKRO DETAYLAR",
+      handStitching: "el dikişi",
+      edgeBurnishing: "kenar perdahı",
+      naturalLeatherVariation: "doğal deri varyasyonu",
+      humanCraftEvidence: "insan emeği izi",
+      intentionalImperfection: "bilinçli kusursuz olmama hali",
+      materialTruth: "malzeme gerçekliği",
+    },
+
+    negativePrompt: [
+      "yazı",
+      "filigran",
+      "logo bozulması",
+      "sahte deri",
+      "plastik doku",
+      "sentetik parlaklık",
+      "ucuz aksesuarlar",
+      "karmaşa",
+      "aşırı patlamış ışıklar",
+      "aşırı doygun renkler",
+      "altın lüks klişeleri",
+      "fabrika kusursuzluğunda steril yüzey",
+      "seri üretim görünümü",
+      "düşük çözünürlük",
+      "çizgi film tarzı",
+      "AI artefaktları",
+    ],
   },
 
-  material: {
-    visibleNaturalGrain: "görünür doğal deri dokusu",
-    subtleSurfaceVariation: "ince gözenekler ve yüzey farklılıkları",
-    controlledHandmadeCharacter: "kontrollü el yapımı karakter",
-    notFactoryPerfect: "fabrika kusursuzluğunda değil, birebir aynı değil, steril değil",
-  },
+  narrative: {
+    warmHeritage: {
+      narrative: "Kullanıldıkça karakter kazanan nesneler.",
+      productLanguage: {
+        opening: "Zamanla karakter kazanan bir deri parça.",
+        material:
+          "Doğal dokusu ve sıcak tonu, kullanım izleriyle kişisel bir hikâyeye dönüşür.",
+        emotion: "Gösterişli değil; sakin, dürüst ve kalıcı.",
+      },
+    },
 
-  lighting: {
-    controlledShadows: "kontrollü gölgeler",
-    softHighlightDiscipline: "yumuşak vurgu ışığı disiplini",
-  },
+    quietPower: {
+      narrative: "Gösterişsiz özgüven.",
+      productLanguage: {
+        opening: "Sessiz ama güçlü bir duruş.",
+        material: "Koyu deri yüzey, net form ve kontrollü detaylarla birleşir.",
+        emotion: "Gereksiz hiçbir şey yok; yalnızca işlev, denge ve otorite.",
+      },
+    },
 
-  camera: {
-    realisticEditorialProductPhotography: "gerçekçi editoryal ürün fotoğrafçılığı",
-  },
-
-  composition: {
-    premiumNegativeSpace: "premium negatif alan",
-    quietLuxuryProductPlacement: "sessiz lüks ürün yerleşimi",
-    colorPalette: "renk paleti",
-  },
-
-  atmosphere: {
-    earnedConfidence: "hak edilmiş özgüven",
-    calmEuropeanArtisanLuxury: "sakin Avrupa zanaatkâr lüksü",
-  },
-
-  microDetails: {
-    title: "MİKRO DETAYLAR",
-    handStitching: "el dikişi",
-    edgeBurnishing: "kenar perdahı",
-    naturalLeatherVariation: "doğal deri varyasyonu",
-    humanCraftEvidence: "insan emeği izi",
-    intentionalImperfection: "bilinçli kusursuz olmama hali",
-    materialTruth: "malzeme gerçekliği",
-  },
-
-  negativePrompt: [
-    "yazı",
-    "filigran",
-    "logo bozulması",
-    "sahte deri",
-    "plastik doku",
-    "sentetik parlaklık",
-    "ucuz aksesuarlar",
-    "karmaşa",
-    "aşırı patlamış ışıklar",
-    "aşırı doygun renkler",
-    "altın lüks klişeleri",
-    "fabrika kusursuzluğunda steril yüzey",
-    "seri üretim görünümü",
-    "düşük çözünürlük",
-    "çizgi film tarzı",
-    "AI artefaktları",
-  ],
-},
-
-narrative: {
-  warmHeritage: {
-    narrative: "Kullanıldıkça karakter kazanan nesneler.",
-    productLanguage: {
-      opening: "Zamanla karakter kazanan bir deri parça.",
-      material:
-        "Doğal dokusu ve sıcak tonu, kullanım izleriyle kişisel bir hikâyeye dönüşür.",
-      emotion: "Gösterişli değil; sakin, dürüst ve kalıcı.",
+    default: {
+      narrative: "Gündelik hayat için sessiz zanaatkârlık.",
+      productLanguage: {
+        opening: "Zamansız bir deri parça.",
+        material: "Doğal deri dokusu, sade form ve el işçiliğiyle birleşir.",
+        emotion: "Sessiz, dengeli ve uzun ömürlü.",
+      },
     },
   },
-
-  quietPower: {
-    narrative: "Gösterişsiz özgüven.",
-    productLanguage: {
-      opening: "Sessiz ama güçlü bir duruş.",
-      material:
-        "Koyu deri yüzey, net form ve kontrollü detaylarla birleşir.",
-      emotion:
-        "Gereksiz hiçbir şey yok; yalnızca işlev, denge ve otorite.",
-    },
-  },
-
-  default: {
-    narrative: "Gündelik hayat için sessiz zanaatkârlık.",
-    productLanguage: {
-      opening: "Zamansız bir deri parça.",
-      material:
-        "Doğal deri dokusu, sade form ve el işçiliğiyle birleşir.",
-      emotion: "Sessiz, dengeli ve uzun ömürlü.",
-    },
-  },
-},
 
   expressions: {
     materials: {
@@ -274,7 +275,6 @@ narrative: {
         description: "Temiz, kontrollü ve üretime odaklı stüdyo sahnesi",
       },
     },
-	
 
     emotions: {
       quiet_confidence: {
@@ -361,42 +361,39 @@ narrative: {
       label: "Premium editoryal kompozisyon",
       description: "Yüksek algılı, rafine ve yayın kalitesinde kompozisyon",
     },
-	hero_composition: {
-  label: "premium kahraman kompozisyonu",
-  description: "Ana ürünü güçlü, sade ve premium bir sahne düzeniyle öne çıkaran kompozisyon.",
-},
-leica_m11: {
-  label: "Leica M11 editoryal fotoğrafçılık",
-  description: "Premium, gerçekçi ve editoryal ürün fotoğrafçılığı hissi.",
-},
-hasselblad_x2d: {
-  label: "Hasselblad X2D orta format fotoğrafçılık",
-  description: "Yüksek detaylı, rafine ve premium orta format görsel kalite.",
-},
-phase_one: {
-  label: "Phase One ticari lüks fotoğrafçılık",
-  description: "Yüksek seviye ticari ürün ve lüks marka fotoğrafçılığı.",
-},
-canon_r5: {
-  label: "Canon R5 profesyonel ürün fotoğrafçılığı",
-  description: "Gerçekçi, net ve profesyonel ürün fotoğrafçılığı.",
-},
+    hero_composition: {
+      label: "premium kahraman kompozisyonu",
+      description:
+        "Ana ürünü güçlü, sade ve premium bir sahne düzeniyle öne çıkaran kompozisyon.",
+    },
+    leica_m11: {
+      label: "Leica M11 editoryal fotoğrafçılık",
+      description: "Premium, gerçekçi ve editoryal ürün fotoğrafçılığı hissi.",
+    },
+    hasselblad_x2d: {
+      label: "Hasselblad X2D orta format fotoğrafçılık",
+      description:
+        "Yüksek detaylı, rafine ve premium orta format görsel kalite.",
+    },
+    phase_one: {
+      label: "Phase One ticari lüks fotoğrafçılık",
+      description: "Yüksek seviye ticari ürün ve lüks marka fotoğrafçılığı.",
+    },
+    canon_r5: {
+      label: "Canon R5 profesyonel ürün fotoğrafçılığı",
+      description: "Gerçekçi, net ve profesyonel ürün fotoğrafçılığı.",
+    },
   },
-    advisor: {
+  advisor: {
     warnings: {
-      archetypeConflict:
-        "Mevcut karar baskın arketiple çelişiyor.",
-      worldConflict:
-        "Mevcut dünya baskın marka dünyasından farklı.",
-      consistencyWeakening:
-        "Marka tutarlılığı zayıflıyor.",
+      archetypeConflict: "Mevcut karar baskın arketiple çelişiyor.",
+      worldConflict: "Mevcut dünya baskın marka dünyasından farklı.",
+      consistencyWeakening: "Marka tutarlılığı zayıflıyor.",
     },
 
     opportunities: {
-      archetypeReinforced:
-        "Mevcut karar baskın arketipi güçlendiriyor.",
-      worldStrengthened:
-        "Mevcut karar baskın marka dünyasını güçlendiriyor.",
+      archetypeReinforced: "Mevcut karar baskın arketipi güçlendiriyor.",
+      worldStrengthened: "Mevcut karar baskın marka dünyasını güçlendiriyor.",
       insufficientMemory:
         "Güçlü danışmanlık yargısı için henüz yeterli marka hafızası yok.",
     },
@@ -404,8 +401,7 @@ canon_r5: {
     actions: {
       reviewArchetypeDrift:
         "Bu yönü genişletmeden önce arketip sapmasını gözden geçir.",
-      compareWorldNarrative:
-        "Bu dünyayı baskın anlatı ortamıyla karşılaştır.",
+      compareWorldNarrative: "Bu dünyayı baskın anlatı ortamıyla karşılaştır.",
       pauseCampaignExpansion:
         "Tutarlılık güçlenene kadar büyük kampanya genişlemesini durdur.",
       expandDominantWorld:
@@ -413,38 +409,32 @@ canon_r5: {
     },
   },
   governanceAuditText: {
-  publishReadiness: {
-    blocked: "Yayın engellendi.",
-    ready: "Yayınlanabilir.",
-  },
-  
-  constitution: {
-  approved: "Marka Anayasası tarafından onaylandı.",
-  rejected: "Marka Anayasası tarafından reddedildi.",
-},
+    publishReadiness: {
+      blocked: "Yayın engellendi.",
+      ready: "Yayınlanabilir.",
+    },
 
-  vetoRisk: {
-    high: "Yüksek veto riski tespit edildi.",
-    medium: "Orta düzey veto riski tespit edildi.",
-    low: "Düşük veto riski.",
-  },
+    constitution: {
+      approved: "Marka Anayasası tarafından onaylandı.",
+      rejected: "Marka Anayasası tarafından reddedildi.",
+    },
 
-  recommendations: {
-    forbiddenDirectionDetected:
-      "Yasaklı marka yönelimi tespit edildi.",
-    corePrincipleConflict:
-      "Temel marka ilkesiyle çatışma tespit edildi.",
-    governancePassed:
-      "İçerik temel governance kurallarından geçti.",
-  },
+    vetoRisk: {
+      high: "Yüksek veto riski tespit edildi.",
+      medium: "Orta düzey veto riski tespit edildi.",
+      low: "Düşük veto riski.",
+    },
 
-  signals: {
-    forbiddenDirectionDetected:
-      "Yasaklı yönelim algılandı.",
-    corePrincipleConflict:
-      "Temel ilke çatışması algılandı.",
-    governancePassed:
-      "Governance doğrulaması başarılı.",
+    recommendations: {
+      forbiddenDirectionDetected: "Yasaklı marka yönelimi tespit edildi.",
+      corePrincipleConflict: "Temel marka ilkesiyle çatışma tespit edildi.",
+      governancePassed: "İçerik temel governance kurallarından geçti.",
+    },
+
+    signals: {
+      forbiddenDirectionDetected: "Yasaklı yönelim algılandı.",
+      corePrincipleConflict: "Temel ilke çatışması algılandı.",
+      governancePassed: "Governance doğrulaması başarılı.",
+    },
   },
-},
 };
