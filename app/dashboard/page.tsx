@@ -18,6 +18,9 @@ import { OutputTab } from "./components/output-tab";
 import { AuditTab } from "./components/audit-tab";
 import { AuditReportTab } from "./components/audit-report-tab";
 import { LanguageMarketplacePanel } from "./components/language-marketplace-panel";
+import { MissionControl } from "./components/mission-control";
+import { ActivityTimeline } from "./components/activity-timeline";
+import { MobileCommandCenter } from "./components/mobile-command-center";
 import { normalizeBrandSetup } from "@/src/lib/brand/setup/default-brand-setup";
 
 type OutputLanguage = "tr" | "en" | "de";
@@ -113,6 +116,17 @@ const mobileTabs: readonly DashboardTab[] = [
 ];
 
 const moreTabs: readonly DashboardTab[] = ["foundation", "manifesto"];
+
+const tabIcons: Record<DashboardTab, string> = {
+  overview: "◉",
+  foundation: "◇",
+  manifesto: "§",
+  brandHealth: "◆",
+  audit: "◌",
+  decision: "✦",
+  studios: "✎",
+  marketplace: "▣",
+};
 
 export default function DashboardPage() {
   const [input, setInput] = useState<InputState>(defaultInput);
@@ -313,7 +327,7 @@ export default function DashboardPage() {
   }`}
 >
 
-                <aside className="hidden border-r border-white/10 bg-black/30 px-5 py-6 backdrop-blur-xl md:block">
+                        <aside className="hidden border-r border-white/10 bg-black/30 px-5 py-6 backdrop-blur-xl md:block">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3 overflow-hidden">
               <Image
@@ -351,16 +365,23 @@ export default function DashboardPage() {
               <button
                 key={key}
                 type="button"
+                title={getTabLabel(key)}
                 onClick={() => setActiveTab(key)}
-                className={`w-full rounded-2xl px-4 py-3 text-left text-sm font-medium transition ${
+                className={`flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition ${
                   activeTab === key
                     ? "bg-white text-zinc-950"
                     : "text-zinc-500 hover:bg-white/5 hover:text-white"
-                } ${sidebarCollapsed ? "text-center" : ""}`}
+                } ${sidebarCollapsed ? "justify-center px-0" : "text-left"}`}
               >
-                {sidebarCollapsed
-                  ? getTabLabel(key).charAt(0)
-                  : getTabLabel(key)}
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center text-base">
+                  {tabIcons[key]}
+                </span>
+
+                {!sidebarCollapsed && (
+                  <span className="truncate">
+                    {getTabLabel(key)}
+                  </span>
+                )}
               </button>
             ))}
           </nav>
@@ -429,33 +450,22 @@ export default function DashboardPage() {
               </div>
             </div>
           </header>
-
-          <section className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-4">
-            <StatCard
-              label="Current Brand"
-              value={currentBrand?.name ?? "TILLA"}
-              detail={brandProfile?.category ?? "Premium Brand"}
-            />
-
-            <StatCard
-              label={text.dashboard.labels.readiness}
-              value={`${brandReadiness.score}%`}
-              detail="Foundation readiness"
-            />
-
-            <StatCard
-              label="Governance"
-              value="Protected"
-              detail="Constitution active"
-            />
-
-            <StatCard
-              label="Output Language"
-              value={activeOutputLanguage.toUpperCase()}
-              detail="Marketplace controlled"
-            />
-          </section>
-
+		  
+<MobileCommandCenter
+  brandName={currentBrand?.name ?? "TILLA"}
+  brandCategory={brandProfile?.category ?? "Premium Brand"}
+  readinessScore={brandReadiness.score}
+  activeOutputLanguage={activeOutputLanguage}
+  workspaceName={authContext?.workspace.name}
+  userEmail={authContext?.user.email}
+  onOpenWorkspace={() =>
+    setWorkspaceOpen((current) => !current)
+  }
+/>
+          <MissionControl
+  readinessScore={brandReadiness.score}
+/>
+<ActivityTimeline />
           <section className="mb-6 rounded-[2rem] border border-white/10 bg-white/[0.035] p-4 shadow-2xl shadow-black/30 backdrop-blur-xl md:p-6">
             <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
               <div>
