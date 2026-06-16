@@ -2,98 +2,124 @@
 
 import { useState } from "react";
 
+import { AuthShell } from "@/src/components/auth/auth-shell";
+
 export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [workspaceName, setWorkspaceName] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function register() {
     setError("");
+    setLoading(true);
 
-    const response = await fetch("/api/auth/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email,
-        password,
-        workspaceName,
-      }),
-    });
+    try {
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+          workspaceName,
+        }),
+      });
 
-    const result = await response.json();
+      const result = await response.json();
 
-    if (!response.ok || !result.success) {
-      setError(result.error ?? "Registration failed");
-      return;
+      if (!response.ok || !result.success) {
+        throw new Error(result.error ?? "Registration failed");
+      }
+
+      window.location.href = "/setup";
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Registration failed",
+      );
+    } finally {
+      setLoading(false);
     }
-
-    window.location.href = "/setup";
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-zinc-950 px-4">
-      <section className="w-full max-w-md rounded-3xl border border-zinc-800 bg-zinc-900 p-8 shadow-2xl">
-        <p className="mb-2 text-xs uppercase tracking-[0.3em] text-zinc-500">
-          TILLA-OS
-        </p>
-
-        <h1 className="mb-2 text-2xl font-semibold text-white">
-          Create workspace
-        </h1>
-
-        <p className="mb-8 text-sm text-zinc-400">
-          Create your owner account and first brand workspace.
-        </p>
-
-        <div className="space-y-4">
+    <AuthShell
+      eyebrow="New workspace"
+      title="Create your operating system"
+      description="Start a brand workspace with owner access, persistent auth, and the foundation for decision intelligence."
+    >
+      <form
+        className="space-y-4"
+        onSubmit={(event) => {
+          event.preventDefault();
+          void register();
+        }}
+      >
+        <label className="block">
+          <span className="mb-2 block text-xs font-medium uppercase tracking-[0.18em] text-zinc-500">
+            Workspace name
+          </span>
           <input
             value={workspaceName}
             onChange={(event) => setWorkspaceName(event.target.value)}
-            placeholder="Workspace name"
-            className="w-full rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-3 text-sm text-white outline-none placeholder:text-zinc-600 focus:border-zinc-400"
+            placeholder="Tilla Workspace"
+            className="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white outline-none transition placeholder:text-zinc-700 focus:border-white/30 focus:bg-black/40"
           />
+        </label>
 
+        <label className="block">
+          <span className="mb-2 block text-xs font-medium uppercase tracking-[0.18em] text-zinc-500">
+            Email
+          </span>
           <input
             value={email}
             onChange={(event) => setEmail(event.target.value)}
-            placeholder="Email"
+            placeholder="owner@example.com"
             type="email"
-            className="w-full rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-3 text-sm text-white outline-none placeholder:text-zinc-600 focus:border-zinc-400"
+            autoComplete="email"
+            className="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white outline-none transition placeholder:text-zinc-700 focus:border-white/30 focus:bg-black/40"
           />
+        </label>
 
+        <label className="block">
+          <span className="mb-2 block text-xs font-medium uppercase tracking-[0.18em] text-zinc-500">
+            Password
+          </span>
           <input
             value={password}
             onChange={(event) => setPassword(event.target.value)}
-            placeholder="Password"
+            placeholder="Minimum 8 characters"
             type="password"
-            className="w-full rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-3 text-sm text-white outline-none placeholder:text-zinc-600 focus:border-zinc-400"
+            autoComplete="new-password"
+            className="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white outline-none transition placeholder:text-zinc-700 focus:border-white/30 focus:bg-black/40"
           />
+        </label>
 
-          {error ? (
-            <p className="rounded-xl border border-red-900 bg-red-950 px-4 py-3 text-sm text-red-300">
-              {error}
-            </p>
-          ) : null}
+        {error ? (
+          <div className="rounded-2xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm leading-6 text-red-200">
+            {error}
+          </div>
+        ) : null}
 
-          <button
-            type="button"
-            onClick={register}
-            className="w-full rounded-xl bg-white px-4 py-3 text-sm font-medium text-zinc-950 hover:bg-zinc-200"
-          >
-            Create Workspace
-          </button>
+        <button
+          type="submit"
+          disabled={loading}
+          className="mt-2 w-full rounded-2xl bg-white px-4 py-3 text-sm font-semibold text-zinc-950 shadow-xl shadow-white/10 transition hover:bg-zinc-200 disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          {loading ? "Creating workspace..." : "Create workspace"}
+        </button>
 
-          <a
-            href="/login"
-            className="block text-center text-sm text-zinc-500 hover:text-zinc-300"
-          >
-            Already have an account? Login
-          </a>
-        </div>
-      </section>
-    </main>
+        <a
+          href="/login"
+          className="block pt-2 text-center text-sm text-zinc-500 transition hover:text-white"
+        >
+          Already have an account? Sign in
+        </a>
+      </form>
+    </AuthShell>
   );
 }
