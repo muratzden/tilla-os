@@ -20,6 +20,9 @@ import { IntelligenceMarketplacePanel } from "./components/intelligence-marketpl
 import { MissionControl } from "./components/mission-control";
 import { MobileCommandCenter } from "./components/mobile-command-center";
 import { ActiveModuleShell } from "./components/active-module-shell";
+import { MissionControlBaselineCard }
+from "./components/mission-control-baseline-card";
+
 
 type OutputLanguage = "tr" | "en" | "de";
 type UILanguage = "tr" | "en";
@@ -270,6 +273,17 @@ export default function DashboardPage() {
   if (booting) {
     return <SplashScreen />;
   }
+    const missionControl = {
+    brandHealth: 82,
+    bottleneck:
+      "The foundation is strong but execution consistency is not yet proven.",
+    risk:
+      "Future decisions may drift if the constitution is not actively used.",
+    opportunity:
+      "Convert foundation principles into repeatable actions.",
+    nextBestAction:
+      "Validate one upcoming business decision against the constitution.",
+  };
 
   return (
     <main className="min-h-screen bg-black text-zinc-100">
@@ -399,11 +413,17 @@ export default function DashboardPage() {
           />
 
           {activeTab === "mission" && (
-            <MissionControl
-              readinessScore={brandReadiness.score}
-              uiLanguage={uiLanguage}
-            />
-          )}
+  <div className="space-y-6">
+    <MissionControl
+      readinessScore={brandReadiness.score}
+      uiLanguage={uiLanguage}
+    />
+
+    <MissionControlBaselineCard
+      {...missionControl}
+    />
+  </div>
+)}
 
           {activeTab !== "mission" && (
             <>
