@@ -1,20 +1,27 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { AuthShell } from "@/src/components/auth/auth-shell";
 
 export default function LoginClient() {
   const router = useRouter();
-  const searchParams = useSearchParams();
 
-  const nextPath = searchParams.get("next") ?? "/dashboard";
-
+  const [nextPath, setNextPath] = useState("/dashboard");
   const [email, setEmail] = useState("owner@tilla.test");
   const [password, setPassword] = useState("123456");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const next = params.get("next");
+
+    if (next && next.startsWith("/")) {
+      setNextPath(next);
+    }
+  }, []);
 
   async function handleLogin() {
     setError("");
@@ -29,10 +36,11 @@ export default function LoginClient() {
         body: JSON.stringify({ email, password }),
       });
 
-      const json = await res.json();
+      const responseText = await res.text();
+      const json = responseText ? JSON.parse(responseText) : null;
 
-      if (!res.ok || !json.success) {
-        throw new Error(json.error ?? "Login failed");
+      if (!res.ok || !json?.success) {
+        throw new Error(json?.error ?? "Login failed");
       }
 
       router.push(nextPath);
@@ -60,6 +68,7 @@ export default function LoginClient() {
           <span className="mb-2 block text-xs font-medium uppercase tracking-[0.18em] text-zinc-500">
             Email
           </span>
+
           <input
             className="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white outline-none transition placeholder:text-zinc-700 focus:border-white/30 focus:bg-black/40"
             value={email}
@@ -73,6 +82,7 @@ export default function LoginClient() {
           <span className="mb-2 block text-xs font-medium uppercase tracking-[0.18em] text-zinc-500">
             Password
           </span>
+
           <input
             type="password"
             className="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white outline-none transition placeholder:text-zinc-700 focus:border-white/30 focus:bg-black/40"
