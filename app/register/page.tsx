@@ -44,10 +44,9 @@ export default function RegisterPage() {
 
   return (
     <AuthShell
-      eyebrow="New workspace"
-      title="Create your operating system"
-      description="Start a brand workspace with owner access, persistent auth, and the foundation for decision intelligence."
-    >
+  title="Create your workspace"
+  subtitle="Start your brand operating system with a dedicated workspace."
+>
       <form
         className="space-y-4"
         onSubmit={(event) => {
