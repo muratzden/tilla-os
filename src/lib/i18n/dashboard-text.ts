@@ -147,6 +147,7 @@ export type DashboardTextKey =
   | "foundationScore"
   | "alignmentCard"
   | "aligned"
+    | "needsReview"
   | "governanceCard"
   | "protected"
   | "activeStatus"
@@ -212,7 +213,8 @@ export type DashboardTextKey =
   | "worldLabel"
   | "confidenceLabel"
   | "positivePrompt"
-  | "negativePrompt";
+  | "negativePrompt"
+;
   
   
 
@@ -943,6 +945,11 @@ alignmentCard: {
 aligned: {
   tr: "Uyumlu",
   en: "Aligned",
+},
+
+needsReview: {
+  tr: "İnceleme Gerekli",
+  en: "Needs Review",
 },
 
 governanceCard: {

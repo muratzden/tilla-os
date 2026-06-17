@@ -192,29 +192,25 @@ export function AuditTab({
 
   return (
     <section className="rounded-[2rem] border border-zinc-800 bg-zinc-950 p-6 text-white shadow-xl">
-      <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+              <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
         <div>
           <div className="text-xs uppercase tracking-[0.35em] text-emerald-400">
-            Brand Governance
+            {t("brandGovernanceTitle")}
           </div>
 
           <h2 className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-white md:text-5xl">
-            {language === "tr"
-              ? "Governance Workspace"
-              : "Governance Workspace"}
+            {t("governanceWorkspaceTitle")}
           </h2>
 
           <p className="mt-4 max-w-3xl text-sm leading-7 text-zinc-400 md:text-base">
-            {language === "tr"
-              ? "Marka anayasası, yönetişim kuralları, hizalama ve sapma sinyallerini tek merkezden yönet."
-              : "Manage constitution alignment, governance controls and drift signals from one workspace."}
+            {t("governanceWorkspaceDescription")}
           </p>
         </div>
 
         <div className="rounded-full border border-emerald-400/30 bg-emerald-400/10 px-4 py-2 text-xs uppercase tracking-widest text-emerald-300">
-          Governance Layer
+          {t("governanceLayerLabel")}
         </div>
-      </div>
+      </div>    
 
       <div className="mt-8 rounded-[2rem] border border-white/10 bg-white/[0.04] p-5">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
@@ -228,11 +224,11 @@ export function AuditTab({
               }
               className="mt-2 w-full rounded-xl border border-white/10 bg-zinc-900 px-4 py-3 text-white outline-none focus:ring-2 focus:ring-emerald-500"
             >
-              <option value="website">Website</option>
-              <option value="social_media">Social Media</option>
-              <option value="marketplace">Marketplace</option>
-              <option value="email">Email</option>
-              <option value="advertising">Advertising</option>
+              <option value="website">{t("channelWebsite")}</option>
+<option value="social_media">{t("channelSocialMedia")}</option>
+<option value="marketplace">{t("channelMarketplace")}</option>
+<option value="email">{t("channelEmail")}</option>
+<option value="advertising">{t("channelAdvertising")}</option>
             </select>
           </label>
 
@@ -281,7 +277,7 @@ export function AuditTab({
                 <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
                   <div>
                     <div className="text-xs uppercase tracking-[0.35em] text-emerald-400">
-                      Brand Health
+                      {t("brandHealthTitle")}
                     </div>
 
                     <div className="mt-5 flex items-end gap-4">
@@ -303,7 +299,7 @@ export function AuditTab({
                   <div className="grid min-w-[260px] grid-cols-1 gap-3">
                     <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
                       <div className="text-xs uppercase tracking-[0.22em] text-zinc-500">
-                        Drift Risk
+                        {t("driftRiskLabel")}
                       </div>
                       <div className="mt-2 text-lg font-medium text-white">
                         {getGovernanceText(
@@ -317,7 +313,7 @@ export function AuditTab({
 
                     <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
                       <div className="text-xs uppercase tracking-[0.22em] text-zinc-500">
-                        Decision Veto Risk
+                        {t("decisionVetoRiskLabel")}
                       </div>
                       <div className="mt-2 text-lg font-medium text-white">
                         {getGovernanceText(
@@ -331,7 +327,7 @@ export function AuditTab({
 
                     <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
                       <div className="text-xs uppercase tracking-[0.22em] text-zinc-500">
-                        Exposure
+                       {t("exposureLabel")}
                       </div>
                       <div className="mt-2 text-lg font-medium text-white">
                         {result.governance.forbiddenDirectionExposure}
@@ -345,14 +341,12 @@ export function AuditTab({
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="text-sm font-medium text-white">
-                      Advanced Audit Tool
-                    </div>
+  {t("advancedAuditToolTitle")}
+</div>
 
                     <p className="mt-1 text-xs text-zinc-500">
-                      {language === "tr"
-                        ? "Kanal içeriğini manuel denetlemek için aç."
-                        : "Open to manually audit channel content."}
-                    </p>
+  {t("advancedAuditToolDescription")}
+</p>
                   </div>
 
                   <button
@@ -360,7 +354,7 @@ export function AuditTab({
                     onClick={() => setToolOpen((current) => !current)}
                     className="rounded-xl border border-white/10 px-3 py-2 text-xs uppercase tracking-widest text-zinc-400"
                   >
-                    {toolOpen ? "Hide" : "Show"}
+                    {toolOpen ? t("hideLabel") : t("showLabel")}
                   </button>
                 </div>
 
@@ -379,11 +373,11 @@ export function AuditTab({
                           }
                           className="mt-2 w-full rounded-xl border border-white/10 bg-zinc-900 px-4 py-3 text-white outline-none focus:ring-2 focus:ring-emerald-500"
                         >
-                          <option value="website">Website</option>
-                          <option value="social_media">Social Media</option>
-                          <option value="marketplace">Marketplace</option>
-                          <option value="email">Email</option>
-                          <option value="advertising">Advertising</option>
+                          <option value="website">{t("channelWebsite")}</option>
+<option value="social_media">{t("channelSocialMedia")}</option>
+<option value="marketplace">{t("channelMarketplace")}</option>
+<option value="email">{t("channelEmail")}</option>
+<option value="advertising">{t("channelAdvertising")}</option>
                         </select>
                       </label>
 
@@ -415,7 +409,7 @@ export function AuditTab({
 
               <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
                 <ScoreCard
-                  title="Alignment"
+                  title={t("alignmentLabel")}
                   value={result.alignment.alignmentScore}
                   helper={getAlignmentLabel(
                     result.alignment.alignmentScore,
@@ -424,17 +418,17 @@ export function AuditTab({
                 />
 
                 <ScoreCard
-                  title="Constitution"
+                  title={t("constitutionLabel")}
                   value={result.alignment.constitutionAlignment}
                 />
 
                 <ScoreCard
-                  title="Memory"
+                  title={t("memoryLabel")}
                   value={result.alignment.memoryAlignment}
                 />
 
                 <ScoreCard
-                  title="Consistency"
+                  title={t("consistencyLabel")}
                   value={result.alignment.consistencyAlignment}
                 />
               </div>

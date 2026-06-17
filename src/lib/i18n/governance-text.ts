@@ -43,7 +43,28 @@ type GovernanceTextKey =
   | "no"
   | "governanceScore"
   | "appliedRules"
-  | "noAppliedRules";
+    | "noAppliedRules"
+  | "brandGovernanceTitle"
+  | "governanceWorkspaceTitle"
+  | "governanceWorkspaceDescription"
+  | "governanceLayerLabel"
+  | "channelWebsite"
+  | "channelSocialMedia"
+  | "channelMarketplace"
+  | "channelEmail"
+  | "channelAdvertising"
+  | "brandHealthTitle"
+  | "driftRiskLabel"
+  | "decisionVetoRiskLabel"
+  | "exposureLabel"
+  | "advancedAuditToolTitle"
+  | "advancedAuditToolDescription"
+  | "showLabel"
+  | "hideLabel"
+  | "alignmentLabel"
+  | "constitutionLabel"
+  | "memoryLabel"
+  | "consistencyLabel";
 
 const governanceText: Partial<
   Record<OutputLanguage, Record<GovernanceTextKey, string>>
@@ -93,6 +114,28 @@ const governanceText: Partial<
     governanceScore: "Governance Score",
     appliedRules: "Applied Rules",
     noAppliedRules: "No applied rules.",
+	    brandGovernanceTitle: "Brand Governance",
+    governanceWorkspaceTitle: "Governance Workspace",
+    governanceWorkspaceDescription:
+      "Manage constitution alignment, governance controls and drift signals from one workspace.",
+    governanceLayerLabel: "Governance Layer",
+    channelWebsite: "Website",
+    channelSocialMedia: "Social Media",
+    channelMarketplace: "Marketplace",
+    channelEmail: "Email",
+    channelAdvertising: "Advertising",
+    brandHealthTitle: "Brand Health",
+    driftRiskLabel: "Drift Risk",
+    decisionVetoRiskLabel: "Decision Veto Risk",
+    exposureLabel: "Exposure",
+    advancedAuditToolTitle: "Advanced Audit Tool",
+    advancedAuditToolDescription: "Open to manually audit channel content.",
+    showLabel: "Show",
+    hideLabel: "Hide",
+    alignmentLabel: "Alignment",
+    constitutionLabel: "Constitution",
+    memoryLabel: "Memory",
+    consistencyLabel: "Consistency",
   },
   tr: {
     governanceHealth: "Yönetişim Sağlığı",
@@ -139,6 +182,29 @@ const governanceText: Partial<
     governanceScore: "Yönetişim Skoru",
     appliedRules: "Uygulanan Kurallar",
     noAppliedRules: "Uygulanan kural yok.",
+	    brandGovernanceTitle: "Marka Yönetişimi",
+    governanceWorkspaceTitle: "Yönetişim Merkezi",
+    governanceWorkspaceDescription:
+      "Marka anayasası, yönetişim kuralları, hizalama ve sapma sinyallerini tek merkezden yönet.",
+    governanceLayerLabel: "Yönetişim Katmanı",
+    channelWebsite: "Web Sitesi",
+    channelSocialMedia: "Sosyal Medya",
+    channelMarketplace: "Pazaryeri",
+    channelEmail: "E-posta",
+    channelAdvertising: "Reklam",
+    brandHealthTitle: "Marka Sağlığı",
+    driftRiskLabel: "Sapma Riski",
+    decisionVetoRiskLabel: "Karar Veto Riski",
+    exposureLabel: "Maruziyet",
+    advancedAuditToolTitle: "Gelişmiş Denetim Aracı",
+    advancedAuditToolDescription:
+      "Kanal içeriğini manuel denetlemek için aç.",
+    showLabel: "Göster",
+    hideLabel: "Gizle",
+    alignmentLabel: "Uyum",
+    constitutionLabel: "Anayasa",
+    memoryLabel: "Hafıza",
+    consistencyLabel: "Tutarlılık",
   },
 };
 

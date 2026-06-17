@@ -1,10 +1,6 @@
-export type PremiumLevel = "mass" | "mid" | "premium" | "luxury";
+export type BrandInterviewLanguage = "tr" | "en" | "de" | "fr" | "es" | "it";
 
-export type UiLanguage = "tr" | "en";
-
-export type ContentLanguage = "tr" | "en" | "de";
-
-export type PromptLanguage = "en";
+export type CoreOperatingLanguage = "en";
 
 export type BrandSetup = {
   identity: {
@@ -13,20 +9,33 @@ export type BrandSetup = {
     country: string;
     foundedYear?: number;
 
-    uiLanguage: UiLanguage;
-    contentLanguage: ContentLanguage;
-    promptLanguage: PromptLanguage;
+    /**
+     * Free multilingual intake language.
+     * This is NOT the paid app UI language.
+     */
+   interviewLanguage: BrandInterviewLanguage;
+
+    /**
+     * Free setup/manifesto intake language.
+     * Paid output intelligence belongs to marketplace packs.
+     */
+    foundationLanguage: BrandInterviewLanguage;
+
+    /**
+     * Internal system prompt language stays English.
+     */
+    promptLanguage: CoreOperatingLanguage;
   };
 
   positioning: {
-    premiumLevel: PremiumLevel;
+    premiumLevel: string;
     marketPosition: string;
     priceSegment: string;
   };
 
   audience: {
     primaryAudience: string;
-    secondaryAudience?: string;
+    secondaryAudience: string;
   };
 
   voice: {

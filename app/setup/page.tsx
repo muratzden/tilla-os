@@ -139,23 +139,24 @@ export default function SetupPage() {
           </div>
           <div className="border-t border-zinc-200 pt-6">
             <p className="mb-4 text-xs uppercase tracking-widest text-zinc-400">
-              Language
-            </p>
+  Brand Intelligence
+</p>
 
             <div className="mb-6 rounded-2xl border border-zinc-200 bg-white p-4">
               <p className="mb-2 text-sm font-semibold text-zinc-900">
-                Language Packs
-              </p>
+  Brand Intelligence Packs
+</p>
 
               <p className="mb-4 text-sm text-zinc-500">
-                TILLA-OS includes Turkish and English by default. Additional
-                language packs can be purchased, imported, validated and
-                activated.
-              </p>
+  Brand Intelligence Packs are not translation packs. They extend
+  TILLA-OS with local market reasoning, cultural context, brand
+  language systems, content intelligence and region-specific
+  decision support.
+</p>
 
               <div className="mb-5">
                 <p className="mb-2 text-xs uppercase tracking-widest text-zinc-400">
-                  Included Packs
+                 Available Interview Languages
                 </p>
 
                 <div className="grid gap-2">
@@ -181,7 +182,7 @@ export default function SetupPage() {
 
               <div>
                 <p className="mb-2 text-xs uppercase tracking-widest text-zinc-400">
-                  Optional Marketplace Packs
+                  Marketplace Brand Intelligence Packs
                 </p>
 
                 <div className="grid gap-2">
@@ -215,16 +216,20 @@ export default function SetupPage() {
             <div className="space-y-5">
               <div>
                 <label className="mb-2 block text-sm font-medium text-zinc-700">
-                  UI Language
+                  Brand Interview Language
                 </label>
+				<p className="mb-3 text-xs text-zinc-500">
+  Choose the language you can express your brand most accurately in.
+  This improves manifesto quality, brand memory and foundation accuracy.
+</p>
                 <select
-                  value={setup.identity.uiLanguage}
+                 value={setup.identity.interviewLanguage}
                   onChange={(e) =>
                     setSetup({
                       ...setup,
                       identity: {
                         ...setup.identity,
-                        uiLanguage: e.target.value as "tr" | "en",
+                        interviewLanguage: e.target.value as "tr" | "en" | "de" | "fr" | "es" | "it",
                       },
                     })
                   }
@@ -237,16 +242,16 @@ export default function SetupPage() {
 
               <div>
                 <label className="mb-2 block text-sm font-medium text-zinc-700">
-                  Content Language
+                  Brand Foundation Language
                 </label>
                 <select
-                  value={setup.identity.contentLanguage}
+                  value={setup.identity.foundationLanguage}
                   onChange={(e) =>
                     setSetup({
                       ...setup,
                       identity: {
                         ...setup.identity,
-                        contentLanguage: e.target.value as "tr" | "en" | "de",
+                        foundationLanguage: e.target.value as "tr" | "en" | "de" | "fr" | "es" | "it",
                       },
                     })
                   }

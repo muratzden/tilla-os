@@ -95,7 +95,7 @@ const defaultInput: InputState = {
   color: "camel",
   size: "13",
   channel: "web",
-  outputLanguage: "tr",
+  outputLanguage: "en",
 };
 
 const desktopTabs: readonly DashboardTab[] = [
@@ -133,7 +133,7 @@ const tabIcons: Record<DashboardTab, string> = {
 
 export default function DashboardPage() {
   const [input, setInput] = useState<InputState>(defaultInput);
-  const [uiLanguage, setUiLanguage] = useState<UILanguage>("tr");
+  const [uiLanguage, setUiLanguage] = useState<UILanguage>("en");
   const [brandSetup, setBrandSetup] = useState<BrandSetup>(defaultBrandSetup);
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
@@ -165,11 +165,11 @@ export default function DashboardPage() {
   const pipeline = data?.pipeline;
   const visibleTabs = isMobileNav ? mobileTabs : desktopTabs;
   const activeOutputLanguage = (
-  brandSetup.identity.contentLanguage === "tr" ||
-  brandSetup.identity.contentLanguage === "en" ||
-  brandSetup.identity.contentLanguage === "de"
-    ? brandSetup.identity.contentLanguage
-    : "en"
+  brandSetup.identity.foundationLanguage === "tr" ||
+brandSetup.identity.foundationLanguage === "en" ||
+brandSetup.identity.foundationLanguage === "de"
+  ? brandSetup.identity.foundationLanguage
+  : "en"
 ) as OutputLanguage;
   function getTabLabel(tab: DashboardTab) {
     if (tab === "overview") {
@@ -276,9 +276,9 @@ export default function DashboardPage() {
         body: JSON.stringify({
           ...nextInput,
           brandId: currentBrand?.id,
-          uiLanguage: brandSetup.identity.uiLanguage,
-          contentLanguage: activeOutputLanguage,
-          promptLanguage: "en",
+          interviewLanguage: brandSetup.identity.interviewLanguage,
+foundationLanguage: brandSetup.identity.foundationLanguage,
+		            promptLanguage: "en",
         }),
       });
 
@@ -334,11 +334,11 @@ export default function DashboardPage() {
       const parsedSetup = result.brandSetup as BrandSetup;
       const normalizedSetup = normalizeBrandSetup(parsedSetup);
 
-      setBrandSetup(normalizedSetup);
-      setUiLanguage(normalizedSetup.identity.uiLanguage);
+            setBrandSetup(normalizedSetup);
+      setUiLanguage("en");
       setInput((currentInput) => ({
         ...currentInput,
-        outputLanguage: normalizedSetup.identity.contentLanguage,
+        outputLanguage: "en",
       }));
     }
 

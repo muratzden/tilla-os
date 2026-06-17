@@ -14,8 +14,8 @@ export function getBrandProfile(brandId?: string) {
     values: setup.values.coreValues,
     forbiddenDirections: setup.values.forbiddenDirections,
     manifesto: setup.manifesto.brandManifesto,
-    uiLanguage: setup.identity.uiLanguage,
-    contentLanguage: setup.identity.contentLanguage,
+    interviewLanguage: setup.identity.interviewLanguage,
+foundationLanguage: setup.identity.foundationLanguage,
     promptLanguage: setup.identity.promptLanguage,
   };
 }

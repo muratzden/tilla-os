@@ -1,37 +1,55 @@
 "use client";
 
+import { getDashboardText } from "@/src/lib/i18n/dashboard-text";
+
+type UILanguage = "tr" | "en";
+
 type BrandHealthStripProps = {
   readinessScore: number;
+  uiLanguage: UILanguage;
 };
 
-export function BrandHealthStrip({ readinessScore }: BrandHealthStripProps) {
+export function BrandHealthStrip({
+  readinessScore,
+  uiLanguage,
+}: BrandHealthStripProps) {
   return (
     <section className="mb-6 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.025] px-5 py-4 backdrop-blur-xl">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <StatusItem label="Readiness" value={`${readinessScore}%`} />
+        <StatusItem
+          label={getDashboardText("readiness", uiLanguage)}
+          value={`${readinessScore}%`}
+        />
 
         <StatusDivider />
 
         <StatusItem
-          label="Governance"
+          label={getDashboardText("governance", uiLanguage)}
           value={
             readinessScore >= 80
-              ? "Healthy"
+              ? getDashboardText("healthy", uiLanguage)
               : readinessScore >= 60
-                ? "Stable"
-                : "Attention"
+                ? getDashboardText("stable", uiLanguage)
+                : getDashboardText("attention", uiLanguage)
           }
         />
 
         <StatusDivider />
 
-        <StatusItem label="Memory" value="Online" />
+        <StatusItem
+          label={getDashboardText("memory", uiLanguage)}
+          value={getDashboardText("active", uiLanguage)}
+        />
 
         <StatusDivider />
 
         <StatusItem
-          label="Alignment"
-          value={readinessScore >= 80 ? "Aligned" : "Review"}
+          label={getDashboardText("alignment", uiLanguage)}
+          value={
+            readinessScore >= 80
+              ? getDashboardText("aligned", uiLanguage)
+              : getDashboardText("needsReview", uiLanguage)
+          }
         />
       </div>
     </section>
