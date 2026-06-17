@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+
 import SplashScreen from "@/components/splash-screen";
 import { getDashboardText } from "@/src/lib/i18n/dashboard-text";
 import { getLanguagePack } from "@/src/lib/i18n/get-language-pack";
@@ -10,6 +11,8 @@ import { calculateBrandReadiness } from "@/src/lib/brand/setup/brand-readiness";
 import { getBrandProfile } from "@/src/lib/brand/setup/brand-profile";
 import { getCurrentBrand } from "@/src/lib/brand/setup/brand-context";
 import type { BrandSetup } from "@/src/lib/brand/setup/brand-setup-types";
+import { normalizeBrandSetup } from "@/src/lib/brand/setup/default-brand-setup";
+
 import { OverviewTab } from "./components/overview-tab";
 import { FoundationTab } from "./components/foundation-tab";
 import { DecisionTab } from "./components/decision-tab";
@@ -21,9 +24,7 @@ import { LanguageMarketplacePanel } from "./components/language-marketplace-pane
 import { MissionControl } from "./components/mission-control";
 import { ActivityTimeline } from "./components/activity-timeline";
 import { MobileCommandCenter } from "./components/mobile-command-center";
-import { normalizeBrandSetup } from "@/src/lib/brand/setup/default-brand-setup";
 import { WorkspaceGrid } from "./components/workspace-grid";
-
 import { ActiveModuleShell } from "./components/active-module-shell";
 
 type OutputLanguage = "tr" | "en" | "de";
@@ -164,13 +165,15 @@ export default function DashboardPage() {
   const brandProfile = getBrandProfile(currentBrand?.id);
   const pipeline = data?.pipeline;
   const visibleTabs = isMobileNav ? mobileTabs : desktopTabs;
+
   const activeOutputLanguage = (
-  brandSetup.identity.foundationLanguage === "tr" ||
-brandSetup.identity.foundationLanguage === "en" ||
-brandSetup.identity.foundationLanguage === "de"
-  ? brandSetup.identity.foundationLanguage
-  : "en"
-) as OutputLanguage;
+    brandSetup.identity.foundationLanguage === "tr" ||
+    brandSetup.identity.foundationLanguage === "en" ||
+    brandSetup.identity.foundationLanguage === "de"
+      ? brandSetup.identity.foundationLanguage
+      : "en"
+  ) as OutputLanguage;
+
   function getTabLabel(tab: DashboardTab) {
     if (tab === "overview") {
       return getDashboardText("overview", uiLanguage);
@@ -202,7 +205,8 @@ brandSetup.identity.foundationLanguage === "de"
 
     return getDashboardText("marketplace", uiLanguage);
   }
-     function getActiveModuleMeta(tab: DashboardTab) {
+
+  function getActiveModuleMeta(tab: DashboardTab) {
     switch (tab) {
       case "decision":
         return {
@@ -277,12 +281,13 @@ brandSetup.identity.foundationLanguage === "de"
           ...nextInput,
           brandId: currentBrand?.id,
           interviewLanguage: brandSetup.identity.interviewLanguage,
-foundationLanguage: brandSetup.identity.foundationLanguage,
-		            promptLanguage: "en",
+          foundationLanguage: brandSetup.identity.foundationLanguage,
+          promptLanguage: "en",
         }),
       });
 
       const json = await res.json();
+
       setData(json);
     } catch (err) {
       console.error("Dashboard fetch error:", err);
@@ -334,7 +339,7 @@ foundationLanguage: brandSetup.identity.foundationLanguage,
       const parsedSetup = result.brandSetup as BrandSetup;
       const normalizedSetup = normalizeBrandSetup(parsedSetup);
 
-            setBrandSetup(normalizedSetup);
+      setBrandSetup(normalizedSetup);
       setUiLanguage("en");
       setInput((currentInput) => ({
         ...currentInput,
@@ -369,23 +374,34 @@ foundationLanguage: brandSetup.identity.foundationLanguage,
 
   async function loadMarketplace() {
     try {
-      const response = await fetch("/api/language-marketplace");
+      const response = await fetch("/api/intelligence-marketplace");
 
       if (!response.ok) {
-        console.error("Language marketplace request failed", response.status);
+        console.error(
+          "Intelligence marketplace request failed",
+          response.status,
+        );
+
         return;
       }
 
       const json = await response.json();
 
-      if (!json?.active || !Array.isArray(json?.installed)) {
-        console.error("Invalid language marketplace payload", json);
+      if (!json?.ok || !json?.marketplace) {
+        console.error("Invalid intelligence marketplace payload", json);
+
         return;
       }
 
-      setLanguageMarketplace(json);
+      setLanguageMarketplace({
+        active: "en",
+        installed: [],
+        installedLanguages: [],
+        updates: [],
+        versionHistory: [],
+      });
     } catch (error) {
-      console.error("Language marketplace load failed", error);
+      console.error("Intelligence marketplace load failed", error);
     }
   }
 
@@ -552,27 +568,28 @@ foundationLanguage: brandSetup.identity.foundationLanguage,
           <MobileCommandCenter
             brandName={currentBrand?.name ?? "TILLA"}
             brandCategory={
-  brandProfile?.category ?? getDashboardText("premiumBrand", uiLanguage)
-}
+              brandProfile?.category ?? getDashboardText("premiumBrand", uiLanguage)
+            }
             readinessScore={brandReadiness.score}
             activeOutputLanguage={activeOutputLanguage}
             workspaceName={authContext?.workspace.name}
             userEmail={authContext?.user.email}
             onOpenWorkspace={() => setWorkspaceOpen((current) => !current)}
           />
+
           <MissionControl
-  readinessScore={brandReadiness.score}
-  uiLanguage={uiLanguage}
-/>
+            readinessScore={brandReadiness.score}
+            uiLanguage={uiLanguage}
+          />
 
           <ActivityTimeline uiLanguage={uiLanguage} />
 
           <WorkspaceGrid
-  activeTab={activeTab}
-  readinessScore={brandReadiness.score}
-  marketplaceUpdates={languageMarketplace.updates.length}
-  uiLanguage={uiLanguage}
-  onNavigate={(tab) => {
+            activeTab={activeTab}
+            readinessScore={brandReadiness.score}
+            marketplaceUpdates={languageMarketplace.updates.length}
+            uiLanguage={uiLanguage}
+            onNavigate={(tab) => {
               setActiveTab(tab);
 
               window.scrollTo({
@@ -642,10 +659,10 @@ foundationLanguage: brandSetup.identity.foundationLanguage,
           </div>
 
           <ActiveModuleShell
-  title={getActiveModuleMeta(activeTab).title}
-  description={getActiveModuleMeta(activeTab).description}
-  uiLanguage={uiLanguage}
->
+            title={getActiveModuleMeta(activeTab).title}
+            description={getActiveModuleMeta(activeTab).description}
+            uiLanguage={uiLanguage}
+          >
             <section className="rounded-[2rem] border border-white/10 bg-zinc-950/60 p-4 shadow-2xl shadow-black/30 backdrop-blur-xl md:p-6">
               {activeTab === "overview" && (
                 <OverviewTab pipeline={pipeline} uiLanguage={uiLanguage} />
@@ -715,81 +732,5 @@ foundationLanguage: brandSetup.identity.foundationLanguage,
         </section>
       </div>
     </main>
-  );
-}
-
-function StatCard({
-  label,
-  value,
-  detail,
-}: {
-  label: string;
-  value: string;
-  detail: string;
-}) {
-  return (
-    <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.035] p-5 shadow-xl shadow-black/20 backdrop-blur">
-      <p className="text-xs uppercase tracking-[0.22em] text-zinc-600">
-        {label}
-      </p>
-
-      <p className="mt-3 text-2xl font-semibold tracking-[-0.04em] text-white">
-        {value}
-      </p>
-
-      <p className="mt-2 text-xs leading-5 text-zinc-500">{detail}</p>
-    </div>
-  );
-}
-
-function Input({
-  label,
-  value,
-  onChange,
-}: {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-}) {
-  return (
-    <label className="block">
-      <span className="text-sm text-zinc-500">{label}</span>
-
-      <input
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-        className="mt-2 w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white outline-none transition placeholder:text-zinc-700 focus:border-white/30 focus:bg-black/40"
-      />
-    </label>
-  );
-}
-
-function SelectInput({
-  label,
-  value,
-  options,
-  onChange,
-}: {
-  label: string;
-  value: string;
-  options: string[];
-  onChange: (value: string) => void;
-}) {
-  return (
-    <label className="block">
-      <span className="text-sm text-zinc-500">{label}</span>
-
-      <select
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-        className="mt-2 w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white outline-none transition focus:border-white/30 focus:bg-black/40"
-      >
-        {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
-    </label>
   );
 }

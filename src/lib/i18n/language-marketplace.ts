@@ -12,7 +12,7 @@ export const includedLanguagePacks: MarketplaceLanguagePack[] = [
     id: "tr",
     language: "tr",
     name: "Turkish",
-    nativeName: "Türkçe",
+    nativeName: "TÃ¼rkÃ§e",
     priceUsd: 0,
     status: "included",
   },
@@ -39,7 +39,7 @@ export const marketplaceLanguagePacks: MarketplaceLanguagePack[] = [
     id: "ru",
     language: "ru",
     name: "Russian",
-    nativeName: "Русский",
+    nativeName: "Ğ ÑƒÑÑĞºĞ¸Ğ¹",
     priceUsd: 4.99,
     status: "available",
   },
@@ -47,7 +47,7 @@ export const marketplaceLanguagePacks: MarketplaceLanguagePack[] = [
     id: "fr",
     language: "fr",
     name: "French",
-    nativeName: "Français",
+    nativeName: "FranÃ§ais",
     priceUsd: 4.99,
     status: "available",
   },
@@ -55,7 +55,7 @@ export const marketplaceLanguagePacks: MarketplaceLanguagePack[] = [
     id: "es",
     language: "es",
     name: "Spanish",
-    nativeName: "Español",
+    nativeName: "EspaÃ±ol",
     priceUsd: 4.99,
     status: "available",
   },
@@ -63,8 +63,12 @@ export const marketplaceLanguagePacks: MarketplaceLanguagePack[] = [
     id: "ar",
     language: "ar",
     name: "Arabic",
-    nativeName: "العربية",
+    nativeName: "Ø§Ù„Ø¹Ø±Ø¨ÙŠØ©",
     priceUsd: 6.99,
     status: "available",
   },
 ];
+
+
+
+
