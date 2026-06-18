@@ -17,11 +17,11 @@ import { FoundationTab } from "./components/foundation-tab";
 import { ManifestoTab } from "./components/manifesto-tab";
 import { OutputTab } from "./components/output-tab";
 import { IntelligenceMarketplacePanel } from "./components/intelligence-marketplace-panel";
-import { MissionControl } from "./components/mission-control";
+
 import { MobileCommandCenter } from "./components/mobile-command-center";
 import { ActiveModuleShell } from "./components/active-module-shell";
-import { MissionControlBaselineCard }
-from "./components/mission-control-baseline-card";
+import { MissionControlV2 } from "./components/mission-control-v2";
+import type { MissionControlState } from "@/src/core/brand-os/types";
 
 
 type OutputLanguage = "tr" | "en" | "de";
@@ -273,17 +273,35 @@ export default function DashboardPage() {
   if (booting) {
     return <SplashScreen />;
   }
-    const missionControl = {
-    brandHealth: 82,
-    bottleneck:
-      "The foundation is strong but execution consistency is not yet proven.",
-    risk:
-      "Future decisions may drift if the constitution is not actively used.",
-    opportunity:
-      "Convert foundation principles into repeatable actions.",
-    nextBestAction:
-      "Validate one upcoming business decision against the constitution.",
-  };
+    const missionControl: MissionControlState = {
+  readinessScore: brandReadiness.score,
+  diagnosis:
+    "The brand foundation is usable. The next priority is to validate execution through one constitution-aligned decision.",
+  rankedBottlenecks: [
+    {
+      dimension: "consistency",
+      score: brandReadiness.score,
+      reasons: ["Execution consistency has not been proven yet."],
+      missingInputs: [],
+    },
+  ],
+  bottleneck: "consistency",
+  nextBestAction:
+    "Validate one upcoming business decision against the constitution.",
+  recommendedStudio: "foundation",
+  strategicFocus:
+    "Convert the brand foundation into one repeatable operating action.",
+  missingInputs: [],
+  actionPlan: [
+    "Open the foundation studio.",
+    "Choose one upcoming business decision.",
+    "Validate the decision against the constitution.",
+    "Recalculate Brand OS after the update.",
+  ],
+  expectedImpact: [
+    "Improves consistency by turning brand principles into repeatable decision behavior.",
+  ],
+};
 
   return (
     <main className="min-h-screen bg-black text-zinc-100">
@@ -413,16 +431,7 @@ export default function DashboardPage() {
           />
 
           {activeTab === "mission" && (
-  <div className="space-y-6">
-    <MissionControl
-      readinessScore={brandReadiness.score}
-      uiLanguage={uiLanguage}
-    />
-
-    <MissionControlBaselineCard
-      {...missionControl}
-    />
-  </div>
+  <MissionControlV2 missionControl={missionControl} />
 )}
 
           {activeTab !== "mission" && (
