@@ -1,9 +1,11 @@
 export type BrandInterview = {
   identity: {
-    description: string;
-    offering: string;
-    stage: string;
-  };
+  brandName: string;
+  category: string;
+  description: string;
+  offering: string;
+  stage: string;
+};
 
   purpose: {
     disappearance: string;
@@ -73,10 +75,12 @@ export type BrandConstitutionV2 = {
 
 export const emptyBrandInterview: BrandInterview = {
   identity: {
-    description: "",
-    offering: "",
-    stage: "",
-  },
+  brandName: "",
+  category: "",
+  description: "",
+  offering: "",
+  stage: "",
+},
 
   purpose: {
     disappearance: "",

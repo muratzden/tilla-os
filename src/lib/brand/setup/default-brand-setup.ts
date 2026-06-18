@@ -2,48 +2,48 @@ import type { BrandSetup } from "./brand-setup-types";
 
 export const defaultBrandSetup: BrandSetup = {
   identity: {
-  brandName: "Tilla Leather",
-  category: "Leather Goods",
-  country: "TR",
-  foundedYear: 2021,
+    brandName: "",
+    category: "",
+    country: "",
+    foundedYear: undefined,
 
-  interviewLanguage: "en",
-  foundationLanguage: "en",
-  promptLanguage: "en",
-},
+    interviewLanguage: "en",
+    foundationLanguage: "en",
+    promptLanguage: "en",
+  },
 
   positioning: {
-    premiumLevel: "premium",
-    marketPosition: "Handcrafted leather goods brand",
-    priceSegment: "Premium",
+    premiumLevel: "",
+    marketPosition: "",
+    priceSegment: "",
   },
 
   audience: {
-    primaryAudience: "Professionals seeking timeless leather products",
-    secondaryAudience: "Craft and heritage enthusiasts",
+    primaryAudience: "",
+    secondaryAudience: "",
   },
 
   voice: {
-    tone: "Warm",
-    personality: "Craftsman",
-    communicationStyle: "Honest and transparent",
+    tone: "",
+    personality: "",
+    communicationStyle: "",
   },
 
   visualDirection: {
-    aesthetic: "Quiet Luxury",
-    materials: ["Leather", "Brass", "Cotton"],
-    colors: ["Black", "Camel", "Brown"],
+    aesthetic: "",
+    materials: [],
+    colors: [],
   },
 
   values: {
-    coreValues: ["Craftsmanship", "Longevity", "Honesty"],
-    brandPromise: "Products that gain character through use",
-    forbiddenDirections: ["Fast Fashion", "Mass Production"],
+    coreValues: [],
+    brandPromise: "",
+    forbiddenDirections: [],
   },
 
   manifesto: {
-    founderStory: "Founded as a family leather workshop",
-    brandManifesto: "Human craft over industrial perfection",
+    founderStory: "",
+    brandManifesto: "",
   },
 };
 

@@ -18,21 +18,32 @@ export const interviewSections: InterviewSection[] = [
     title: "Identity",
     description: "Tell us what you are building.",
     fields: [
-      {
-        id: "description",
-        label: "How would you describe what you are building?",
-        multiline: true,
-      },
-      {
-        id: "offering",
-        label: "What do you provide?",
-      },
-      {
-        id: "stage",
-        label: "What stage are you currently in?",
-      },
-    ],
+  {
+    id: "brandName",
+    label: "What is the name of this brand?",
+    placeholder: "Example: North & Co.",
   },
+  {
+    id: "category",
+    label: "What category is this brand in?",
+    placeholder: "Example: coffee brand, dental clinic, boutique hotel, SaaS",
+  },
+  {
+    id: "description",
+    label: "How would you describe what you are building?",
+    multiline: true,
+  },
+  {
+    id: "offering",
+    label: "What do you provide?",
+  },
+  {
+    id: "stage",
+    label: "What stage are you currently in?",
+  },
+],
+
+ },
 
   {
     id: "purpose",

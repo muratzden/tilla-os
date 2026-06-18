@@ -34,7 +34,7 @@ export default function RegisterPage() {
         throw new Error(result.error ?? "Registration failed");
       }
 
-      window.location.href = "/setup";
+      window.location.href = "/setup-v2";
     } catch (err) {
       setError(err instanceof Error ? err.message : "Registration failed");
     } finally {

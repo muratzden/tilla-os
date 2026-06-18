@@ -16,9 +16,10 @@ import { normalizeBrandSetup } from "@/src/lib/brand/setup/default-brand-setup";
 import { FoundationTab } from "./components/foundation-tab";
 import { ManifestoTab } from "./components/manifesto-tab";
 import { OutputTab } from "./components/output-tab";
+
 import { IntelligenceMarketplacePanel } from "./components/intelligence-marketplace-panel";
 
-import { MobileCommandCenter } from "./components/mobile-command-center";
+
 import { ActiveModuleShell } from "./components/active-module-shell";
 import { MissionControlV2 } from "./components/mission-control-v2";
 import type { MissionControlState } from "@/src/core/brand-os/types";
@@ -95,7 +96,9 @@ export default function DashboardPage() {
   const [isMobileNav, setIsMobileNav] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [authContext, setAuthContext] = useState<AuthContextState | null>(null);
-
+const [missionControl, setMissionControl] =
+  useState<MissionControlState | null>(null);
+  
   const text = getLanguagePack(uiLanguage);
   const currentBrand = getCurrentBrand();
 
@@ -269,40 +272,33 @@ export default function DashboardPage() {
   useEffect(() => {
     generate(defaultInput);
   }, []);
+  
+ useEffect(() => {
+  async function loadBrandOSState() {
+    try {
+      const response = await fetch("/api/brand-os/state");
+
+      if (!response.ok) {
+        setMissionControl(null);
+        return;
+      }
+
+      const result = await response.json();
+
+      setMissionControl(result.missionControl ?? null);
+    } catch (error) {
+      console.error("Brand OS state load failed", error);
+      setMissionControl(null);
+    }
+  }
+
+  loadBrandOSState();
+}, []);
 
   if (booting) {
     return <SplashScreen />;
   }
-    const missionControl: MissionControlState = {
-  readinessScore: brandReadiness.score,
-  diagnosis:
-    "The brand foundation is usable. The next priority is to validate execution through one constitution-aligned decision.",
-  rankedBottlenecks: [
-    {
-      dimension: "consistency",
-      score: brandReadiness.score,
-      reasons: ["Execution consistency has not been proven yet."],
-      missingInputs: [],
-    },
-  ],
-  bottleneck: "consistency",
-  nextBestAction:
-    "Validate one upcoming business decision against the constitution.",
-  recommendedStudio: "foundation",
-  strategicFocus:
-    "Convert the brand foundation into one repeatable operating action.",
-  missingInputs: [],
-  actionPlan: [
-    "Open the foundation studio.",
-    "Choose one upcoming business decision.",
-    "Validate the decision against the constitution.",
-    "Recalculate Brand OS after the update.",
-  ],
-  expectedImpact: [
-    "Improves consistency by turning brand principles into repeatable decision behavior.",
-  ],
-};
-
+  
   return (
     <main className="min-h-screen bg-black text-zinc-100">
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
@@ -418,20 +414,16 @@ export default function DashboardPage() {
             </div>
           </header>
 
-          <MobileCommandCenter
-            brandName={currentBrand?.name ?? "TILLA"}
-            brandCategory={
-              brandProfile?.category ?? getDashboardText("premiumBrand", uiLanguage)
-            }
-            readinessScore={brandReadiness.score}
-            activeOutputLanguage={activeOutputLanguage}
-            workspaceName={authContext?.workspace.name}
-            userEmail={authContext?.user.email}
-            onOpenWorkspace={() => undefined}
-          />
-
           {activeTab === "mission" && (
-  <MissionControlV2 missionControl={missionControl} />
+  <>
+    {missionControl ? (
+      <MissionControlV2 missionControl={missionControl} />
+    ) : (
+      <section className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 text-sm text-zinc-500">
+        Loading Mission Control...
+      </section>
+    )}
+  </>
 )}
 
           {activeTab !== "mission" && (

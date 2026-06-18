@@ -68,21 +68,127 @@ export default function SetupV2Page() {
     return section[fieldId] ?? "";
   }
 
-  function saveFoundation() {
-    const payload = {
-      interview,
-      manifesto,
+ async function saveFoundation() {
+  const response = await fetch("/api/workspace/brand-setup", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      identity: {
+        brandName: interview.identity.brandName,
+        category: interview.identity.category,
+        description: interview.identity.description,
+        offering: interview.identity.offering,
+        stage: interview.identity.stage,
+      },
+
+      positioning: {
+        category: interview.identity.category,
+        marketPosition: interview.identity.description,
+        offer: interview.identity.offering,
+        coreOffer: interview.identity.offering,
+        promise: manifesto.mission,
+        valueProposition: manifesto.transformation,
+        differentiators: [
+          interview.purpose.reasonToExist,
+          interview.purpose.obsession,
+          interview.transformation.transformation,
+        ].filter(Boolean),
+        proofPoints: [
+          interview.principles.defend,
+          interview.principles.boundaries,
+          interview.constraints.nonNegotiables,
+        ].filter(Boolean),
+        ambition: [
+          interview.ambition.future,
+          interview.ambition.legacy,
+          interview.ambition.change,
+        ].filter(Boolean),
+        constraints: [
+          interview.constraints.limitations,
+          interview.constraints.fixedResources,
+          interview.constraints.nonNegotiables,
+        ].filter(Boolean),
+      },
+
+      audience: {
+        primaryAudience: interview.audience.idealAudience,
+        primary: interview.audience.idealAudience,
+        targetAudience: interview.audience.bestCustomer,
+        desiredOutcome: interview.transformation.transformation,
+        transformation: interview.transformation.after,
+        needs: [
+          interview.transformation.before,
+          interview.audience.bestCustomer,
+        ].filter(Boolean),
+        painPoints: [
+          interview.purpose.obsession,
+          interview.constraints.limitations,
+        ].filter(Boolean),
+        barriers: [
+          interview.audience.notFor,
+          interview.constraints.limitations,
+        ].filter(Boolean),
+      },
+
+      voice: {
+        authorityThemes: [
+          interview.principles.defend,
+          interview.purpose.obsession,
+        ].filter(Boolean),
+      },
+
+      visualDirection: {
+        channels: [],
+      },
+
+      values: {
+        principles: [
+          interview.principles.never,
+          interview.principles.defend,
+          interview.principles.boundaries,
+        ].filter(Boolean),
+        proofSignals: [
+          interview.principles.defend,
+          interview.constraints.nonNegotiables,
+        ].filter(Boolean),
+        trustSignals: [
+          interview.purpose.reasonToExist,
+          interview.principles.defend,
+        ].filter(Boolean),
+        ambition: [
+          interview.ambition.future,
+          interview.ambition.legacy,
+          interview.ambition.change,
+        ].filter(Boolean),
+        constraints: [
+          interview.constraints.limitations,
+          interview.constraints.fixedResources,
+          interview.constraints.nonNegotiables,
+        ].filter(Boolean),
+      },
+
+      manifesto: {
+        identity: manifesto.identity,
+        mission: manifesto.mission,
+        transformation: manifesto.transformation,
+        audience: manifesto.audience,
+        principles: manifesto.principles,
+        vision: manifesto.vision,
+      },
+
       constitution,
-      savedAt: new Date().toISOString(),
-    };
+    }),
+  });
 
-    window.localStorage.setItem(
-      SETUP_V2_STORAGE_KEY,
-      JSON.stringify(payload),
-    );
-
-    window.alert("Brand foundation saved.");
+  if (!response.ok) {
+    window.alert("Foundation could not be saved.");
+    return;
   }
+
+  window.location.href = "/dashboard";
+}
 
   return (
     <div className="min-h-screen bg-black text-white">
