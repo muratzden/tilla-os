@@ -259,6 +259,31 @@ export interface BrandMemory {
   lastUpdatedAt: string;
 }
 
+export interface MissionControlIntelligenceState {
+  score: number;
+  diagnosis: Array<{
+    area: string;
+    severity: "low" | "medium" | "high";
+    reason: string;
+  }>;
+  risks: Array<{
+    area: string;
+    risk: "low" | "medium" | "high";
+    description: string;
+  }>;
+  opportunities: Array<{
+    area: string;
+    score: number;
+    reason: string;
+  }>;
+  priorities: Array<{
+    area: string;
+    rank: number;
+    reason: string;
+  }>;
+  nextBestAction: string;
+}
+
 export interface MissionControlState {
   readinessScore: number;
   diagnosis: string;
@@ -275,6 +300,7 @@ export interface MissionControlState {
   missingInputs: string[];
   actionPlan: string[];
   expectedImpact: string[];
+  intelligence?: MissionControlIntelligenceState;
 }
 
 export interface DecisionInput {

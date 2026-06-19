@@ -6,3 +6,4 @@ export * from "./evaluate-authority";
 export * from "./evaluate-channels";
 export * from "./evaluate-growth";
 export * from "./evaluate-brand-intelligence";
+export * from "./merge-mission-control-intelligence";
