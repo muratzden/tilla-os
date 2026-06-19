@@ -1,16 +1,17 @@
 export type BrandSignalCategory =
   | "identity"
+  | "audience"
+  | "belief"
+  | "transformation"
+  | "principles"
   | "positioning"
-  | "pricing"
+  | "values"
+  | "direction"
   | "quality"
-  | "production"
   | "trust"
   | "growth"
-  | "audience"
-  | "transformation"
-  | "voice"
-  | "values";
-
+  | "constraint";
+  
 export interface BrandSignal {
   id: string;
 

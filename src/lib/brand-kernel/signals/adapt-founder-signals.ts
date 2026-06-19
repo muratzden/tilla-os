@@ -10,7 +10,7 @@ const TAG_TO_CATEGORY: Record<string, BrandSignalCategory> = {
   transformation: "transformation",
   differentiation: "positioning",
   growth: "growth",
-  constraint: "identity",
+  constraint: "constraint",
 };
 
 const TAG_TO_SIGNAL_ID: Record<string, string> = {

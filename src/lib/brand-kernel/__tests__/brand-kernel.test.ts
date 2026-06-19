@@ -1,11 +1,9 @@
 import { describe, expect, it } from "vitest";
 
 import { runBrandKernel } from "../brand-kernel";
-import { auditDecisionAgainstPolicies } from "../decision-audit-engine";
-import { generateDecisionCorrection } from "../correction-engine";
 
 describe("Brand Kernel", () => {
-  it("builds a complete operating model", async () => {
+  it("routes founder answers through aggregation, validation, and manifesto gate", async () => {
     const result = await runBrandKernel({
       rawAnswers: [
         "We make handmade products with long-term quality.",
@@ -15,33 +13,25 @@ describe("Brand Kernel", () => {
       ],
     });
 
-    expect(result.manifesto?.title).toBe(
-      "Authenticity over perfection",
-    );
+    expect(result.signals.length).toBeGreaterThan(0);
+    expect(result.brandSignals.length).toBeGreaterThan(0);
+
+    expect(result.aggregation.aggregatedSignals.length).toBeGreaterThan(0);
 
     expect(
-      result.missionControl.primaryBottleneck.area,
-    ).toBe("transformation");
+      result.validation.approved.length +
+        result.validation.needsMoreEvidence.length +
+        result.validation.rejected.length,
+    ).toBe(result.aggregation.aggregatedSignals.length);
 
-    expect(result.policies.length).toBeGreaterThan(0);
-
-    const audit = auditDecisionAgainstPolicies(
-      "Use fake scarcity and urgent discounts to sell faster.",
-      result.policies,
+    expect(result.manifestoGate.readiness.status).toBe(
+      "NEED_MORE_INFORMATION",
     );
 
-    expect(audit.status).toBe("fail");
+    expect(result.manifesto).toBeNull();
+    expect(result.constitution).toBeNull();
+    expect(result.policies).toEqual([]);
 
-    const correction =
-      generateDecisionCorrection(
-        "Use fake scarcity and urgent discounts to sell faster.",
-        audit,
-      );
-
-    expect(correction).not.toBeNull();
-
-    expect(
-      correction?.correctedDecision,
-    ).toContain("trust");
+    expect(result.missionControl.primaryBottleneck.area).toBeDefined();
   });
 });

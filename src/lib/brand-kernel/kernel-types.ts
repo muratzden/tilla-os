@@ -4,7 +4,10 @@ import { ManifestoPrinciple } from "./manifesto-discovery-engine";
 import { KernelMissionControl } from "./mission-control-engine";
 import { BrandConstitution } from "./constitution-generator";
 import { DecisionPolicy } from "./decision-policy-generator";
-
+import type { BrandSignal } from "./signals/types";
+import type { SignalAggregationReport } from "./aggregation/aggregation-types";
+import type { SignalValidationReport } from "./validation/signal-validation-types";
+import type { ManifestoGateReport } from "./manifesto-gate/manifesto-gate-types";
 
 export interface KernelInput {
   rawAnswers: string[];
@@ -12,15 +15,20 @@ export interface KernelInput {
 
 export interface KernelOutput {
   signals: FounderSignal[];
+  brandSignals: BrandSignal[];
+  approvedSignals: BrandSignal[];
+
+  aggregation: SignalAggregationReport;
+  validation: SignalValidationReport;
+  manifestoGate: ManifestoGateReport;
 
   graph: BrandGraph;
 
   manifesto: ManifestoPrinciple | null;
-  
-   constitution: BrandConstitution | null;
-   
-   policies: DecisionPolicy[];
+
+  constitution: BrandConstitution | null;
+
+  policies: DecisionPolicy[];
 
   missionControl: KernelMissionControl;
-  
 }

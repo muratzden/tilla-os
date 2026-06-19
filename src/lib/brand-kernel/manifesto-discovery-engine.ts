@@ -1,7 +1,5 @@
-import { FounderSignal } from "./founder-signals";
-import {
-  scoreManifestoPatterns,
-} from "./manifesto-scoring-engine";
+import type { BrandSignal } from "./signals/types";
+import { scoreManifestoPatterns } from "./manifesto-scoring-engine";
 
 export interface ManifestoPrinciple {
   title: string;
@@ -11,51 +9,36 @@ export interface ManifestoPrinciple {
 }
 
 interface ManifestoPattern {
-  requiredTags: string[];
+  requiredSignals: string[];
   title: string;
   rationale: string;
 }
 
 export const MANIFESTO_PATTERNS: ManifestoPattern[] = [
   {
-    requiredTags: ["craftsmanship", "durability"],
+    requiredSignals: ["handcrafted_quality", "durability"],
     title: "Authenticity over perfection",
     rationale:
       "Long-term value and honest craftsmanship matter more than artificial perfection.",
   },
 
   {
-    requiredTags: ["premium", "trust"],
+    requiredSignals: ["premium_positioning", "long_term_trust"],
     title: "Trust before scale",
-    rationale:
-      "Credibility should grow before aggressive expansion.",
+    rationale: "Credibility should grow before aggressive expansion.",
   },
 
   {
-    requiredTags: ["growth", "constraint"],
+    requiredSignals: ["growth_ambition", "constraint"],
     title: "Sustainable growth over fast growth",
-    rationale:
-      "Growth should not destroy positioning or long-term value.",
+    rationale: "Growth should not destroy positioning or long-term value.",
   },
 ];
 
-function hasRequiredTags(
-  availableTags: string[],
-  requiredTags: string[],
-): boolean {
-  return requiredTags.every((tag) =>
-    availableTags.includes(tag),
-  );
-}
-
 export function discoverManifesto(
-  signals: FounderSignal[],
+  signals: BrandSignal[],
 ): ManifestoPrinciple | null {
-  const candidates =
-    scoreManifestoPatterns(
-      MANIFESTO_PATTERNS,
-      signals,
-    );
+  const candidates = scoreManifestoPatterns(MANIFESTO_PATTERNS, signals);
 
   const winner = candidates[0];
 

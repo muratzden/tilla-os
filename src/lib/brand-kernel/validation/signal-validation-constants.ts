@@ -1,0 +1,3 @@
+export const MIN_SIGNAL_EVIDENCE_COUNT = 2;
+
+export const MIN_SIGNAL_CONFIDENCE = 0.6;

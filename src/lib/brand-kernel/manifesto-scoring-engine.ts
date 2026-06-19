@@ -1,4 +1,4 @@
-import { FounderSignal } from "./founder-signals";
+import type { BrandSignal } from "./signals/types";
 
 export interface ManifestoCandidate {
   title: string;
@@ -15,30 +15,26 @@ export interface ManifestoPattern {
 
   rationale: string;
 
-  requiredTags: string[];
+  requiredSignals: string[];
 }
 
 export function scoreManifestoPatterns(
   patterns: ManifestoPattern[],
-  signals: FounderSignal[],
+  signals: BrandSignal[],
 ): ManifestoCandidate[] {
-  const availableTags = Array.from(
-    new Set(
-      signals.flatMap((signal) => signal.tags),
-    ),
-  );
+  const availableSignalIds = new Set(signals.map((signal) => signal.id));
+  const availableCategories = new Set(signals.map((signal) => signal.category));
 
   return patterns
     .map((pattern) => {
-      const matchedSignals =
-        pattern.requiredTags.filter((tag) =>
-          availableTags.includes(tag),
-        );
+      const matchedSignals = pattern.requiredSignals.filter(
+        (requiredSignal) =>
+          availableSignalIds.has(requiredSignal) ||
+          availableCategories.has(requiredSignal as BrandSignal["category"]),
+      );
 
       const score = Math.round(
-        (matchedSignals.length /
-          pattern.requiredTags.length) *
-          100,
+        (matchedSignals.length / pattern.requiredSignals.length) * 100,
       );
 
       return {

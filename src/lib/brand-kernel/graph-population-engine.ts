@@ -1,7 +1,6 @@
 import { BrandGraph, GraphNode } from "./brand-graph";
 import { createEmptyBrandGraph } from "./create-empty-graph";
-import { FounderSignal } from "./founder-signals";
-import { GraphArea, SIGNAL_TAXONOMY } from "./signal-taxonomy";
+import type { BrandSignal, BrandSignalCategory } from "./signals/types";
 
 function clampConfidence(value: number): number {
   return Math.max(0, Math.min(100, Math.round(value)));
@@ -38,8 +37,9 @@ function calculateOverallConfidence(graph: BrandGraph): number {
   return clampConfidence(total / nodes.length);
 }
 
-function addSignalToNode(node: GraphNode, signal: FounderSignal): GraphNode {
-  const nextSignals = Array.from(new Set([...node.signals, signal.text]));
+function addSignalToNode(node: GraphNode, signal: BrandSignal): GraphNode {
+  const signalText = signal.evidence.join(" ");
+  const nextSignals = Array.from(new Set([...node.signals, signalText]));
 
   return {
     ...node,
@@ -48,19 +48,20 @@ function addSignalToNode(node: GraphNode, signal: FounderSignal): GraphNode {
   };
 }
 
-function resolveGraphAreas(signal: FounderSignal): GraphArea[] {
-  const areas = signal.tags.flatMap((tag) => {
-    const definition = SIGNAL_TAXONOMY[tag];
-
-    if (!definition) {
-      return [];
-    }
-
-    return definition.graphAreas;
-  });
-
-  return Array.from(new Set(areas));
-}
+const CATEGORY_TO_GRAPH_AREAS: Record<BrandSignalCategory, (keyof BrandGraph)[]> = {
+  identity: ["identity"],
+  audience: ["audience"],
+  belief: ["beliefs"],
+  transformation: ["transformation"],
+  principles: ["beliefs"],
+  positioning: ["positioning", "differentiators"],
+  values: ["beliefs"],
+  direction: ["objectives"],
+  quality: ["trustSignals", "differentiators"],
+  trust: ["trustSignals"],
+    growth: ["growth", "objectives"],
+  constraint: ["constraints"],
+};
 
 function calculateAllNodeConfidence(graph: BrandGraph): void {
   graph.identity.confidence = calculateNodeConfidence(graph.identity);
@@ -76,13 +77,17 @@ function calculateAllNodeConfidence(graph: BrandGraph): void {
   graph.constraints.confidence = calculateNodeConfidence(graph.constraints);
 }
 
-export function populateBrandGraph(signals: FounderSignal[]): BrandGraph {
+export function populateBrandGraph(signals: BrandSignal[]): BrandGraph {
   const graph = createEmptyBrandGraph();
 
   for (const signal of signals) {
-    const areas = resolveGraphAreas(signal);
+    const areas = CATEGORY_TO_GRAPH_AREAS[signal.category] ?? [];
 
     for (const area of areas) {
+      if (area === "overallConfidence") {
+        continue;
+      }
+
       graph[area] = addSignalToNode(graph[area], signal);
     }
   }
