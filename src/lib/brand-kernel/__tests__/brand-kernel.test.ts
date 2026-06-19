@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { runBrandKernel } from "../brand-kernel";
 
 describe("Brand Kernel", () => {
-  it("routes founder answers through aggregation, validation, and manifesto gate", async () => {
+  it("routes founder answers through aggregation, validation, manifesto gate and mission intelligence", async () => {
     const result = await runBrandKernel({
       rawAnswers: [
         "We make handmade products with long-term quality.",
@@ -33,5 +33,18 @@ describe("Brand Kernel", () => {
     expect(result.policies).toEqual([]);
 
     expect(result.missionControl.primaryBottleneck.area).toBeDefined();
+
+    expect(result.missionControlIntelligence.score).toBeGreaterThanOrEqual(0);
+    expect(result.missionControlIntelligence.diagnosis.length).toBeGreaterThan(
+      0,
+    );
+    expect(result.missionControlIntelligence.risks.length).toBeGreaterThan(0);
+    expect(result.missionControlIntelligence.opportunities.length).toBeGreaterThan(
+      0,
+    );
+    expect(result.missionControlIntelligence.priorities.length).toBeGreaterThan(
+      0,
+    );
+    expect(result.missionControlIntelligence.nextBestAction).toBeTruthy();
   });
 });

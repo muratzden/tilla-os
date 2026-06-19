@@ -4,6 +4,7 @@ import {
 } from "@/src/core/brand-os/state-engine";
 import type { BrandOperatingState } from "@/src/core/brand-os/types";
 import type { BrandSetup } from "@/src/lib/brand/setup/brand-setup-types";
+import type { MissionControlIntelligenceReport } from "@/src/lib/brand-kernel/mission-control-intelligence/mission-control-types";
 import { normalizeBrandSetup } from "@/src/lib/brand/setup/default-brand-setup";
 
 function listFromUnknown(value: unknown): string[] {
@@ -51,6 +52,7 @@ function readList(record: unknown, key: string): string[] {
 
 export function createBrandOSStateFromBrandSetup(
   brandSetupInput: BrandSetup,
+  kernelIntelligence?: MissionControlIntelligenceReport,
 ): BrandOperatingState {
   const brandSetup = normalizeBrandSetup(brandSetupInput);
 
@@ -163,7 +165,7 @@ export function createBrandOSStateFromBrandSetup(
         ...readList(positioning, "constraints"),
       ],
     },
-  });
+    }, undefined, kernelIntelligence);
 
   return updated.state;
 }

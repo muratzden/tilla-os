@@ -11,7 +11,7 @@ import {
 } from "@/src/lib/workspace/workspace-brand-setup-service";
 
 
-import { createBrandOSStateFromBrandSetup } from "@/src/lib/brand-os/brand-setup-to-brand-os-state";
+import { createBrandOSStateWithKernel } from "@/src/lib/brand-os/create-brand-os-state-with-kernel";
 import { saveBrandOSState } from "@/src/lib/brand-os/brand-os-state-storage";
 
 
@@ -58,9 +58,9 @@ export async function POST(request: Request) {
 
   saveWorkspaceBrandSetup(auth.workspace.id, brandSetup);
   
-  const brandOSState = createBrandOSStateFromBrandSetup(brandSetup);
+  const brandOSState = await createBrandOSStateWithKernel(brandSetup);
 
-await saveBrandOSState(auth.workspace.id, brandOSState);
+  await saveBrandOSState(auth.workspace.id, brandOSState);
 
   return NextResponse.json({
     success: true,

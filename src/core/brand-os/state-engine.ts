@@ -41,6 +41,7 @@ import type {
   StateChangeResult,
   StudioId
 } from "./types";
+import type { MissionControlIntelligenceReport } from "@/src/lib/brand-kernel/mission-control-intelligence/mission-control-types";
 
 export interface RecordDecisionOutcomePayload {
   decisionId: string;
@@ -120,7 +121,8 @@ function storeEvents(state: BrandOperatingState, events: BrandEvent[]): BrandOpe
 function finalizeStateChange(
   state: BrandOperatingState,
   events: BrandEvent[],
-  now = new Date().toISOString()
+  now = new Date().toISOString(),
+  kernelIntelligence?: MissionControlIntelligenceReport
 ): StateChangeResult {
   const score = calculateBrandScore(state);
   const scoreSnapshot = createScoreSnapshot(score, now);
@@ -158,9 +160,12 @@ function finalizeStateChange(
     allEvents
   );
   const stateWithMissionControl: BrandOperatingState = {
-    ...stateBeforeMissionControl,
-    missionControl: createMissionControlState(stateBeforeMissionControl)
-  };
+  ...stateBeforeMissionControl,
+  missionControl: createMissionControlState(
+    stateBeforeMissionControl,
+    kernelIntelligence
+  )
+};
   const refreshedDecisions = refreshDecisions(stateWithMissionControl, now);
   const decisionRefreshEvents = refreshedDecisions
     .filter((decision) => !stateWithMissionControl.decisions.some((existingDecision) => existingDecision.id === decision.id))
@@ -279,7 +284,8 @@ export function initializeBrandOS(input: BrandSeedInput, now = new Date().toISOS
 export function applyBrandInput(
   state: BrandOperatingState,
   input: BrandOSUpdateInput,
-  now = new Date().toISOString()
+  now = new Date().toISOString(),
+  kernelIntelligence?: MissionControlIntelligenceReport
 ): StateChangeResult {
   const normalizedInput = normalizeBrandOSUpdate(input);
   const event = createEvent("input_applied", "Brand input was applied to the operating state.", now, {
@@ -308,8 +314,9 @@ export function applyBrandInput(
         )
       )
     },
-    [event],
-    now
+        [event],
+    now,
+    kernelIntelligence
   );
 }
 

@@ -3,10 +3,11 @@ import { generateConstitution } from "./constitution-generator";
 import { generateDecisionPolicies } from "./decision-policy-generator";
 import { extractSignals } from "./extraction-engine";
 import { populateBrandGraph } from "./graph-population-engine";
-import { KernelInput, KernelOutput } from "./kernel-types";
+import type { KernelInput, KernelOutput } from "./kernel-types";
 import { evaluateManifestoGate } from "./manifesto-gate/evaluate-manifesto-gate";
 import { discoverManifesto } from "./manifesto-discovery-engine";
 import { runKernelMissionControl } from "./mission-control-engine";
+import { buildMissionControlIntelligence } from "./mission-control-intelligence/mission-control-intelligence";
 import { adaptFounderSignalsToBrandSignals } from "./signals/adapt-founder-signals";
 import type { BrandSignal } from "./signals/types";
 import { validateSignals } from "./validation";
@@ -75,6 +76,9 @@ export async function runBrandKernel(
 
   const missionControl = runKernelMissionControl(graph);
 
+  const missionControlIntelligence =
+    buildMissionControlIntelligence(approvedSignals);
+
   return {
     signals,
     brandSignals,
@@ -82,6 +86,7 @@ export async function runBrandKernel(
     aggregation,
     validation,
     manifestoGate,
+    missionControlIntelligence,
     graph,
     manifesto,
     constitution,
