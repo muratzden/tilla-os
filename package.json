@@ -9,7 +9,7 @@
     "lint": "eslint",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
-	"test": "vitest run src/lib/brand-kernel/__tests__/brand-kernel.test.ts"
+	"test": "vitest run"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
