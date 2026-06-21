@@ -4,16 +4,15 @@ import {
 } from "@/src/core/brand-os/state-engine";
 import type { BrandOperatingState } from "@/src/core/brand-os/types";
 import type { BrandSetup } from "@/src/lib/brand/setup/brand-setup-types";
-import type { MissionControlIntelligenceReport } from "@/src/lib/brand-kernel/mission-control-intelligence/mission-control-types";
 import { normalizeBrandSetup } from "@/src/lib/brand/setup/default-brand-setup";
+import type { KernelOutput } from "@/src/lib/brand-kernel/kernel-types";
+import type { MissionControlIntelligenceReport } from "@/src/lib/brand-kernel/mission-control-intelligence/mission-control-types";
 
 function listFromUnknown(value: unknown): string[] {
   if (!value) return [];
 
   if (Array.isArray(value)) {
-    return value
-      .map((item) => String(item).trim())
-      .filter(Boolean);
+    return value.map((item) => String(item).trim()).filter(Boolean);
   }
 
   if (typeof value === "string") {
@@ -53,6 +52,7 @@ function readList(record: unknown, key: string): string[] {
 export function createBrandOSStateFromBrandSetup(
   brandSetupInput: BrandSetup,
   kernelIntelligence?: MissionControlIntelligenceReport,
+  kernelOutput?: KernelOutput,
 ): BrandOperatingState {
   const brandSetup = normalizeBrandSetup(brandSetupInput);
 
@@ -100,72 +100,87 @@ export function createBrandOSStateFromBrandSetup(
     readString(positioning, "offer") ||
     readString(positioning, "coreOffer");
 
-  const updated = applyBrandInput(initialized.state, {
-    audience: {
-      primary: primaryAudience,
-      needs: [
-        ...readList(audience, "needs"),
-        ...readList(audience, "painPoints"),
-      ],
-      barriers: [
-        ...readList(audience, "barriers"),
-        ...readList(audience, "objections"),
-      ],
-      desiredOutcome,
+  const updated = applyBrandInput(
+    initialized.state,
+    {
+      audience: {
+        primary: primaryAudience,
+        needs: [
+          ...readList(audience, "needs"),
+          ...readList(audience, "painPoints"),
+        ],
+        barriers: [
+          ...readList(audience, "barriers"),
+          ...readList(audience, "objections"),
+        ],
+        desiredOutcome,
+      },
+      positioning: {
+        category,
+        promise,
+        differentiators: [
+          ...readList(positioning, "differentiators"),
+          ...readList(positioning, "difference"),
+        ],
+        proofPoints: [
+          ...readList(positioning, "proofPoints"),
+          ...readList(values, "proofSignals"),
+        ],
+      },
+      trust: {
+        signals: [
+          ...readList(values, "proofSignals"),
+          ...readList(values, "trustSignals"),
+        ],
+      },
+      authority: {
+        themes: [
+          ...readList(voice, "authorityThemes"),
+          ...readList(values, "principles"),
+        ],
+        evidence: [
+          ...readList(values, "proofSignals"),
+          ...readList(positioning, "proofPoints"),
+        ],
+      },
+      offer: {
+        core: coreOffer,
+        outcomes: listFromUnknown(desiredOutcome),
+        constraints: [
+          ...readList(values, "constraints"),
+          ...readList(positioning, "constraints"),
+        ],
+      },
+      channels: {
+        primary: [
+          ...readList(visualDirection, "channels"),
+          ...readList(positioning, "channels"),
+        ],
+      },
+      growth: {
+        objectives: [
+          ...readList(positioning, "ambition"),
+          ...readList(values, "ambition"),
+        ],
+        constraints: [
+          ...readList(values, "constraints"),
+          ...readList(positioning, "constraints"),
+        ],
+      },
     },
-    positioning: {
-      category,
-      promise,
-      differentiators: [
-        ...readList(positioning, "differentiators"),
-        ...readList(positioning, "difference"),
-      ],
-      proofPoints: [
-        ...readList(positioning, "proofPoints"),
-        ...readList(values, "proofSignals"),
-      ],
-    },
-    trust: {
-      signals: [
-        ...readList(values, "proofSignals"),
-        ...readList(values, "trustSignals"),
-      ],
-    },
-    authority: {
-      themes: [
-        ...readList(voice, "authorityThemes"),
-        ...readList(values, "principles"),
-      ],
-      evidence: [
-        ...readList(values, "proofSignals"),
-        ...readList(positioning, "proofPoints"),
-      ],
-    },
-    offer: {
-      core: coreOffer,
-      outcomes: listFromUnknown(desiredOutcome),
-      constraints: [
-        ...readList(values, "constraints"),
-        ...readList(positioning, "constraints"),
-      ],
-    },
-    channels: {
-      primary: [
-        ...readList(visualDirection, "channels"),
-        ...readList(positioning, "channels"),
-      ],
-    },
-    growth: {
-      objectives: [
-        ...readList(positioning, "ambition"),
-        ...readList(values, "ambition"),
-      ],
-      constraints: [
-        ...readList(values, "constraints"),
-        ...readList(positioning, "constraints"),
-      ],
-    },
-    }, undefined, kernelIntelligence);
+    undefined,
+    kernelIntelligence,
+  );
 
-  return updated.state;
+  return {
+    ...updated.state,
+    kernel: kernelOutput
+      ? {
+          manifesto: kernelOutput.manifesto,
+          constitution: kernelOutput.constitution,
+          policies: kernelOutput.policies,
+          graph: kernelOutput.graph,
+        }
+      : updated.state.kernel,
+  };
 }
