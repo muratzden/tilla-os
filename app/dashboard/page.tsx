@@ -93,7 +93,7 @@ export default function DashboardPage() {
   const [input, setInput] = useState<InputState>(defaultInput);
   const [uiLanguage, setUiLanguage] = useState<UILanguage>("en");
   const [brandSetup, setBrandSetup] = useState<BrandSetup>(defaultBrandSetup);
-  const [data, setData] = useState<any>(null);
+ 
   const [activeTab, setActiveTab] = useState<DashboardTab>("mission");
   const [booting, setBooting] = useState(true);
   const [isMobileNav, setIsMobileNav] = useState(false);
@@ -114,7 +114,7 @@ const [brandOSState, setBrandOSState] =
   );
 
   const brandProfile = getBrandProfile(brandSetup);
-  const pipeline = data?.pipeline;
+
   const kernelOutput = brandOSState?.kernel as Partial<KernelOutput> | null;
   const visibleTabs = isMobileNav ? mobileTabs : desktopTabs;
 
@@ -203,7 +203,7 @@ const [brandOSState, setBrandOSState] =
 
       const json = await res.json();
 
-      setData(json);
+      
     } catch (err) {
       console.error("Dashboard fetch error:", err);
     }

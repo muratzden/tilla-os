@@ -1,33 +1,36 @@
 import { NextRequest } from "next/server";
 
-import { runKernelDecision } from "../../../src/lib/brand-kernel/kernel-ui-adapter";
+import { runBrandKernel } from "../../../src/lib/brand-kernel/brand-kernel";
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
-    const input = {
-      type: body.type ?? "",
-      material: body.material ?? "",
-      color: body.color ?? "",
-      size: body.size ?? "",
-      channel: body.channel ?? "web",
-      brandId: body.brandId ?? "default-brand",
-      uiLanguage: body.uiLanguage ?? "en",
-      contentLanguage: body.contentLanguage ?? "en",
-      promptLanguage: body.promptLanguage ?? "en",
-      outputLanguage: body.outputLanguage,
-      seed: body.seed,
-    };
+    const rawAnswers = [
+      body.type,
+      body.material,
+      body.color,
+      body.size,
+      body.channel ?? "web",
+    ].filter((value): value is string => Boolean(value));
 
-    const result = await runKernelDecision(input);
-
-    return new Response(JSON.stringify(result), {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-      },
+    const kernel = await runBrandKernel({
+      rawAnswers,
     });
+
+    return new Response(
+      JSON.stringify({
+        success: true,
+        kernel,
+        missionControl: kernel.missionControl,
+      }),
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+        },
+      },
+    );
   } catch (error: any) {
     console.error("BRAND DECISION API ERROR:", error);
 
