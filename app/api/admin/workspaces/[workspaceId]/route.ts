@@ -5,7 +5,7 @@ import {
   adminApiError,
   adminApiSuccess,
 } from "@/src/core/admin/application/responses/admin-api-response";
-import { toAdminWorkspaceDto } from "@/src/core/admin/application/mappers/admin-workspace-mapper";
+import { getAdminWorkspaceQuery } from "@/src/core/admin/queries";
 
 type RouteContext = {
   params: Promise<{
@@ -18,11 +18,9 @@ export async function GET(_request: Request, { params }: RouteContext) {
 
   const admin = createAdminCompositionRoot();
 
-  const workspace = await admin.services.workspaceAdminService.getWorkspace(
-    workspaceId,
-  );
+  const dto = await getAdminWorkspaceQuery(admin, workspaceId);
 
-  if (!workspace) {
+  if (!dto) {
     return NextResponse.json(
       adminApiError("ADMIN_WORKSPACE_NOT_FOUND", "Workspace not found."),
       {
@@ -31,5 +29,5 @@ export async function GET(_request: Request, { params }: RouteContext) {
     );
   }
 
-  return NextResponse.json(adminApiSuccess(toAdminWorkspaceDto(workspace)));
+  return NextResponse.json(adminApiSuccess(dto));
 }
