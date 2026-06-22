@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-
+import type { KernelOutput } from "@/src/lib/brand-kernel/kernel-types";
 import SplashScreen from "@/components/splash-screen";
 import { getDashboardText } from "@/src/lib/i18n/dashboard-text";
 import { getLanguagePack } from "@/src/lib/i18n/get-language-pack";
@@ -115,6 +115,7 @@ const [brandOSState, setBrandOSState] =
 
   const brandProfile = getBrandProfile(brandSetup);
   const pipeline = data?.pipeline;
+  const kernelOutput = brandOSState?.kernel as Partial<KernelOutput> | null;
   const visibleTabs = isMobileNav ? mobileTabs : desktopTabs;
 
   const activeOutputLanguage = (
@@ -473,7 +474,7 @@ setMissionControl(null);
                   )}
 
                   {activeTab === "studios" && (
-                    <OutputTab pipeline={pipeline} language={activeOutputLanguage} />
+                    <OutputTab kernel={kernelOutput} language={activeOutputLanguage} />
                   )}
 
                   {activeTab === "marketplace" && <IntelligenceMarketplacePanel />}

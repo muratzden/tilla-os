@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 
-import { brandCore } from "../../../src/lib/engines/brand-core";
+import { runKernelDecision } from "../../../src/lib/brand-kernel/kernel-ui-adapter";
 
 export async function POST(request: NextRequest) {
   try {
@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
       seed: body.seed,
     };
 
-    const result = brandCore(input);
+    const result = await runKernelDecision(input);
 
     return new Response(JSON.stringify(result), {
       status: 200,
