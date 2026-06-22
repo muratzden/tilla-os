@@ -1,5 +1,11 @@
 import { NextResponse } from "next/server";
+
 import { createAdminCompositionRoot } from "@/src/core/admin/admin-composition-root";
+import {
+  adminApiError,
+  adminApiSuccess,
+} from "@/src/core/admin/application/responses/admin-api-response";
+import { toAdminWorkspaceDto } from "@/src/core/admin/application/mappers/admin-workspace-mapper";
 
 type RouteContext = {
   params: Promise<{
@@ -18,16 +24,12 @@ export async function GET(_request: Request, { params }: RouteContext) {
 
   if (!workspace) {
     return NextResponse.json(
-      {
-        workspace: null,
-      },
+      adminApiError("ADMIN_WORKSPACE_NOT_FOUND", "Workspace not found."),
       {
         status: 404,
       },
     );
   }
 
-  return NextResponse.json({
-    workspace,
-  });
+  return NextResponse.json(adminApiSuccess(toAdminWorkspaceDto(workspace)));
 }

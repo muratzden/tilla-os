@@ -1,23 +1,35 @@
+import { getWorkspaceSettings } from "@/src/lib/workspace/workspace-settings-storage";
+
+import type { SettingsAdminRepository } from "../contracts/settings-admin-repository";
 import type {
   AdminSystemSettings,
   AdminWorkspaceSettings,
-} from "../../domain/admin-settings";
-import type { SettingsAdminRepository } from "../contracts/settings-admin-repository";
+} from "../../domain/settings/settings-types";
 
 export class SettingsAdminRepositoryImpl implements SettingsAdminRepository {
   async getSystemSettings(): Promise<AdminSystemSettings> {
     return {
+      marketplaceEnabled: true,
+      packageInstallationEnabled: true,
+      featureFlagsEnabled: false,
       maintenanceMode: false,
-      registrationEnabled: true,
     };
   }
 
   async getWorkspaceSettings(
     workspaceId: string,
   ): Promise<AdminWorkspaceSettings | null> {
-    return {
-      workspaceId,
-      status: "active",
-    };
+    const settings = await getWorkspaceSettings(workspaceId);
+
+    if (!settings) {
+      return null;
+    }
+
+   return {
+  workspaceId,
+  defaultLanguage: "en",
+  activeOutputLanguage: "en",
+  marketplaceEnabled: true,
+};
   }
 }

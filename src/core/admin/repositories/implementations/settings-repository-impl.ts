@@ -4,21 +4,32 @@ import type { SettingsAdminRepository } from "../contracts/settings-admin-reposi
 import type {
   AdminSystemSettings,
   AdminWorkspaceSettings,
-} from "../../domain/admin-settings";
+} from "../../domain/settings/settings-types";
 
 export class SettingsRepositoryImpl implements SettingsAdminRepository {
   async getSystemSettings(): Promise<AdminSystemSettings> {
-  return {
-    maintenanceMode: false,
-    registrationEnabled: true,
-  };
-}
+    return {
+      marketplaceEnabled: true,
+      packageInstallationEnabled: true,
+      featureFlagsEnabled: false,
+      maintenanceMode: false,
+    };
+  }
 
   async getWorkspaceSettings(
     workspaceId: string,
   ): Promise<AdminWorkspaceSettings | null> {
     const settings = await getWorkspaceSettings(workspaceId);
 
-    return settings as AdminWorkspaceSettings | null;
+    if (!settings) {
+      return null;
+    }
+
+    return {
+  workspaceId,
+  defaultLanguage: "en",
+  activeOutputLanguage: "en",
+  marketplaceEnabled: true,
+};
   }
 }
