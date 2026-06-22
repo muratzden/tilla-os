@@ -9,7 +9,7 @@ import { getLanguagePack } from "@/src/lib/i18n/get-language-pack";
 import { defaultBrandSetup } from "@/src/lib/brand/setup/brand-setup-defaults";
 import { calculateBrandReadiness } from "@/src/lib/brand/setup/brand-readiness";
 import { getBrandProfile } from "@/src/lib/brand/setup/brand-profile";
-import { getCurrentBrand } from "@/src/lib/brand/setup/brand-context";
+
 import type { BrandSetup } from "@/src/lib/brand/setup/brand-setup-types";
 import { normalizeBrandSetup } from "@/src/lib/brand/setup/default-brand-setup";
 
@@ -22,7 +22,10 @@ import { IntelligenceMarketplacePanel } from "./components/intelligence-marketpl
 
 import { ActiveModuleShell } from "./components/active-module-shell";
 import { MissionControlV2 } from "./components/mission-control-v2";
-import type { MissionControlState } from "@/src/core/brand-os/types";
+import type {
+  BrandOperatingState,
+  MissionControlState,
+} from "@/src/core/brand-os/types";
 
 
 type OutputLanguage = "tr" | "en" | "de";
@@ -96,17 +99,21 @@ export default function DashboardPage() {
   const [isMobileNav, setIsMobileNav] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [authContext, setAuthContext] = useState<AuthContextState | null>(null);
+
 const [missionControl, setMissionControl] =
   useState<MissionControlState | null>(null);
+
+const [brandOSState, setBrandOSState] =
+  useState<BrandOperatingState | null>(null);
   
   const text = getLanguagePack(uiLanguage);
-  const currentBrand = getCurrentBrand();
+
 
   const brandReadiness = calculateBrandReadiness(
     normalizeBrandSetup(brandSetup),
   );
 
-  const brandProfile = getBrandProfile(currentBrand?.id);
+  const brandProfile = getBrandProfile(brandSetup);
   const pipeline = data?.pipeline;
   const visibleTabs = isMobileNav ? mobileTabs : desktopTabs;
 
@@ -186,7 +193,7 @@ const [missionControl, setMissionControl] =
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...nextInput,
-          brandId: currentBrand?.id,
+       
           interviewLanguage: brandSetup.identity.interviewLanguage,
           foundationLanguage: brandSetup.identity.foundationLanguage,
           promptLanguage: "en",
@@ -285,10 +292,12 @@ const [missionControl, setMissionControl] =
 
       const result = await response.json();
 
-      setMissionControl(result.missionControl ?? null);
+      setBrandOSState(result.state ?? null);
+setMissionControl(result.missionControl ?? null);
     } catch (error) {
       console.error("Brand OS state load failed", error);
-      setMissionControl(null);
+      setBrandOSState(null);
+setMissionControl(null);
     }
   }
 
@@ -452,7 +461,7 @@ const [missionControl, setMissionControl] =
                 <section className="rounded-[2rem] border border-white/10 bg-zinc-950/60 p-4 shadow-2xl shadow-black/30 backdrop-blur-xl md:p-6">
                   {activeTab === "foundation" && (
                     <FoundationTab
-                      currentBrand={currentBrand}
+                      
                       brandReadiness={brandReadiness}
                       brandProfile={brandProfile}
                       language={activeOutputLanguage}
@@ -460,10 +469,7 @@ const [missionControl, setMissionControl] =
                   )}
 
                   {activeTab === "manifesto" && (
-                    <ManifestoTab
-                      brandId={currentBrand?.id}
-                      language={activeOutputLanguage}
-                    />
+                    <ManifestoTab kernel={brandOSState?.kernel ?? null} />
                   )}
 
                   {activeTab === "studios" && (

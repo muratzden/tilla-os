@@ -1,4 +1,4 @@
-import { DecisionPolicy } from "./decision-policy-generator";
+import type { DecisionPolicy } from "./decision-policy-generator";
 
 export type DecisionAuditStatus = "pass" | "warning" | "fail";
 
@@ -86,16 +86,16 @@ export function auditDecisionAgainstPolicies(
   const triggers = extractDecisionTriggers(decision);
 
   const matchedPolicies = policies.filter((policy) =>
-  policy.triggers.some((trigger) => triggers.includes(trigger)),
-);
+    policy.triggers.some((trigger) => triggers.includes(trigger)),
+  );
 
-const totalPenalty = matchedPolicies.reduce((sum, policy) => {
-  const matchedTriggerCount = policy.triggers.filter((trigger) =>
-    triggers.includes(trigger),
-  ).length;
+  const totalPenalty = matchedPolicies.reduce((sum, policy) => {
+    const matchedTriggerCount = policy.triggers.filter((trigger) =>
+      triggers.includes(trigger),
+    ).length;
 
-  return sum + severityPenalty(policy.severity) * matchedTriggerCount;
-}, 0);
+    return sum + severityPenalty(policy.severity) * matchedTriggerCount;
+  }, 0);
 
   const score = Math.max(0, 100 - totalPenalty);
 

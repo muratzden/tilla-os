@@ -36,34 +36,47 @@ type ContentInput = {
 const moodLanguage: Record<string, any> = {
   warm_heritage: {
     description: {
-      tr: "Zamanla karakter kazanan, sıcak ve dürüst bir deri ifadesi taşır. Frisco dokusunun doğal yüzeyi, kullanım izleriyle birlikte kişisel bir patinaya dönüşür.",
-      en: "A warm and honest leather expression that gains character over time. The natural Frisco texture develops a personal patina through use.",
+      tr: "Köklü değerleri, güven veren bir duruş ve tutarlı bir marka anlatımıyla birleştirir.",
+      en: "Combines grounded values with a trusted presence and consistent brand narrative.",
     },
-
     instagram: {
-      tr: "Sıcak camel tonu, yumuşak Frisco dokusu ve zamanla oluşacak doğal karakter.",
-      en: "Warm camel tones, soft Frisco texture and natural character that develops over time.",
+      tr: "Köklü değerler, net duruş ve tutarlı bir marka anlatımı.",
+      en: "Grounded values, clear presence and consistent brand narrative.",
     },
-
     seo: {
-      tr: "El yapımı Frisco camel deri evrak çantası. Zamanla patina kazanan sıcak, karakterli ve premium deri tasarım.",
-      en: "Handcrafted Frisco camel leather briefcase. A premium leather design that develops character and patina over time.",
+      tr: "Güven, süreklilik ve net konumlandırma üzerine kurulu marka içeriği.",
+      en: "Brand content built around trust, continuity and clear positioning.",
     },
   },
 
   quiet_power: {
-    description:
-      "Sade ama güçlü bir duruş için tasarlandı. Siyah deri yüzey, gereksiz detaylardan arınmış kontrollü bir otorite hissi verir.",
-    instagram:
-      "Gösterişsiz güç. Siyah deri, net form ve kontrollü bir premium duruş.",
-    seo: "El yapımı siyah deri evrak çantası. Minimal, güçlü ve profesyonel premium tasarım.",
+    description: {
+      tr: "Sade, kontrollü ve net bir duruşla marka kararını görünür kılar.",
+      en: "Makes the brand decision visible through a clear, controlled and focused presence.",
+    },
+    instagram: {
+      tr: "Net duruş. Kontrollü ifade. Güven veren marka kararı.",
+      en: "Clear presence. Controlled expression. A brand decision that builds trust.",
+    },
+    seo: {
+      tr: "Net konumlandırma, kontrollü ifade ve güven veren marka iletişimi.",
+      en: "Clear positioning, controlled expression and trusted brand communication.",
+    },
   },
 
   quiet_luxury: {
-    description:
-      "Sessiz lüks anlayışıyla tasarlanmış, zamansız ve dengeli bir deri parça. Fazla konuşmaz; malzemesi, formu ve işçiliğiyle kendini gösterir.",
-    instagram: "Sessiz lüks, doğal deri ve zamansız bir form.",
-    seo: "El yapımı premium deri çanta. Zamansız tasarım, sessiz lüks ve zanaatkâr işçilik.",
+    description: {
+      tr: "Abartıya kaçmadan değer, güven ve tutarlı marka algısı üretir.",
+      en: "Creates value, trust and consistent brand perception without relying on exaggeration.",
+    },
+    instagram: {
+      tr: "Sakin ifade, net değer ve tutarlı marka algısı.",
+      en: "Calm expression, clear value and consistent brand perception.",
+    },
+    seo: {
+      tr: "Sade, güvenilir ve uzun vadeli marka algısını destekleyen içerik.",
+      en: "Simple, trusted content that supports long-term brand perception.",
+    },
   },
 };
 
@@ -71,14 +84,24 @@ function resolveMoodLayer(archetypeHint?: string) {
   return moodLanguage[archetypeHint || ""] || moodLanguage.quiet_luxury;
 }
 
+function createHashtags(input: ContentInput) {
+  const category = input.dna?.category
+    ? String(input.dna.category).replace(/[^a-zA-Z0-9]/g, "")
+    : "Brand";
+
+  return [`#${category}`, "#BrandStrategy", "#BrandConsistency"]
+    .filter(Boolean)
+    .join(" ");
+}
+
 export function generateContent(input: ContentInput) {
-  const outputLanguage = input.outputLanguage ?? "tr";
+  const outputLanguage = input.outputLanguage ?? "en";
 
   const contentLanguage =
     input.languageConfig?.contentLanguage ?? outputLanguage;
 
-  const productName = input.productName || "Tilla";
-  const productTitle = input.productTitle || `${productName} Leather Piece`;
+  const productName = input.productName || "Brand Offer";
+  const productTitle = input.productTitle || `${productName} Brand Asset`;
 
   const dna = input.dna || {};
   const interpretation = input.dnaInterpretation || {};
@@ -90,20 +113,27 @@ export function generateContent(input: ContentInput) {
   const worldLine = world.environment ? worldNarrator(world) : "";
 
   const materialExpression =
-    interpretation.materialExpression || `${dna.material || "leather"} texture`;
+    interpretation.materialExpression ||
+    String(dna.material || "primary proof point");
 
   const colorExpression =
-    interpretation.colorExpression || `${dna.color || "natural"} leather tone`;
+    interpretation.colorExpression ||
+    String(dna.color || "brand expression");
+
+  const opening =
+    narrative.productLanguage?.opening ||
+    getLocalizedText(moodLayer.description, contentLanguage);
 
   const productDescription = `
 ${productTitle}
 
-${narrative.productLanguage?.opening || moodLayer.description}
+${opening}
 
 ${narrative.productLanguage?.material || ""}
 
 ${narrative.productLanguage?.emotion || ""}
 
+${worldLine}
 `.trim();
 
   const instagramCaption = `${productTitle}
@@ -114,21 +144,21 @@ ${narrative.productLanguage?.emotion || ""}
 
 ${getLocalizedText(
   {
-    tr: `Malzeme: ${materialExpression}`,
-    en: `Material: ${materialExpression}`,
+    tr: `Kanıt: ${materialExpression}`,
+    en: `Proof: ${materialExpression}`,
   },
   contentLanguage,
 )}
 
 ${getLocalizedText(
   {
-    tr: `Renk: ${colorExpression}`,
-    en: `Color: ${colorExpression}`,
+    tr: `İfade: ${colorExpression}`,
+    en: `Expression: ${colorExpression}`,
   },
   contentLanguage,
 )}
 
-#TillaLeather #HandmadeLeather #LeatherCraft #QuietLuxury`;
+${createHashtags(input)}`;
 
   const seoDescription = `
 ${productTitle}.
@@ -139,12 +169,11 @@ ${narrative.productLanguage?.emotion || ""}
 
 ${getLocalizedText(
   {
-    tr: "Tilla Leather Craft atölyesinde el yapımı olarak üretilmiştir.",
-    en: "Handcrafted in the Tilla Leather Craft workshop.",
+    tr: "Bu içerik marka konumlandırması, güven ve tutarlılık ilkelerine göre oluşturulmuştur.",
+    en: "This content is generated according to brand positioning, trust and consistency principles.",
   },
   contentLanguage,
 )}
-
 `.trim();
 
   return {

@@ -1,3 +1,6 @@
+// Legacy setup-v2 preview only.
+// Do not use this generator as the Brand Constitution source of truth.
+
 "use client";
 
 import { useMemo, useState } from "react";

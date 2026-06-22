@@ -1,4 +1,7 @@
-import { tillaConstitution } from "./tilla-constitution";
+export type ConstitutionRuleSet = {
+  forbiddenClaims: string[];
+  requiredValues: string[];
+};
 
 export type ConstitutionResult = {
   score: number;
@@ -6,14 +9,22 @@ export type ConstitutionResult = {
   requiredMissing: string[];
 };
 
-export function constitutionCheck(text: string): ConstitutionResult {
+const defaultConstitution: ConstitutionRuleSet = {
+  forbiddenClaims: [],
+  requiredValues: ["clarity", "consistency", "evidence", "audience fit", "trust"],
+};
+
+export function constitutionCheck(
+  text: string,
+  constitution: ConstitutionRuleSet = defaultConstitution,
+): ConstitutionResult {
   const content = text.toLowerCase();
 
-  const violations = tillaConstitution.forbiddenClaims.filter((claim) =>
+  const violations = constitution.forbiddenClaims.filter((claim) =>
     content.includes(claim.toLowerCase()),
   );
 
-  const requiredMissing = tillaConstitution.requiredValues.filter(
+  const requiredMissing = constitution.requiredValues.filter(
     (value) => !content.includes(value.toLowerCase()),
   );
 

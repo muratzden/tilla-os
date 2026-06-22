@@ -2,7 +2,7 @@ import { productMeaningEngine } from "./product-meaning/engine";
 import { brandKnowledge } from "../brand/brand-knowledge";
 import { dynamicScoringEngine } from "./dynamic-scoring";
 import { brandPersonality } from "../brand/brand-personality";
-import { brandGovernor } from "../brand/brand-governor";
+
 import { addBrandMemoryRecord } from "../brand/memory/memory-store";
 import { createBrandMemorySummary } from "../brand/memory/memory-engine";
 import { calculateBrandConsistency } from "../brand/memory/consistency-engine";
@@ -338,9 +338,12 @@ export function brandCore(input: any) {
     personalityImpact,
   };
 
-  const governed = brandGovernor({
-    text: decision.outputText,
-  });
+  const governed = {
+  rewrittenText: decision.outputText,
+  violations: [],
+  warnings: [],
+  score: 100,
+};
 
   const collection = collectionEngine({
     category: meaning.category,

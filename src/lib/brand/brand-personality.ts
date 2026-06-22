@@ -1,26 +1,28 @@
 export const brandPersonality = {
   identity: {
-    core: "quiet luxury artisan system",
-    archetype: "The Craft Guardian",
-    voice: "calm, precise, confident, minimal",
+    core: "adaptive brand operating system",
+    archetype: "The Strategic Operator",
+    voice: "clear, precise, confident, consistent",
   },
 
   behavior: {
-    consistency: 0.8, // how stable decisions should be
-    adaptability: 0.2, // how much it can change
+    consistency: 0.75,
+    adaptability: 0.25,
   },
 
   driftControl: {
     maxDeviation: 0.15,
-    stabilizeToward: "executive artisan luxury",
+    stabilizeToward: "strategic brand alignment",
   },
 
   evaluatePersonalityImpact(decision: any) {
     let score = 0;
 
-    if (decision.strategy.includes("executive")) score += 0.4;
-    if (decision.context?.includes("office environment")) score += 0.2;
-    if (decision.tone?.bias === "controlled_confidence") score += 0.3;
+    if (decision.strategy?.includes("positioning")) score += 0.3;
+    if (Array.isArray(decision.context) && decision.context.length > 0) {
+      score += 0.3;
+    }
+    if (decision.tone?.bias === "strategic_confidence") score += 0.3;
 
     return score;
   },

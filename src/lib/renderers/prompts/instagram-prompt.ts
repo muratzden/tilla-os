@@ -1,22 +1,22 @@
-// src/lib/renderers/prompts/instagram-prompt.ts
-
 export function renderInstagramPrompt(context: any) {
+  const product = context.product ?? "brand asset";
+
   return {
     caption: [
       context.narrative,
       "",
-      "El işçiliğinin sessiz gücü.",
-      context.product ? `${context.product} için tasarlandı.` : null,
+      "Clear positioning. Consistent expression. Stronger brand memory.",
+      product ? `Created for ${product}.` : null,
     ]
       .filter(Boolean)
       .join("\n"),
 
     hashtags: [
-      "#TillaLeather",
-      "#HandcraftedLeather",
-      "#QuietLuxury",
-      "#LeatherCraft",
-      "#MadeByHand",
+      "#BrandStrategy",
+      "#BrandConsistency",
+      "#BrandPositioning",
+      "#ContentSystem",
+      "#BrandOS",
     ],
   };
 }

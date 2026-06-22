@@ -1,7 +1,9 @@
 export function generateSeoDescription(meaning: any, knowledge: any) {
-  if (meaning.category === "briefcase") {
-    return "El yapımı hakiki deri evrak çantası. Sade tasarım, doğal deri dokusu ve profesyonel kullanım için premium deri işçiliği.";
-  }
+  const category = String(meaning?.category ?? "offer");
+  const positioning = String(
+    knowledge?.positioning ?? "clear category-specific positioning",
+  );
+  const audience = String(knowledge?.audience ?? "defined audience");
 
-  return `El yapımı hakiki deri ${meaning.category}. Tilla Leather Craft tarafından sade, zamansız ve premium kullanım için üretilmiştir.`;
+  return `${category} content built around ${positioning}, audience fit for ${audience}, and consistent brand trust.`;
 }

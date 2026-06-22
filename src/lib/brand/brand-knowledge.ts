@@ -6,18 +6,11 @@ type BrandKnowledgeEntry = {
 };
 
 const categories: Record<string, BrandKnowledgeEntry> = {
-  briefcase: {
-    positioning: "executive artisan luxury",
-    audience: "professional, premium taste, minimal lifestyle",
-    context: ["office environment", "business travel", "daily carry prestige"],
-    emotionBias: "controlled_confidence",
-  },
-
   default: {
-    positioning: "timeless artisan leather goods",
-    audience: "premium taste, minimal lifestyle",
-    context: ["daily use", "quiet luxury", "craftsmanship"],
-    emotionBias: "quiet_confidence",
+    positioning: "clear category-specific positioning",
+    audience: "defined target audience",
+    context: ["primary use case", "customer motivation", "decision context"],
+    emotionBias: "strategic_confidence",
   },
 };
 

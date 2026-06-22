@@ -35,7 +35,7 @@ function resolveMarketplaceOutputLanguage(
 export function getLanguageRuntime(
   input: LanguageRuntimeInput,
 ): LanguageRuntime {
-  const brandId = input.brandId ?? "tilla-leather";
+  const brandId = input.brandId ?? "default-brand";
 
   const uiLanguage = resolveUiLanguage(input.uiLanguage);
 

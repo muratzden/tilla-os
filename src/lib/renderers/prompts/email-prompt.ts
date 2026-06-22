@@ -1,26 +1,21 @@
-// src/lib/renderers/prompts/email-prompt.ts
-
 export function renderEmailPrompt(context: any) {
-  return {
-    subject: context.product
-      ? `${context.product} için sessiz bir zanaat hikâyesi`
-      : "Tilla Leather’dan yeni bir zanaat hikâyesi",
+  const product = context.product ?? "Brand update";
 
+  return {
+    subject: `${product}: a clear brand story`,
     previewText:
-      "Hakiki deri, el işçiliği ve zamansız kullanım için tasarlandı.",
+      "A focused message built around positioning, trust and consistency.",
 
     body: [
-      "Merhaba,",
+      "Hello,",
       "",
       context.narrative ??
-        "Tilla Leather’da her ürün aynı tasarım niyetiyle başlar; fakat el işçiliği sayesinde kendi karakterini kazanır.",
+        "Every strong brand message should connect positioning, audience fit and evidence into one clear story.",
       "",
-      context.material
-        ? `Bu parçada ${context.material} ifadesi öne çıkar.`
-        : null,
-      context.color ? `Renk karakteri: ${context.color}.` : null,
+      context.material ? `Proof point: ${context.material}.` : null,
+      context.color ? `Expression: ${context.color}.` : null,
       "",
-      "Detayları incelemek için koleksiyonu ziyaret edebilirsiniz.",
+      "You can review the full brand asset for more details.",
     ]
       .filter(Boolean)
       .join("\n"),

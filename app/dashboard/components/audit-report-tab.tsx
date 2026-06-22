@@ -53,7 +53,7 @@ export function AuditReportTab({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          brandId: brandId ?? "tilla-leather",
+          brandId: brandId ?? "default-brand",
           channel,
           content,
         }),

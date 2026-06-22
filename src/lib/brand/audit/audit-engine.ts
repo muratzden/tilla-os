@@ -85,7 +85,7 @@ function detectViolations(input: BrandAuditInput): AuditViolation[] {
 
   const outputPack = runtime.output;
 
-  return sourceContext.manifesto.forbiddenDirections
+  return sourceContext.constitution.forbiddenDirections
     .filter((direction: string) =>
       normalizeText(content).includes(normalizeText(direction)),
     )
@@ -145,13 +145,13 @@ function generateRecommendations(
     }));
   }
 
-  return sourceContext.manifesto.principles.slice(0, 3).map((principle) => ({
-    key: `strengthen_${principle}`,
-    message: applyTemplate(
-      outputPack.auditText.recommendations.strengthenBrandSignal,
-      principle,
-    ),
-  }));
+  return sourceContext.constitution.principles.slice(0, 3).map((principle) => ({
+  key: `strengthen_${principle}`,
+  message: applyTemplate(
+    outputPack.auditText.recommendations.strengthenBrandSignal,
+    principle,
+  ),
+}));
 }
 
 function generateBrandDriftAnalysis(

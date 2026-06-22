@@ -344,6 +344,12 @@ export interface BrandOperatingState {
   memory: BrandMemory;
   score: BrandScore;
   missionControl: MissionControlState;
+  kernel?: {
+  manifesto?: unknown;
+  constitution?: unknown;
+  policies?: unknown[];
+  graph?: unknown;
+};
   studios: StudioDefinition[];
   intelligencePacks: IntelligencePackDefinition[];
   decisions: DecisionRecord[];

@@ -42,10 +42,6 @@ export type AuditGovernanceSignal = {
 export type AuditSourceContext = {
   brandId: string;
 
-  manifesto: {
-    principles: string[];
-    forbiddenDirections: string[];
-  };
 
   constitution: {
     principles: string[];

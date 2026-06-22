@@ -8,14 +8,13 @@ type ChannelInput = {
 
 export function adaptToChannel(input: ChannelInput) {
   const channel = input.channel ?? "web";
-  const category = input.category ?? "parça";
 
   switch (channel) {
     case "instagram":
-      return adaptInstagram(input.text, category);
+      return adaptInstagram(input.text);
 
     case "packaging":
-      return adaptPackaging(category);
+      return adaptPackaging(input.text);
 
     case "product":
       return adaptProduct(input.text);
@@ -26,20 +25,12 @@ export function adaptToChannel(input: ChannelInput) {
   }
 }
 
-function adaptInstagram(text: string, category: string) {
-  if (category === "briefcase") {
-    return "Sessiz güven. El işçiliği deri evrak çantasında.";
-  }
-
+function adaptInstagram(text: string) {
   return shorten(text);
 }
 
-function adaptPackaging(category: string) {
-  if (category === "briefcase") {
-    return "Zamanla karakter kazanan bir parça.";
-  }
-
-  return "Zamanla güzelleşen bir deri parça.";
+function adaptPackaging(text: string) {
+  return shorten(text);
 }
 
 function adaptProduct(text: string) {
@@ -47,8 +38,5 @@ function adaptProduct(text: string) {
 }
 
 function shorten(text: string) {
-  return text
-    .replace("El işçiliğiyle şekillenen bu ", "")
-    .replace("iş yaşamının sessiz güvenini taşır.", "sessiz güven taşır.")
-    .trim();
+  return text.replace(/\s+/g, " ").trim();
 }

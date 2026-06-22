@@ -5,40 +5,27 @@ import { buildAuditSourceContext } from "@/src/lib/brand/audit/audit-source-buil
 import { calculateBrandConsistency } from "@/src/lib/brand/memory/consistency-engine";
 import { getBrandMemoryRecords } from "@/src/lib/brand/memory/memory-store";
 import { getBrandProfile } from "@/src/lib/brand/setup/brand-profile";
-import { getBrandManifesto } from "@/src/lib/brand/manifesto/get-brand-manifesto";
-import { buildConstitution } from "@/src/lib/brand/constitution/build-constitution";
-import { defaultBrandSetup } from "@/src/lib/brand/setup/brand-setup-defaults";
-import { runGovernanceAudit } from "@/src/lib/brand/governance-audit/governance-audit-engine";
-import { integrateGovernanceAudit } from "@/src/lib/brand/governance-audit/governance-audit-integration";
 
 export async function POST(request: Request) {
   const body = await request.json();
 
-  const brandId = body.brandId ?? "tilla-leather";
+  const brandId = body.brandId ?? "default-brand";
 
-  const brandProfile = getBrandProfile(brandId);
+  const brandProfile = getBrandProfile();
 
-  const constitution = buildConstitution(brandId, defaultBrandSetup);
+ 
 
   const memoryRecords = getBrandMemoryRecords(brandId);
 
   const consistency = calculateBrandConsistency(memoryRecords);
 
-  const manifesto = getBrandManifesto(brandId);
 
   const sourceContext = buildAuditSourceContext({
     brandId,
 
-    manifesto: {
-      principles: [...manifesto.principles],
-      forbiddenDirections: [...manifesto.forbiddenDirections],
-    },
-
-    constitution: {
-      principles: constitution.principles.map((principle) => principle.key),
-
-      forbiddenDirections: [...constitution.forbiddenDirections],
-
+        constitution: {
+      principles: [],
+      forbiddenDirections: [],
       vetoWorlds: [],
     },
 
@@ -64,33 +51,17 @@ export async function POST(request: Request) {
     sourceContext,
   });
 
-  const governanceAudit = runGovernanceAudit({
-    input: {
-      brandId,
-      channel: body.channel,
-      content: body.content,
-    },
-    constitution,
-  });
-
-  const integratedResult = integrateGovernanceAudit({
-    auditResult: result,
-    governanceAudit,
-  });
-
   return NextResponse.json({
-    ...integratedResult,
+  ...result,
 
-    constitution: {
-      dominantPrinciple: constitution.principles[0]?.key ?? "unknown",
+  brandProfile,
 
-      protectedPrinciples: constitution.principles.map(
-        (principle) => principle.key,
-      ),
+  constitution: {
+    dominantPrinciple: "policy_pending",
 
-      forbiddenDirections: constitution.forbiddenDirections,
-    },
+    protectedPrinciples: [],
 
-    governanceAudit,
-  });
+    forbiddenDirections: [],
+  },
+});
 }

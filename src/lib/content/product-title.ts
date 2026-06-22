@@ -1,15 +1,13 @@
 export function generateProductTitle(meaning: any) {
-  if (meaning.category === "briefcase") {
-    return "Yuuga Leather Briefcase";
-  }
+  const category = String(meaning?.category ?? "offer")
+    .replace(/[_-]+/g, " ")
+    .trim();
 
-  if (meaning.category === "wallet") {
-    return "Tilla Leather Wallet";
-  }
+  const normalizedCategory = category.length > 0 ? category : "offer";
 
-  if (meaning.category === "bag") {
-    return "Tilla Leather Bag";
-  }
+  return `${toTitleCase(normalizedCategory)} Brand Asset`;
+}
 
-  return "Tilla Leather Piece";
+function toTitleCase(value: string) {
+  return value.replace(/\b\w/g, (char) => char.toUpperCase());
 }

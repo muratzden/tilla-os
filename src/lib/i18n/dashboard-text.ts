@@ -93,11 +93,8 @@ export type DashboardTextKey =
   | "manifestoInterview"
   | "manifestoInterviewDescription"
   | "brandType"
-  | "generateManifesto"
   | "manifestoStatus"
   | "draftNotLocked"
-  | "approveManifesto"
-  | "lockManifesto"
   | "narrative"
   | "dominantPrinciple"
   | "none"
@@ -674,10 +671,6 @@ const dashboardText: Record<
     en: "Brand Type",
   },
 
-  generateManifesto: {
-    tr: "Manifesto Üret",
-    en: "Generate Manifesto",
-  },
 
   manifestoStatus: {
     tr: "Manifesto Durumu",
@@ -689,17 +682,7 @@ const dashboardText: Record<
     en: "DRAFT / NOT LOCKED",
   },
 
-  approveManifesto: {
-    tr: "Manifestoyu Onayla",
-    en: "Approve Manifesto",
-  },
-
-  lockManifesto: {
-    tr: "Manifestoyu Kilitle",
-    en: "Lock Manifesto",
-  },
-
-  narrative: {
+   narrative: {
     tr: "Anlatı",
     en: "Narrative",
   },

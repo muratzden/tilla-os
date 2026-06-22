@@ -4,7 +4,7 @@ import { loadConstitution } from "../constitution-store/constitution-store";
 
 export function buildConstitution(
   brandId: string,
-  setup: BrandSetup,
+  _setup: BrandSetup,
 ): BrandConstitution {
   const generatedConstitution = loadConstitution(brandId);
 
@@ -18,45 +18,45 @@ export function buildConstitution(
     principles: [
       {
         key: "human_craft",
-        title: "Human Craft",
+        title: "Human Judgment",
         description:
-          "The brand values human handwork over industrial perfection.",
+          "The brand should make intentional decisions instead of relying on generic or automatic outputs.",
       },
       {
         key: "material_truth",
-        title: "Material Truth",
+        title: "Evidence Truth",
         description:
-          "The natural surface, texture, grain and patina of leather must be respected.",
+          "The brand should support claims with real evidence, clear context and honest proof points.",
       },
       {
         key: "controlled_variation",
-        title: "Controlled Variation",
+        title: "Controlled Adaptation",
         description:
-          "Small human differences in stitching, surface and form are accepted as signs of craft, not defects.",
+          "The brand may adapt across channels, but variation should remain intentional and strategically controlled.",
       },
       {
         key: "character",
-        title: "Character",
+        title: "Distinct Character",
         description:
-          "Products should express individuality, use, age and material presence.",
+          "The brand should express a recognizable point of view instead of blending into generic category language.",
       },
       {
         key: "individuality",
-        title: "Individuality",
+        title: "Specificity",
         description:
-          "Each product may belong to the same brand language without becoming identical.",
+          "The brand should serve a defined audience with specific positioning rather than trying to appeal to everyone.",
       },
       {
         key: "longevity",
-        title: "Longevity",
+        title: "Long-Term Trust",
         description:
-          "The brand favors lasting ownership over seasonal trend consumption.",
+          "The brand should protect long-term credibility over short-term attention or pressure tactics.",
       },
       {
         key: "ownership",
-        title: "Ownership",
+        title: "Strategic Ownership",
         description:
-          "A product begins its real life when it leaves the artisan and gains the owner’s marks over time.",
+          "The brand should own its decisions, claims and promises across the full customer experience.",
       },
     ],
 
@@ -70,30 +70,30 @@ export function buildConstitution(
 
     decisionRules: [
       {
-        key: "human_craft_over_industrial_perfection",
-        rule: "Never describe handmade variation as defect or weakness.",
+        key: "human_judgment_over_generic_automation",
+        rule: "Do not publish generic output without strategic review and brand-specific judgment.",
       },
       {
-        key: "material_truth_before_visual_polish",
-        rule: "Preserve leather texture, grain, patina and surface character in brand decisions.",
+        key: "evidence_truth_before_claims",
+        rule: "Do not make claims that are not supported by evidence, context or clear reasoning.",
       },
       {
-        key: "controlled_variation_is_not_error",
-        rule: "Small differences in handmade production should be treated as controlled character, not inconsistency.",
+        key: "controlled_adaptation_is_not_inconsistency",
+        rule: "Adapt messages to channel and audience while preserving the core brand position.",
       },
       {
-        key: "longevity_over_trend",
-        rule: "Avoid fast-fashion, disposable or trend-chasing language unless explicitly rejected by the system.",
+        key: "long_term_trust_over_short_term_noise",
+        rule: "Avoid pressure tactics, exaggerated promises or attention-seeking moves that weaken trust.",
       },
       {
-        key: "ownership_after_workshop",
-        rule: "Frame the product as something that gains meaning through ownership, use and time.",
+        key: "specificity_over_generic_appeal",
+        rule: "Prefer specific audience fit and positioning over vague universal appeal.",
       },
     ],
 
     manifesto: {
-      short: "Human craft over industrial perfection.",
-      long: "Tilla does not promise industrial perfection or identical repetition. It values handcraft, controlled human variation, material character, intention and ownership over time. Small differences in stitching, leather surface and form are not defects; they are proof of human craft. The brand standard is not flawlessness, but intention, control and character.",
+      short: "Intentional brand decisions over generic execution.",
+      long: "The brand operating system favors human judgment, evidence, controlled adaptation, distinct character, specificity, long-term trust and strategic ownership. Decisions should strengthen the brand foundation instead of creating vague positioning, unsupported claims or short-term noise.",
     },
   };
 }

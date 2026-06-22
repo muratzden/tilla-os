@@ -174,7 +174,7 @@ export function AuditTab({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          brandId: brandId ?? "tilla-leather",
+          brandId: brandId ?? "default-brand",
           channel,
           content,
         }),

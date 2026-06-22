@@ -1,4 +1,15 @@
-import type { GeneratedManifesto } from "./manifesto-generator";
+/**
+ * LEGACY SETUP CONSTITUTION GENERATOR
+ *
+ * This module is kept only for setup-v2 compatibility.
+ * It is not the source of truth for Brand Constitution.
+ *
+ * Source of truth:
+ * src/lib/brand-kernel/brand-kernel.ts
+ * src/lib/brand-kernel/constitution-generator.ts
+ */
+ 
+ import type { GeneratedManifesto } from "./manifesto-generator";
 
 export type GeneratedConstitution = {
   reject: string[];

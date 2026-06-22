@@ -3,11 +3,6 @@ import { AuditSourceContext } from "./audit-types";
 type BuildAuditSourceInput = {
   brandId: string;
 
-  manifesto?: {
-    principles?: string[];
-    forbiddenDirections?: string[];
-  };
-
   constitution?: {
     principles?: string[];
     forbiddenDirections?: string[];
@@ -35,10 +30,6 @@ export function buildAuditSourceContext(
   return {
     brandId: input.brandId,
 
-    manifesto: {
-      principles: input.manifesto?.principles ?? [],
-      forbiddenDirections: input.manifesto?.forbiddenDirections ?? [],
-    },
 
     constitution: {
       principles: input.constitution?.principles ?? [],

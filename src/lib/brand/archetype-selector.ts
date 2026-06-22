@@ -14,7 +14,6 @@ export function selectArchetype(dna: any): {
   const isBriefcase =
     type.includes("briefcase") ||
     type.includes("laptop") ||
-    type.includes("evrak") ||
     category.includes("briefcase");
 
   const isTravel =
@@ -27,8 +26,6 @@ export function selectArchetype(dna: any): {
     type.includes("crossbody") ||
     type.includes("shoulder") ||
     type.includes("sling") ||
-    type.includes("çapraz") ||
-    type.includes("omuz") ||
     category.includes("crossbody") ||
     category.includes("shoulder") ||
     category.includes("sling");
@@ -36,7 +33,6 @@ export function selectArchetype(dna: any): {
   const isWallet =
     type.includes("wallet") ||
     type.includes("cardholder") ||
-    type.includes("cüzdan") ||
     category.includes("wallet");
 
   if (material === "frisco" && color === "camel") {
@@ -77,8 +73,8 @@ export function selectArchetype(dna: any): {
 
   if (
     isBriefcase &&
-    ["black", "siyah"].includes(String(dna.color).toLowerCase()) &&
-    ["tiana", "smooth", "plain"].includes(String(dna.material).toLowerCase())
+    color === "black" &&
+    ["tiana", "smooth", "plain"].includes(material)
   ) {
     reasonKeys.push("archetype.reason.black_tiana_quiet_power");
 

@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
       color: body.color ?? "",
       size: body.size ?? "",
       channel: body.channel ?? "web",
-      brandId: body.brandId ?? "tilla-leather",
+      brandId: body.brandId ?? "default-brand",
       uiLanguage: body.uiLanguage ?? "en",
       contentLanguage: body.contentLanguage ?? "en",
       promptLanguage: body.promptLanguage ?? "en",

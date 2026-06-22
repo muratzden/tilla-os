@@ -2,14 +2,14 @@ import type { OutputLanguage } from "@/src/lib/i18n/language";
 import { getDashboardText } from "@/src/lib/i18n/dashboard-text";
 
 type FoundationTabProps = {
-  currentBrand: any;
+  
   brandReadiness: any;
   brandProfile: any;
   language?: OutputLanguage;
 };
 
 export function FoundationTab({
-  currentBrand,
+ 
   brandReadiness,
   brandProfile,
   language = "tr",
@@ -22,13 +22,13 @@ export function FoundationTab({
   return (
     <div className="space-y-6">
       <section className="rounded-[2rem] border border-[#e7e2d8] bg-white p-6 shadow-sm">
-        <div className="text-xs uppercase tracking-[0.35em] text-zinc-400">
-          {text("currentBrand")}
-        </div>
+  <div className="text-xs uppercase tracking-[0.35em] text-zinc-400">
+    Brand
+  </div>
 
-        <div className="mt-4 text-3xl font-semibold tracking-[-0.03em] text-zinc-900">
-          {currentBrand?.name}
-        </div>
+  <div className="mt-4 text-3xl font-semibold tracking-[-0.03em] text-zinc-900">
+    {brandProfile.name}
+  </div>
 
         <div className="mt-2 text-sm text-zinc-500">
           {text("activeBrandContext")}
