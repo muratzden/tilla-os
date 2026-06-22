@@ -68,7 +68,3 @@ export const marketplaceLanguagePacks: MarketplaceLanguagePack[] = [
     status: "available",
   },
 ];
-
-
-
-

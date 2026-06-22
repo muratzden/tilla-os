@@ -14,7 +14,9 @@ export async function getBrandOSState(
     [workspaceId],
   );
 
-  return (result.rows[0]?.state_json as BrandOperatingState | undefined) ?? null;
+  return (
+    (result.rows[0]?.state_json as BrandOperatingState | undefined) ?? null
+  );
 }
 
 export async function saveBrandOSState(

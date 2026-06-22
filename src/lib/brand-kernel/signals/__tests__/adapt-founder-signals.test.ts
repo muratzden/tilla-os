@@ -27,7 +27,7 @@ describe("Founder Signal Adapter", () => {
           id: "handcrafted_quality",
           category: "quality",
         }),
-      ])
+      ]),
     );
   });
 });

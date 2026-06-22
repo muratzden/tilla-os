@@ -2,14 +2,14 @@ import type { BrandSetup } from "./brand-setup-types";
 
 export const defaultBrandSetup: BrandSetup = {
   identity: {
-  brandName: "",
-  category: "",
-  country: "TR",
+    brandName: "",
+    category: "",
+    country: "TR",
 
-  interviewLanguage: "en",
-  foundationLanguage: "en",
-  promptLanguage: "en",
-},
+    interviewLanguage: "en",
+    foundationLanguage: "en",
+    promptLanguage: "en",
+  },
 
   positioning: {
     premiumLevel: "premium",

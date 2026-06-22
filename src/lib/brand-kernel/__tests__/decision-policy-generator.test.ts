@@ -39,12 +39,12 @@ describe("Decision Policy Generator", () => {
         principle: "Material honesty",
         severity: "medium",
         triggers: [
-  "misleading_claim",
-  "unsupported_claim",
-  "hide_process",
-  "hide_materials",
-  "false_urgency",
-],
+          "misleading_claim",
+          "unsupported_claim",
+          "hide_process",
+          "hide_materials",
+          "false_urgency",
+        ],
       },
     ]);
   });

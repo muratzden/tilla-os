@@ -43,7 +43,7 @@ type GovernanceTextKey =
   | "no"
   | "governanceScore"
   | "appliedRules"
-    | "noAppliedRules"
+  | "noAppliedRules"
   | "brandGovernanceTitle"
   | "governanceWorkspaceTitle"
   | "governanceWorkspaceDescription"
@@ -114,7 +114,7 @@ const governanceText: Partial<
     governanceScore: "Governance Score",
     appliedRules: "Applied Rules",
     noAppliedRules: "No applied rules.",
-	    brandGovernanceTitle: "Brand Governance",
+    brandGovernanceTitle: "Brand Governance",
     governanceWorkspaceTitle: "Governance Workspace",
     governanceWorkspaceDescription:
       "Manage constitution alignment, governance controls and drift signals from one workspace.",
@@ -182,7 +182,7 @@ const governanceText: Partial<
     governanceScore: "Yönetişim Skoru",
     appliedRules: "Uygulanan Kurallar",
     noAppliedRules: "Uygulanan kural yok.",
-	    brandGovernanceTitle: "Marka Yönetişimi",
+    brandGovernanceTitle: "Marka Yönetişimi",
     governanceWorkspaceTitle: "Yönetişim Merkezi",
     governanceWorkspaceDescription:
       "Marka anayasası, yönetişim kuralları, hizalama ve sapma sinyallerini tek merkezden yönet.",
@@ -197,8 +197,7 @@ const governanceText: Partial<
     decisionVetoRiskLabel: "Karar Veto Riski",
     exposureLabel: "Maruziyet",
     advancedAuditToolTitle: "Gelişmiş Denetim Aracı",
-    advancedAuditToolDescription:
-      "Kanal içeriğini manuel denetlemek için aç.",
+    advancedAuditToolDescription: "Kanal içeriğini manuel denetlemek için aç.",
     showLabel: "Göster",
     hideLabel: "Gizle",
     alignmentLabel: "Uyum",

@@ -1,19 +1,15 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
-
 import { getCurrentAuthContext } from "@/src/lib/auth/current-auth";
-
 
 import {
   getWorkspaceBrandSetup,
   saveWorkspaceBrandSetup,
 } from "@/src/lib/workspace/workspace-brand-setup-service";
 
-
 import { createBrandOSStateWithKernel } from "@/src/lib/brand-os/create-brand-os-state-with-kernel";
 import { saveBrandOSState } from "@/src/lib/brand-os/brand-os-state-storage";
-
 
 async function getAuth() {
   const cookieStore = await cookies();
@@ -57,7 +53,7 @@ export async function POST(request: Request) {
   const brandSetup = await request.json();
 
   saveWorkspaceBrandSetup(auth.workspace.id, brandSetup);
-  
+
   const brandOSState = await createBrandOSStateWithKernel(brandSetup);
 
   await saveBrandOSState(auth.workspace.id, brandOSState);

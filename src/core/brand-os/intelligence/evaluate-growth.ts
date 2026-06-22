@@ -1,6 +1,12 @@
-﻿import { createEvaluation, type BrandIntelligenceInput, type StrategicEvaluation } from "./types";
+﻿import {
+  createEvaluation,
+  type BrandIntelligenceInput,
+  type StrategicEvaluation,
+} from "./types";
 
-export function evaluateGrowth(input: BrandIntelligenceInput): StrategicEvaluation {
+export function evaluateGrowth(
+  input: BrandIntelligenceInput,
+): StrategicEvaluation {
   const strengths: string[] = [];
   const weaknesses: string[] = [];
   const risks: string[] = [];
@@ -14,7 +20,9 @@ export function evaluateGrowth(input: BrandIntelligenceInput): StrategicEvaluati
   } else {
     weaknesses.push("Growth objective is unclear.");
     missingEvidence.push("growth objective");
-    recommendations.push("Define one growth objective before choosing more activity.");
+    recommendations.push(
+      "Define one growth objective before choosing more activity.",
+    );
   }
 
   if (input.growth.loops.length > 0) {
@@ -27,7 +35,9 @@ export function evaluateGrowth(input: BrandIntelligenceInput): StrategicEvaluati
 
   if (input.growth.loops.length > 0 && input.channels.primary.length > 0) {
     score += 14;
-    strengths.push("Repeatability is plausible because loop and channel are both present.");
+    strengths.push(
+      "Repeatability is plausible because loop and channel are both present.",
+    );
   } else {
     risks.push("Growth may not be repeatable yet.");
     missingEvidence.push("repeatability evidence");
@@ -40,12 +50,20 @@ export function evaluateGrowth(input: BrandIntelligenceInput): StrategicEvaluati
     missingEvidence.push("measurable outcome");
   }
 
-  if (input.audience.primary && input.positioning.promise && input.trust.signals.length > 0) {
+  if (
+    input.audience.primary &&
+    input.positioning.promise &&
+    input.trust.signals.length > 0
+  ) {
     score += 14;
     strengths.push("Readiness before scaling is improving.");
   } else {
-    risks.push("Scaling may be premature before audience, positioning, and trust are stronger.");
-    recommendations.push("Improve audience, positioning, and trust before scaling channel activity.");
+    risks.push(
+      "Scaling may be premature before audience, positioning, and trust are stronger.",
+    );
+    recommendations.push(
+      "Improve audience, positioning, and trust before scaling channel activity.",
+    );
   }
 
   return createEvaluation({
@@ -54,6 +72,6 @@ export function evaluateGrowth(input: BrandIntelligenceInput): StrategicEvaluati
     weaknesses,
     risks,
     missingEvidence,
-    recommendations
+    recommendations,
   });
 }

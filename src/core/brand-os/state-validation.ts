@@ -4,7 +4,7 @@
   DecisionArea,
   IntelligencePackId,
   ScoreDimension,
-  StudioId
+  StudioId,
 } from "./types";
 import { isSupportedBrandOSSchemaVersion } from "./schema";
 
@@ -26,7 +26,7 @@ const LIFECYCLE_STAGES: BrandLifecycleStage[] = [
   "trust_building",
   "authority_building",
   "growth",
-  "optimization"
+  "optimization",
 ];
 
 const SCORE_DIMENSIONS: ScoreDimension[] = [
@@ -36,11 +36,29 @@ const SCORE_DIMENSIONS: ScoreDimension[] = [
   "trust",
   "authority",
   "consistency",
-  "growthReadiness"
+  "growthReadiness",
 ];
 
-const DECISION_AREAS: DecisionArea[] = ["positioning", "audience", "offer", "trust", "authority", "content", "channel", "growth"];
-const STUDIO_IDS: StudioId[] = ["foundation", "positioning", "offer", "content", "authority", "campaign", "visual", "growth"];
+const DECISION_AREAS: DecisionArea[] = [
+  "positioning",
+  "audience",
+  "offer",
+  "trust",
+  "authority",
+  "content",
+  "channel",
+  "growth",
+];
+const STUDIO_IDS: StudioId[] = [
+  "foundation",
+  "positioning",
+  "offer",
+  "content",
+  "authority",
+  "campaign",
+  "visual",
+  "growth",
+];
 const PACK_IDS: IntelligencePackId[] = [
   "coffee",
   "dental",
@@ -49,14 +67,19 @@ const PACK_IDS: IntelligencePackId[] = [
   "saas",
   "creator",
   "local_service",
-  "personal_brand"
+  "personal_brand",
 ];
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return !!value && typeof value === "object" && !Array.isArray(value);
 }
 
-function addError(errors: StateValidationError[], path: string, code: string, message: string): void {
+function addError(
+  errors: StateValidationError[],
+  path: string,
+  code: string,
+  message: string,
+): void {
   errors.push({ path, code, message });
 }
 
@@ -64,7 +87,11 @@ function isMeaningfulString(value: unknown): value is string {
   return typeof value === "string" && value.trim().length > 0;
 }
 
-function validateRecord(value: unknown, path: string, errors: StateValidationError[]): value is Record<string, unknown> {
+function validateRecord(
+  value: unknown,
+  path: string,
+  errors: StateValidationError[],
+): value is Record<string, unknown> {
   if (!isRecord(value)) {
     addError(errors, path, "invalid_type", `${path} must be an object.`);
     return false;
@@ -73,15 +100,29 @@ function validateRecord(value: unknown, path: string, errors: StateValidationErr
   return true;
 }
 
-function validateString(value: unknown, path: string, errors: StateValidationError[], allowNull = false): void {
+function validateString(
+  value: unknown,
+  path: string,
+  errors: StateValidationError[],
+  allowNull = false,
+): void {
   if (allowNull && value === null) return;
 
   if (!isMeaningfulString(value)) {
-    addError(errors, path, "invalid_string", `${path} must be a meaningful string.`);
+    addError(
+      errors,
+      path,
+      "invalid_string",
+      `${path} must be a meaningful string.`,
+    );
   }
 }
 
-function validateStringArray(value: unknown, path: string, errors: StateValidationError[]): void {
+function validateStringArray(
+  value: unknown,
+  path: string,
+  errors: StateValidationError[],
+): void {
   if (!Array.isArray(value)) {
     addError(errors, path, "invalid_type", `${path} must be an array.`);
     return;
@@ -89,7 +130,12 @@ function validateStringArray(value: unknown, path: string, errors: StateValidati
 
   value.forEach((item, index) => {
     if (typeof item !== "string") {
-      addError(errors, `${path}.${index}`, "invalid_type", `${path}.${index} must be a string.`);
+      addError(
+        errors,
+        `${path}.${index}`,
+        "invalid_type",
+        `${path}.${index} must be a string.`,
+      );
     }
   });
 }
@@ -98,7 +144,7 @@ function validateProfile(
   value: unknown,
   path: string,
   fields: Array<{ key: string; kind: "nullableString" | "stringArray" }>,
-  errors: StateValidationError[]
+  errors: StateValidationError[],
 ): void {
   if (!validateRecord(value, path, errors)) return;
 
@@ -129,21 +175,35 @@ function validateMemory(value: unknown, errors: StateValidationError[]): void {
     "scoreSnapshots",
     "lifecycleTransitions",
     "unresolvedQuestions",
-    "openQuestions"
+    "openQuestions",
   ]) {
     if (!Array.isArray(value[key])) {
-      addError(errors, `memory.${key}`, "invalid_type", `memory.${key} must be an array.`);
+      addError(
+        errors,
+        `memory.${key}`,
+        "invalid_type",
+        `memory.${key} must be an array.`,
+      );
     }
   }
 
   validateString(value.lastUpdatedAt, "memory.lastUpdatedAt", errors);
 }
 
-function validateScoreDimension(value: unknown, path: string, errors: StateValidationError[]): void {
+function validateScoreDimension(
+  value: unknown,
+  path: string,
+  errors: StateValidationError[],
+): void {
   if (!validateRecord(value, path, errors)) return;
 
   if (typeof value.score !== "number" || value.score < 0 || value.score > 100) {
-    addError(errors, `${path}.score`, "invalid_score", `${path}.score must be a number from 0 to 100.`);
+    addError(
+      errors,
+      `${path}.score`,
+      "invalid_score",
+      `${path}.score must be a number from 0 to 100.`,
+    );
   }
 
   validateStringArray(value.reasons, `${path}.reasons`, errors);
@@ -157,7 +217,12 @@ function validateScore(value: unknown, errors: StateValidationError[]): void {
 
   for (const dimension of SCORE_DIMENSIONS) {
     if (!(dimension in value)) {
-      addError(errors, `score.${dimension}`, "required", `score.${dimension} is required.`);
+      addError(
+        errors,
+        `score.${dimension}`,
+        "required",
+        `score.${dimension} is required.`,
+      );
       continue;
     }
 
@@ -165,30 +230,61 @@ function validateScore(value: unknown, errors: StateValidationError[]): void {
   }
 }
 
-function validateMissionControl(value: unknown, errors: StateValidationError[]): void {
+function validateMissionControl(
+  value: unknown,
+  errors: StateValidationError[],
+): void {
   if (!validateRecord(value, "missionControl", errors)) return;
 
   if (typeof value.readinessScore !== "number") {
-    addError(errors, "missionControl.readinessScore", "invalid_type", "readinessScore must be a number.");
+    addError(
+      errors,
+      "missionControl.readinessScore",
+      "invalid_type",
+      "readinessScore must be a number.",
+    );
   }
 
   if (!SCORE_DIMENSIONS.includes(value.bottleneck as ScoreDimension)) {
-    addError(errors, "missionControl.bottleneck", "invalid_value", "bottleneck must be a score dimension.");
+    addError(
+      errors,
+      "missionControl.bottleneck",
+      "invalid_value",
+      "bottleneck must be a score dimension.",
+    );
   }
 
   if (!STUDIO_IDS.includes(value.recommendedStudio as StudioId)) {
-    addError(errors, "missionControl.recommendedStudio", "invalid_value", "recommendedStudio must be a studio id.");
+    addError(
+      errors,
+      "missionControl.recommendedStudio",
+      "invalid_value",
+      "recommendedStudio must be a studio id.",
+    );
   }
 
   validateString(value.diagnosis, "missionControl.diagnosis", errors);
   validateString(value.nextBestAction, "missionControl.nextBestAction", errors);
   validateString(value.strategicFocus, "missionControl.strategicFocus", errors);
-  validateStringArray(value.missingInputs, "missionControl.missingInputs", errors);
+  validateStringArray(
+    value.missingInputs,
+    "missionControl.missingInputs",
+    errors,
+  );
   validateStringArray(value.actionPlan, "missionControl.actionPlan", errors);
-  validateStringArray(value.expectedImpact, "missionControl.expectedImpact", errors);
+  validateStringArray(
+    value.expectedImpact,
+    "missionControl.expectedImpact",
+    errors,
+  );
 
   if (!Array.isArray(value.rankedBottlenecks)) {
-    addError(errors, "missionControl.rankedBottlenecks", "invalid_type", "rankedBottlenecks must be an array.");
+    addError(
+      errors,
+      "missionControl.rankedBottlenecks",
+      "invalid_type",
+      "rankedBottlenecks must be an array.",
+    );
   }
 }
 
@@ -203,7 +299,12 @@ function validateStudios(value: unknown, errors: StateValidationError[]): void {
     if (!validateRecord(studio, path, errors)) return;
 
     if (!STUDIO_IDS.includes(studio.id as StudioId)) {
-      addError(errors, `${path}.id`, "invalid_value", `${path}.id must be a supported studio id.`);
+      addError(
+        errors,
+        `${path}.id`,
+        "invalid_value",
+        `${path}.id must be a supported studio id.`,
+      );
     }
 
     validateString(studio.name, `${path}.name`, errors);
@@ -212,20 +313,38 @@ function validateStudios(value: unknown, errors: StateValidationError[]): void {
     validateStringArray(studio.outputs, `${path}.outputs`, errors);
 
     if (!Array.isArray(studio.decisionAreas)) {
-      addError(errors, `${path}.decisionAreas`, "invalid_type", `${path}.decisionAreas must be an array.`);
+      addError(
+        errors,
+        `${path}.decisionAreas`,
+        "invalid_type",
+        `${path}.decisionAreas must be an array.`,
+      );
     } else {
       studio.decisionAreas.forEach((area, areaIndex) => {
         if (!DECISION_AREAS.includes(area as DecisionArea)) {
-          addError(errors, `${path}.decisionAreas.${areaIndex}`, "invalid_value", "decision area is not supported.");
+          addError(
+            errors,
+            `${path}.decisionAreas.${areaIndex}`,
+            "invalid_value",
+            "decision area is not supported.",
+          );
         }
       });
     }
   });
 }
 
-function validateIntelligencePacks(value: unknown, errors: StateValidationError[]): void {
+function validateIntelligencePacks(
+  value: unknown,
+  errors: StateValidationError[],
+): void {
   if (!Array.isArray(value)) {
-    addError(errors, "intelligencePacks", "invalid_type", "intelligencePacks must be an array.");
+    addError(
+      errors,
+      "intelligencePacks",
+      "invalid_type",
+      "intelligencePacks must be an array.",
+    );
     return;
   }
 
@@ -234,11 +353,21 @@ function validateIntelligencePacks(value: unknown, errors: StateValidationError[
     if (!validateRecord(pack, path, errors)) return;
 
     if (!PACK_IDS.includes(pack.id as IntelligencePackId)) {
-      addError(errors, `${path}.id`, "invalid_value", `${path}.id must be a supported pack id.`);
+      addError(
+        errors,
+        `${path}.id`,
+        "invalid_value",
+        `${path}.id must be a supported pack id.`,
+      );
     }
 
     if (pack.status !== "metadata_only") {
-      addError(errors, `${path}.status`, "invalid_value", `${path}.status must be metadata_only.`);
+      addError(
+        errors,
+        `${path}.status`,
+        "invalid_value",
+        `${path}.status must be metadata_only.`,
+      );
     }
 
     validateString(pack.label, `${path}.label`, errors);
@@ -247,7 +376,9 @@ function validateIntelligencePacks(value: unknown, errors: StateValidationError[
   });
 }
 
-export function validateBrandOperatingState(state: unknown): StateValidationResult {
+export function validateBrandOperatingState(
+  state: unknown,
+): StateValidationResult {
   const errors: StateValidationError[] = [];
 
   if (!validateRecord(state, "state", errors)) {
@@ -260,11 +391,21 @@ export function validateBrandOperatingState(state: unknown): StateValidationResu
   if (!("schemaVersion" in state)) {
     addError(errors, "schemaVersion", "required", "schemaVersion is required.");
   } else if (!isSupportedBrandOSSchemaVersion(state.schemaVersion)) {
-    addError(errors, "schemaVersion", "unsupported_schema_version", "schemaVersion is not supported.");
+    addError(
+      errors,
+      "schemaVersion",
+      "unsupported_schema_version",
+      "schemaVersion is not supported.",
+    );
   }
 
   if (!LIFECYCLE_STAGES.includes(state.lifecycleStage as BrandLifecycleStage)) {
-    addError(errors, "lifecycleStage", "invalid_value", "lifecycleStage must be a supported lifecycle stage.");
+    addError(
+      errors,
+      "lifecycleStage",
+      "invalid_value",
+      "lifecycleStage must be a supported lifecycle stage.",
+    );
   }
 
   if (validateRecord(state.brand, "brand", errors)) {
@@ -279,9 +420,9 @@ export function validateBrandOperatingState(state: unknown): StateValidationResu
       { key: "primary", kind: "nullableString" },
       { key: "needs", kind: "stringArray" },
       { key: "barriers", kind: "stringArray" },
-      { key: "desiredOutcome", kind: "nullableString" }
+      { key: "desiredOutcome", kind: "nullableString" },
     ],
-    errors
+    errors,
   );
   validateProfile(
     state.positioning,
@@ -290,9 +431,9 @@ export function validateBrandOperatingState(state: unknown): StateValidationResu
       { key: "category", kind: "nullableString" },
       { key: "promise", kind: "nullableString" },
       { key: "differentiators", kind: "stringArray" },
-      { key: "proofPoints", kind: "stringArray" }
+      { key: "proofPoints", kind: "stringArray" },
     ],
-    errors
+    errors,
   );
   validateProfile(
     state.offer,
@@ -300,9 +441,9 @@ export function validateBrandOperatingState(state: unknown): StateValidationResu
     [
       { key: "core", kind: "nullableString" },
       { key: "outcomes", kind: "stringArray" },
-      { key: "constraints", kind: "stringArray" }
+      { key: "constraints", kind: "stringArray" },
     ],
-    errors
+    errors,
   );
   validateProfile(
     state.channels,
@@ -310,9 +451,9 @@ export function validateBrandOperatingState(state: unknown): StateValidationResu
     [
       { key: "primary", kind: "stringArray" },
       { key: "secondary", kind: "stringArray" },
-      { key: "experiments", kind: "stringArray" }
+      { key: "experiments", kind: "stringArray" },
     ],
-    errors
+    errors,
   );
   validateMemory(state.memory, errors);
   validateScore(state.score, errors);
@@ -321,11 +462,16 @@ export function validateBrandOperatingState(state: unknown): StateValidationResu
   validateIntelligencePacks(state.intelligencePacks, errors);
 
   if (!Array.isArray(state.decisions)) {
-    addError(errors, "decisions", "invalid_type", "decisions must be an array.");
+    addError(
+      errors,
+      "decisions",
+      "invalid_type",
+      "decisions must be an array.",
+    );
   }
 
   return {
     valid: errors.length === 0,
-    errors
+    errors,
   };
 }

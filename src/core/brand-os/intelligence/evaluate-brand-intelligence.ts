@@ -5,7 +5,11 @@ import { evaluateChannels } from "./evaluate-channels";
 import { evaluateGrowth } from "./evaluate-growth";
 import { evaluatePositioning } from "./evaluate-positioning";
 import { evaluateTrust } from "./evaluate-trust";
-import type { BrandIntelligenceInput, BrandIntelligenceReport, StrategicEvaluation } from "./types";
+import type {
+  BrandIntelligenceInput,
+  BrandIntelligenceReport,
+  StrategicEvaluation,
+} from "./types";
 
 const STUDIO_BY_DIMENSION: Record<ScoreDimension, StudioId> = {
   clarity: "foundation",
@@ -14,14 +18,19 @@ const STUDIO_BY_DIMENSION: Record<ScoreDimension, StudioId> = {
   trust: "authority",
   authority: "authority",
   consistency: "campaign",
-  growthReadiness: "growth"
+  growthReadiness: "growth",
 };
 
 function average(evaluations: StrategicEvaluation[]): number {
-  return Math.round(evaluations.reduce((sum, evaluation) => sum + evaluation.score, 0) / evaluations.length);
+  return Math.round(
+    evaluations.reduce((sum, evaluation) => sum + evaluation.score, 0) /
+      evaluations.length,
+  );
 }
 
-export function evaluateBrandIntelligence(input: BrandIntelligenceInput): BrandIntelligenceReport {
+export function evaluateBrandIntelligence(
+  input: BrandIntelligenceInput,
+): BrandIntelligenceReport {
   const audience = evaluateAudience(input);
   const positioning = evaluatePositioning(input);
   const trust = evaluateTrust(input);
@@ -36,13 +45,13 @@ export function evaluateBrandIntelligence(input: BrandIntelligenceInput): BrandI
     trust: [trust, positioning],
     authority: [authority],
     consistency: [audience, positioning, channels],
-    growthReadiness: [growth, channels]
+    growthReadiness: [growth, channels],
   };
 
   const rankedDimensions = (Object.keys(dimensionMap) as ScoreDimension[])
     .map((dimension) => ({
       dimension,
-      score: average(dimensionMap[dimension])
+      score: average(dimensionMap[dimension]),
     }))
     .sort((left, right) => left.score - right.score);
   const weakest = rankedDimensions[0];
@@ -58,7 +67,7 @@ export function evaluateBrandIntelligence(input: BrandIntelligenceInput): BrandI
     recommendedFocus: {
       dimension: weakest.dimension,
       studio: STUDIO_BY_DIMENSION[weakest.dimension],
-      reason: `${weakest.dimension} has the weakest strategic signal score.`
-    }
+      reason: `${weakest.dimension} has the weakest strategic signal score.`,
+    },
   };
 }

@@ -42,13 +42,7 @@ function createCoverage(
   overrides: Partial<CoverageReport> = {},
 ): CoverageReport {
   return {
-    covered: [
-      "identity",
-      "audience",
-      "belief",
-      "transformation",
-      "principles",
-    ],
+    covered: ["identity", "audience", "belief", "transformation", "principles"],
     missing: [],
     coverageScore: 100,
     ...overrides,
@@ -57,10 +51,7 @@ function createCoverage(
 
 describe("detectMissingInformation", () => {
   it("returns no questions when evidence and coverage are sufficient", () => {
-    const result = detectMissingInformation(
-      createReport(),
-      createCoverage(),
-    );
+    const result = detectMissingInformation(createReport(), createCoverage());
 
     expect(result.questions).toHaveLength(0);
   });

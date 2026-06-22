@@ -44,9 +44,9 @@ export default function RegisterPage() {
 
   return (
     <AuthShell
-  title="Create your workspace"
-  subtitle="Start your brand operating system with a dedicated workspace."
->
+      title="Create your workspace"
+      subtitle="Start your brand operating system with a dedicated workspace."
+    >
       <form
         className="space-y-4"
         onSubmit={(event) => {

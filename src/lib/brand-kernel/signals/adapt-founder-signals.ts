@@ -26,7 +26,7 @@ const TAG_TO_SIGNAL_ID: Record<string, string> = {
 };
 
 export function adaptFounderSignalsToBrandSignals(
-  founderSignals: FounderSignal[]
+  founderSignals: FounderSignal[],
 ): BrandSignal[] {
   const signalsById = new Map<string, BrandSignal>();
 
@@ -44,7 +44,7 @@ export function adaptFounderSignalsToBrandSignals(
       if (existing) {
         existing.strength = Math.min(
           1,
-          existing.strength + founderSignal.importance * 0.2
+          existing.strength + founderSignal.importance * 0.2,
         );
 
         existing.evidence.push(founderSignal.text);

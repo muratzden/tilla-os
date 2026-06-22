@@ -2,19 +2,13 @@ import { conflictRegistry } from "./conflict-registry";
 import type { BrandSignal } from "../signals/types";
 import type { BrandTension } from "./types";
 
-export function detectContradictions(
-  signals: BrandSignal[]
-): BrandTension[] {
+export function detectContradictions(signals: BrandSignal[]): BrandTension[] {
   const tensions: BrandTension[] = [];
 
   for (const conflict of conflictRegistry) {
-    const signalA = signals.find(
-      (signal) => signal.id === conflict.signalA
-    );
+    const signalA = signals.find((signal) => signal.id === conflict.signalA);
 
-    const signalB = signals.find(
-      (signal) => signal.id === conflict.signalB
-    );
+    const signalB = signals.find((signal) => signal.id === conflict.signalB);
 
     if (!signalA || !signalB) {
       continue;

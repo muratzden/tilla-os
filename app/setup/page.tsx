@@ -139,24 +139,24 @@ export default function SetupPage() {
           </div>
           <div className="border-t border-zinc-200 pt-6">
             <p className="mb-4 text-xs uppercase tracking-widest text-zinc-400">
-  Brand Intelligence
-</p>
+              Brand Intelligence
+            </p>
 
             <div className="mb-6 rounded-2xl border border-zinc-200 bg-white p-4">
               <p className="mb-2 text-sm font-semibold text-zinc-900">
-  Brand Intelligence Packs
-</p>
+                Brand Intelligence Packs
+              </p>
 
               <p className="mb-4 text-sm text-zinc-500">
-  Brand Intelligence Packs are not translation packs. They extend
-  TILLA-OS with local market reasoning, cultural context, brand
-  language systems, content intelligence and region-specific
-  decision support.
-</p>
+                Brand Intelligence Packs are not translation packs. They extend
+                TILLA-OS with local market reasoning, cultural context, brand
+                language systems, content intelligence and region-specific
+                decision support.
+              </p>
 
               <div className="mb-5">
                 <p className="mb-2 text-xs uppercase tracking-widest text-zinc-400">
-                 Available Interview Languages
+                  Available Interview Languages
                 </p>
 
                 <div className="grid gap-2">
@@ -218,18 +218,25 @@ export default function SetupPage() {
                 <label className="mb-2 block text-sm font-medium text-zinc-700">
                   Brand Interview Language
                 </label>
-				<p className="mb-3 text-xs text-zinc-500">
-  Choose the language you can express your brand most accurately in.
-  This improves manifesto quality, brand memory and foundation accuracy.
-</p>
+                <p className="mb-3 text-xs text-zinc-500">
+                  Choose the language you can express your brand most accurately
+                  in. This improves manifesto quality, brand memory and
+                  foundation accuracy.
+                </p>
                 <select
-                 value={setup.identity.interviewLanguage}
+                  value={setup.identity.interviewLanguage}
                   onChange={(e) =>
                     setSetup({
                       ...setup,
                       identity: {
                         ...setup.identity,
-                        interviewLanguage: e.target.value as "tr" | "en" | "de" | "fr" | "es" | "it",
+                        interviewLanguage: e.target.value as
+                          | "tr"
+                          | "en"
+                          | "de"
+                          | "fr"
+                          | "es"
+                          | "it",
                       },
                     })
                   }
@@ -251,7 +258,13 @@ export default function SetupPage() {
                       ...setup,
                       identity: {
                         ...setup.identity,
-                        foundationLanguage: e.target.value as "tr" | "en" | "de" | "fr" | "es" | "it",
+                        foundationLanguage: e.target.value as
+                          | "tr"
+                          | "en"
+                          | "de"
+                          | "fr"
+                          | "es"
+                          | "it",
                       },
                     })
                   }

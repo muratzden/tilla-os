@@ -13,7 +13,7 @@ export function getBrandProfile(setup: BrandSetup = defaultBrandSetup) {
     materials: setup.visualDirection.materials,
     values: setup.values.coreValues,
     manifesto: setup.manifesto.brandManifesto,
-   
+
     promptLanguage: setup.identity.promptLanguage,
   };
 }

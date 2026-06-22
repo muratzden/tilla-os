@@ -19,8 +19,8 @@ export async function createBrandOSStateWithKernel(
   });
 
   return createBrandOSStateFromBrandSetup(
-  brandSetup,
-  kernelOutput.missionControlIntelligence,
-  kernelOutput,
-);
+    brandSetup,
+    kernelOutput.missionControlIntelligence,
+    kernelOutput,
+  );
 }

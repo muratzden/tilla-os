@@ -30,7 +30,6 @@ export function buildAuditSourceContext(
   return {
     brandId: input.brandId,
 
-
     constitution: {
       principles: input.constitution?.principles ?? [],
       forbiddenDirections: input.constitution?.forbiddenDirections ?? [],

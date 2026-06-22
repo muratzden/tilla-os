@@ -13,17 +13,14 @@ export async function POST(request: Request) {
 
   const brandProfile = getBrandProfile();
 
- 
-
   const memoryRecords = getBrandMemoryRecords(brandId);
 
   const consistency = calculateBrandConsistency(memoryRecords);
 
-
   const sourceContext = buildAuditSourceContext({
     brandId,
 
-        constitution: {
+    constitution: {
       principles: [],
       forbiddenDirections: [],
       vetoWorlds: [],
@@ -52,16 +49,16 @@ export async function POST(request: Request) {
   });
 
   return NextResponse.json({
-  ...result,
+    ...result,
 
-  brandProfile,
+    brandProfile,
 
-  constitution: {
-    dominantPrinciple: "policy_pending",
+    constitution: {
+      dominantPrinciple: "policy_pending",
 
-    protectedPrinciples: [],
+      protectedPrinciples: [],
 
-    forbiddenDirections: [],
-  },
-});
+      forbiddenDirections: [],
+    },
+  });
 }

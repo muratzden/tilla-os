@@ -117,8 +117,7 @@ export function generateContent(input: ContentInput) {
     String(dna.material || "primary proof point");
 
   const colorExpression =
-    interpretation.colorExpression ||
-    String(dna.color || "brand expression");
+    interpretation.colorExpression || String(dna.color || "brand expression");
 
   const opening =
     narrative.productLanguage?.opening ||

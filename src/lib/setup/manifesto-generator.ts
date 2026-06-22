@@ -14,13 +14,9 @@ export function generateManifesto(
 ): GeneratedManifesto {
   return {
     identity:
-      interview.identity.description ||
-      "Identity has not been defined yet.",
+      interview.identity.description || "Identity has not been defined yet.",
 
-    mission: [
-      interview.purpose.reasonToExist,
-      interview.purpose.obsession,
-    ]
+    mission: [interview.purpose.reasonToExist, interview.purpose.obsession]
       .filter(Boolean)
       .join(" "),
 
@@ -29,16 +25,13 @@ export function generateManifesto(
       "Transformation has not been defined yet.",
 
     audience:
-      interview.audience.idealAudience ||
-      "Audience has not been defined yet.",
+      interview.audience.idealAudience || "Audience has not been defined yet.",
 
     principles: [
       interview.principles.defend,
       interview.principles.boundaries,
     ].filter(Boolean),
 
-    vision:
-      interview.ambition.future ||
-      "Vision has not been defined yet.",
+    vision: interview.ambition.future || "Vision has not been defined yet.",
   };
 }

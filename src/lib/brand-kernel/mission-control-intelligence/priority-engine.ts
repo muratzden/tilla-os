@@ -1,7 +1,4 @@
-import type {
-  MissionPriority,
-  MissionRisk,
-} from "./mission-control-types";
+import type { MissionPriority, MissionRisk } from "./mission-control-types";
 
 const SEVERITY_SCORE = {
   high: 3,
@@ -10,20 +7,15 @@ const SEVERITY_SCORE = {
 } as const;
 
 export function prioritizeMissionAreas(
-  risks: MissionRisk[]
+  risks: MissionRisk[],
 ): MissionPriority[] {
   return risks
     .map((risk) => ({
       area: risk.area,
-      severityScore:
-        SEVERITY_SCORE[risk.risk],
+      severityScore: SEVERITY_SCORE[risk.risk],
       reason: risk.description,
     }))
-    .sort(
-      (a, b) =>
-        b.severityScore -
-        a.severityScore
-    )
+    .sort((a, b) => b.severityScore - a.severityScore)
     .map((item, index) => ({
       area: item.area,
       rank: index + 1,

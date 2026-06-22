@@ -1,6 +1,12 @@
-﻿import { createEvaluation, type BrandIntelligenceInput, type StrategicEvaluation } from "./types";
+﻿import {
+  createEvaluation,
+  type BrandIntelligenceInput,
+  type StrategicEvaluation,
+} from "./types";
 
-export function evaluateTrust(input: BrandIntelligenceInput): StrategicEvaluation {
+export function evaluateTrust(
+  input: BrandIntelligenceInput,
+): StrategicEvaluation {
   const strengths: string[] = [];
   const weaknesses: string[] = [];
   const risks: string[] = [];
@@ -8,7 +14,8 @@ export function evaluateTrust(input: BrandIntelligenceInput): StrategicEvaluatio
   const recommendations: string[] = [];
   let score = 6;
 
-  const proofCount = input.positioning.proofPoints.length + input.authority.evidence.length;
+  const proofCount =
+    input.positioning.proofPoints.length + input.authority.evidence.length;
 
   if (proofCount > 0) {
     score += 18;
@@ -16,12 +23,16 @@ export function evaluateTrust(input: BrandIntelligenceInput): StrategicEvaluatio
   } else {
     weaknesses.push("Proof is missing.");
     missingEvidence.push("proof presence");
-    recommendations.push("Add concrete proof points before asking the audience to believe the promise.");
+    recommendations.push(
+      "Add concrete proof points before asking the audience to believe the promise.",
+    );
   }
 
   if (proofCount >= 3 || input.memory.observations.length >= 2) {
     score += 18;
-    strengths.push("Proof quality is stronger because it has multiple support points or observations.");
+    strengths.push(
+      "Proof quality is stronger because it has multiple support points or observations.",
+    );
   } else {
     weaknesses.push("Proof quality is thin.");
     missingEvidence.push("proof quality");
@@ -48,7 +59,9 @@ export function evaluateTrust(input: BrandIntelligenceInput): StrategicEvaluatio
     strengths.push("External validation exists in memory.");
   } else {
     missingEvidence.push("external validation");
-    recommendations.push("Record external validation from audience feedback, usage, expert review, or market response.");
+    recommendations.push(
+      "Record external validation from audience feedback, usage, expert review, or market response.",
+    );
   }
 
   if (input.trust.gaps.length > 0) {
@@ -62,6 +75,6 @@ export function evaluateTrust(input: BrandIntelligenceInput): StrategicEvaluatio
     weaknesses,
     risks,
     missingEvidence,
-    recommendations
+    recommendations,
   });
 }

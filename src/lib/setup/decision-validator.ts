@@ -143,8 +143,7 @@ export function validateDecisionAgainstFoundation({
 
   score = Math.max(0, Math.min(100, score));
 
-  const status =
-    score >= 75 ? "aligned" : score >= 45 ? "risky" : "misaligned";
+  const status = score >= 75 ? "aligned" : score >= 45 ? "risky" : "misaligned";
 
   const summary =
     status === "aligned"

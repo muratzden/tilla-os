@@ -19,7 +19,6 @@ import { OutputTab } from "./components/output-tab";
 
 import { IntelligenceMarketplacePanel } from "./components/intelligence-marketplace-panel";
 
-
 import { ActiveModuleShell } from "./components/active-module-shell";
 import { MissionControlV2 } from "./components/mission-control-v2";
 import type {
@@ -27,11 +26,15 @@ import type {
   MissionControlState,
 } from "@/src/core/brand-os/types";
 
-
 type OutputLanguage = "tr" | "en" | "de";
 type UILanguage = "tr" | "en";
 
-type DashboardTab = "mission" | "foundation" | "manifesto" | "studios" | "marketplace";
+type DashboardTab =
+  | "mission"
+  | "foundation"
+  | "manifesto"
+  | "studios"
+  | "marketplace";
 
 type InputState = {
   type: string;
@@ -93,21 +96,21 @@ export default function DashboardPage() {
   const [input, setInput] = useState<InputState>(defaultInput);
   const [uiLanguage, setUiLanguage] = useState<UILanguage>("en");
   const [brandSetup, setBrandSetup] = useState<BrandSetup>(defaultBrandSetup);
- 
+
   const [activeTab, setActiveTab] = useState<DashboardTab>("mission");
   const [booting, setBooting] = useState(true);
   const [isMobileNav, setIsMobileNav] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [authContext, setAuthContext] = useState<AuthContextState | null>(null);
 
-const [missionControl, setMissionControl] =
-  useState<MissionControlState | null>(null);
+  const [missionControl, setMissionControl] =
+    useState<MissionControlState | null>(null);
 
-const [brandOSState, setBrandOSState] =
-  useState<BrandOperatingState | null>(null);
-  
+  const [brandOSState, setBrandOSState] = useState<BrandOperatingState | null>(
+    null,
+  );
+
   const text = getLanguagePack(uiLanguage);
-
 
   const brandReadiness = calculateBrandReadiness(
     normalizeBrandSetup(brandSetup),
@@ -194,7 +197,7 @@ const [brandOSState, setBrandOSState] =
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...nextInput,
-       
+
           interviewLanguage: brandSetup.identity.interviewLanguage,
           foundationLanguage: brandSetup.identity.foundationLanguage,
           promptLanguage: "en",
@@ -202,8 +205,6 @@ const [brandOSState, setBrandOSState] =
       });
 
       const json = await res.json();
-
-      
     } catch (err) {
       console.error("Dashboard fetch error:", err);
     }
@@ -280,35 +281,35 @@ const [brandOSState, setBrandOSState] =
   useEffect(() => {
     generate(defaultInput);
   }, []);
-  
- useEffect(() => {
-  async function loadBrandOSState() {
-    try {
-      const response = await fetch("/api/brand-os/state");
 
-      if (!response.ok) {
+  useEffect(() => {
+    async function loadBrandOSState() {
+      try {
+        const response = await fetch("/api/brand-os/state");
+
+        if (!response.ok) {
+          setMissionControl(null);
+          return;
+        }
+
+        const result = await response.json();
+
+        setBrandOSState(result.state ?? null);
+        setMissionControl(result.missionControl ?? null);
+      } catch (error) {
+        console.error("Brand OS state load failed", error);
+        setBrandOSState(null);
         setMissionControl(null);
-        return;
       }
-
-      const result = await response.json();
-
-      setBrandOSState(result.state ?? null);
-setMissionControl(result.missionControl ?? null);
-    } catch (error) {
-      console.error("Brand OS state load failed", error);
-      setBrandOSState(null);
-setMissionControl(null);
     }
-  }
 
-  loadBrandOSState();
-}, []);
+    loadBrandOSState();
+  }, []);
 
   if (booting) {
     return <SplashScreen />;
   }
-  
+
   return (
     <main className="min-h-screen bg-black text-zinc-100">
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
@@ -425,16 +426,16 @@ setMissionControl(null);
           </header>
 
           {activeTab === "mission" && (
-  <>
-    {missionControl ? (
-      <MissionControlV2 missionControl={missionControl} />
-    ) : (
-      <section className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 text-sm text-zinc-500">
-        Loading Mission Control...
-      </section>
-    )}
-  </>
-)}
+            <>
+              {missionControl ? (
+                <MissionControlV2 missionControl={missionControl} />
+              ) : (
+                <section className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 text-sm text-zinc-500">
+                  Loading Mission Control...
+                </section>
+              )}
+            </>
+          )}
 
           {activeTab !== "mission" && (
             <>
@@ -462,7 +463,6 @@ setMissionControl(null);
                 <section className="rounded-[2rem] border border-white/10 bg-zinc-950/60 p-4 shadow-2xl shadow-black/30 backdrop-blur-xl md:p-6">
                   {activeTab === "foundation" && (
                     <FoundationTab
-                      
                       brandReadiness={brandReadiness}
                       brandProfile={brandProfile}
                       language={activeOutputLanguage}
@@ -474,10 +474,15 @@ setMissionControl(null);
                   )}
 
                   {activeTab === "studios" && (
-                    <OutputTab kernel={kernelOutput} language={activeOutputLanguage} />
+                    <OutputTab
+                      kernel={kernelOutput}
+                      language={activeOutputLanguage}
+                    />
                   )}
 
-                  {activeTab === "marketplace" && <IntelligenceMarketplacePanel />}
+                  {activeTab === "marketplace" && (
+                    <IntelligenceMarketplacePanel />
+                  )}
                 </section>
               </ActiveModuleShell>
             </>

@@ -6,19 +6,13 @@ export function getTraceEvidence(
   graph: EvidenceGraph,
   sentenceId: string,
 ) {
-  const trace = report.traces.find(
-    (item) => item.sentenceId === sentenceId,
-  );
+  const trace = report.traces.find((item) => item.sentenceId === sentenceId);
 
   if (!trace) {
     return [];
   }
 
   return trace.signalIds
-    .map((signalId) =>
-      graph.nodes.find(
-        (node) => node.signalId === signalId,
-      ),
-    )
+    .map((signalId) => graph.nodes.find((node) => node.signalId === signalId))
     .filter(Boolean);
 }

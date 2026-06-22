@@ -11,7 +11,13 @@ export type ConstitutionResult = {
 
 const defaultConstitution: ConstitutionRuleSet = {
   forbiddenClaims: [],
-  requiredValues: ["clarity", "consistency", "evidence", "audience fit", "trust"],
+  requiredValues: [
+    "clarity",
+    "consistency",
+    "evidence",
+    "audience fit",
+    "trust",
+  ],
 };
 
 export function constitutionCheck(

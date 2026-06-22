@@ -2,9 +2,7 @@ import type { AggregatedSignal } from "../aggregation/aggregation-types";
 
 import { validateSignal } from "./validate-signal";
 
-import type {
-  SignalValidationReport,
-} from "./signal-validation-types";
+import type { SignalValidationReport } from "./signal-validation-types";
 
 export function validateSignals(
   signals: AggregatedSignal[],

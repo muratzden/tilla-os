@@ -21,17 +21,23 @@ export function createMemoryBrandOSStorageAdapter(): BrandOSStorageAdapter {
       return state ? clone(state) : null;
     },
 
-    async saveState(workspaceId: string, state: BrandOperatingState): Promise<void> {
+    async saveState(
+      workspaceId: string,
+      state: BrandOperatingState,
+    ): Promise<void> {
       states.set(workspaceId, clone(state));
     },
 
-    async appendEvents(workspaceId: string, nextEvents: BrandEvent[]): Promise<void> {
+    async appendEvents(
+      workspaceId: string,
+      nextEvents: BrandEvent[],
+    ): Promise<void> {
       const existingEvents = events.get(workspaceId) ?? [];
       events.set(workspaceId, [...existingEvents, ...clone(nextEvents)]);
     },
 
     async getEvents(workspaceId: string): Promise<BrandEvent[]> {
       return clone(events.get(workspaceId) ?? []);
-    }
+    },
   };
 }

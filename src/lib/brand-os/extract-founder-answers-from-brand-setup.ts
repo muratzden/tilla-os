@@ -13,9 +13,7 @@ function listFromUnknown(value: unknown): string[] {
   if (!value) return [];
 
   if (Array.isArray(value)) {
-    return value
-      .map((item) => String(item).trim())
-      .filter(Boolean);
+    return value.map((item) => String(item).trim()).filter(Boolean);
   }
 
   if (typeof value === "string") {
@@ -78,11 +76,23 @@ export function extractFounderAnswersFromBrandSetup(
   pushAnswer(answers, "Brand name", readString(identity, "brandName"));
   pushAnswer(answers, "Brand type", readString(identity, "brandType"));
 
-  pushAnswer(answers, "Market position", readString(positioning, "marketPosition"));
+  pushAnswer(
+    answers,
+    "Market position",
+    readString(positioning, "marketPosition"),
+  );
   pushAnswer(answers, "Category", readString(positioning, "category"));
   pushAnswer(answers, "Promise", readString(positioning, "promise"));
-  pushAnswer(answers, "Value proposition", readString(positioning, "valueProposition"));
-  pushAnswer(answers, "Core offer", readString(positioning, "offer") ?? readString(positioning, "coreOffer"));
+  pushAnswer(
+    answers,
+    "Value proposition",
+    readString(positioning, "valueProposition"),
+  );
+  pushAnswer(
+    answers,
+    "Core offer",
+    readString(positioning, "offer") ?? readString(positioning, "coreOffer"),
+  );
 
   pushListAnswer(answers, "Differentiators", [
     ...readList(positioning, "differentiators"),
@@ -94,8 +104,19 @@ export function extractFounderAnswersFromBrandSetup(
     ...readList(values, "proofSignals"),
   ]);
 
-  pushAnswer(answers, "Primary audience", readString(audience, "primaryAudience") ?? readString(audience, "primary") ?? readString(audience, "targetAudience"));
-  pushAnswer(answers, "Desired outcome", readString(audience, "desiredOutcome") ?? readString(audience, "transformation"));
+  pushAnswer(
+    answers,
+    "Primary audience",
+    readString(audience, "primaryAudience") ??
+      readString(audience, "primary") ??
+      readString(audience, "targetAudience"),
+  );
+  pushAnswer(
+    answers,
+    "Desired outcome",
+    readString(audience, "desiredOutcome") ??
+      readString(audience, "transformation"),
+  );
 
   pushListAnswer(answers, "Audience needs", [
     ...readList(audience, "needs"),
@@ -132,7 +153,11 @@ export function extractFounderAnswersFromBrandSetup(
     ...readList(positioning, "constraints"),
   ]);
 
-  pushAnswer(answers, "Manifesto", readString(manifesto, "statement") ?? readString(manifesto, "principle"));
+  pushAnswer(
+    answers,
+    "Manifesto",
+    readString(manifesto, "statement") ?? readString(manifesto, "principle"),
+  );
 
   return Array.from(new Set(answers));
 }

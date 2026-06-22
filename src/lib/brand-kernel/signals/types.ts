@@ -11,7 +11,7 @@ export type BrandSignalCategory =
   | "trust"
   | "growth"
   | "constraint";
-  
+
 export interface BrandSignal {
   id: string;
 

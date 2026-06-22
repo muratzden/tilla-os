@@ -21,42 +21,27 @@ describe("getSignalWithEvidence", () => {
         references: [
           {
             answerId: "a1",
-            excerpt:
-              "I refuse mass production.",
+            excerpt: "I refuse mass production.",
           },
         ],
       },
     ]);
 
-    const result = getSignalWithEvidence(
-      registry,
-      graph,
-      "belief_01",
-    );
+    const result = getSignalWithEvidence(registry, graph, "belief_01");
 
     expect(result).toBeDefined();
 
-    expect(result?.signal.id).toBe(
-      "belief_01",
-    );
+    expect(result?.signal.id).toBe("belief_01");
 
-    expect(
-      result?.evidence?.references,
-    ).toHaveLength(1);
+    expect(result?.evidence?.references).toHaveLength(1);
   });
 
   it("returns undefined for unknown signal", () => {
-    const registry =
-      buildSignalRegistry([]);
+    const registry = buildSignalRegistry([]);
 
-    const graph =
-      buildEvidenceGraph([]);
+    const graph = buildEvidenceGraph([]);
 
-    const result = getSignalWithEvidence(
-      registry,
-      graph,
-      "missing",
-    );
+    const result = getSignalWithEvidence(registry, graph, "missing");
 
     expect(result).toBeUndefined();
   });

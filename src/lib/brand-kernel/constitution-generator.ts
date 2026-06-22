@@ -58,8 +58,7 @@ const CONSTITUTION_RULES_BY_MANIFESTO: Record<
     },
     {
       rule: "Avoid claims that cannot be supported with evidence.",
-      rationale:
-        "Unsupported claims create trust debt.",
+      rationale: "Unsupported claims create trust debt.",
       severity: "medium",
     },
   ],
@@ -73,14 +72,12 @@ const CONSTITUTION_RULES_BY_MANIFESTO: Record<
     },
     {
       rule: "Prefer controlled expansion over uncontrolled volume.",
-      rationale:
-        "Fast growth can create operational and identity drift.",
+      rationale: "Fast growth can create operational and identity drift.",
       severity: "medium",
     },
     {
       rule: "Do not trade long-term value for short-term reach.",
-      rationale:
-        "Reach is useful only when it reinforces the operating model.",
+      rationale: "Reach is useful only when it reinforces the operating model.",
       severity: "high",
     },
   ],

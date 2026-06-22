@@ -7,14 +7,16 @@
   GrowthProfile,
   OfferProfile,
   PositioningProfile,
-  TrustProfile
+  TrustProfile,
 } from "./types";
 
 function normalizeText(value: string): string {
   return value.replace(/\s+/g, " ").trim();
 }
 
-function normalizeNullableText(value: string | null | undefined): string | null {
+function normalizeNullableText(
+  value: string | null | undefined,
+): string | null {
   if (typeof value !== "string") return null;
 
   const normalized = normalizeText(value);
@@ -42,78 +44,142 @@ function normalizeArray(value: string[] | undefined): string[] {
   return normalized;
 }
 
-function normalizePartialAudience(input: Partial<AudienceProfile>): Partial<AudienceProfile> {
+function normalizePartialAudience(
+  input: Partial<AudienceProfile>,
+): Partial<AudienceProfile> {
   return {
-    ...(input.primary !== undefined ? { primary: normalizeNullableText(input.primary) } : {}),
-    ...(input.needs !== undefined ? { needs: normalizeArray(input.needs) } : {}),
-    ...(input.barriers !== undefined ? { barriers: normalizeArray(input.barriers) } : {}),
-    ...(input.desiredOutcome !== undefined ? { desiredOutcome: normalizeNullableText(input.desiredOutcome) } : {})
+    ...(input.primary !== undefined
+      ? { primary: normalizeNullableText(input.primary) }
+      : {}),
+    ...(input.needs !== undefined
+      ? { needs: normalizeArray(input.needs) }
+      : {}),
+    ...(input.barriers !== undefined
+      ? { barriers: normalizeArray(input.barriers) }
+      : {}),
+    ...(input.desiredOutcome !== undefined
+      ? { desiredOutcome: normalizeNullableText(input.desiredOutcome) }
+      : {}),
   };
 }
 
-function normalizePartialPositioning(input: Partial<PositioningProfile>): Partial<PositioningProfile> {
+function normalizePartialPositioning(
+  input: Partial<PositioningProfile>,
+): Partial<PositioningProfile> {
   return {
-    ...(input.category !== undefined ? { category: normalizeNullableText(input.category) } : {}),
-    ...(input.promise !== undefined ? { promise: normalizeNullableText(input.promise) } : {}),
-    ...(input.differentiators !== undefined ? { differentiators: normalizeArray(input.differentiators) } : {}),
-    ...(input.proofPoints !== undefined ? { proofPoints: normalizeArray(input.proofPoints) } : {})
+    ...(input.category !== undefined
+      ? { category: normalizeNullableText(input.category) }
+      : {}),
+    ...(input.promise !== undefined
+      ? { promise: normalizeNullableText(input.promise) }
+      : {}),
+    ...(input.differentiators !== undefined
+      ? { differentiators: normalizeArray(input.differentiators) }
+      : {}),
+    ...(input.proofPoints !== undefined
+      ? { proofPoints: normalizeArray(input.proofPoints) }
+      : {}),
   };
 }
 
-function normalizePartialTrust(input: Partial<TrustProfile>): Partial<TrustProfile> {
+function normalizePartialTrust(
+  input: Partial<TrustProfile>,
+): Partial<TrustProfile> {
   return {
-    ...(input.signals !== undefined ? { signals: normalizeArray(input.signals) } : {}),
-    ...(input.gaps !== undefined ? { gaps: normalizeArray(input.gaps) } : {})
+    ...(input.signals !== undefined
+      ? { signals: normalizeArray(input.signals) }
+      : {}),
+    ...(input.gaps !== undefined ? { gaps: normalizeArray(input.gaps) } : {}),
   };
 }
 
-function normalizePartialAuthority(input: Partial<AuthorityProfile>): Partial<AuthorityProfile> {
+function normalizePartialAuthority(
+  input: Partial<AuthorityProfile>,
+): Partial<AuthorityProfile> {
   return {
-    ...(input.themes !== undefined ? { themes: normalizeArray(input.themes) } : {}),
-    ...(input.evidence !== undefined ? { evidence: normalizeArray(input.evidence) } : {}),
-    ...(input.gaps !== undefined ? { gaps: normalizeArray(input.gaps) } : {})
+    ...(input.themes !== undefined
+      ? { themes: normalizeArray(input.themes) }
+      : {}),
+    ...(input.evidence !== undefined
+      ? { evidence: normalizeArray(input.evidence) }
+      : {}),
+    ...(input.gaps !== undefined ? { gaps: normalizeArray(input.gaps) } : {}),
   };
 }
 
-function normalizePartialOffer(input: Partial<OfferProfile>): Partial<OfferProfile> {
+function normalizePartialOffer(
+  input: Partial<OfferProfile>,
+): Partial<OfferProfile> {
   return {
-    ...(input.core !== undefined ? { core: normalizeNullableText(input.core) } : {}),
-    ...(input.outcomes !== undefined ? { outcomes: normalizeArray(input.outcomes) } : {}),
-    ...(input.constraints !== undefined ? { constraints: normalizeArray(input.constraints) } : {})
+    ...(input.core !== undefined
+      ? { core: normalizeNullableText(input.core) }
+      : {}),
+    ...(input.outcomes !== undefined
+      ? { outcomes: normalizeArray(input.outcomes) }
+      : {}),
+    ...(input.constraints !== undefined
+      ? { constraints: normalizeArray(input.constraints) }
+      : {}),
   };
 }
 
-function normalizePartialChannels(input: Partial<ChannelProfile>): Partial<ChannelProfile> {
+function normalizePartialChannels(
+  input: Partial<ChannelProfile>,
+): Partial<ChannelProfile> {
   return {
-    ...(input.primary !== undefined ? { primary: normalizeArray(input.primary) } : {}),
-    ...(input.secondary !== undefined ? { secondary: normalizeArray(input.secondary) } : {}),
-    ...(input.experiments !== undefined ? { experiments: normalizeArray(input.experiments) } : {})
+    ...(input.primary !== undefined
+      ? { primary: normalizeArray(input.primary) }
+      : {}),
+    ...(input.secondary !== undefined
+      ? { secondary: normalizeArray(input.secondary) }
+      : {}),
+    ...(input.experiments !== undefined
+      ? { experiments: normalizeArray(input.experiments) }
+      : {}),
   };
 }
 
-function normalizePartialGrowth(input: Partial<GrowthProfile>): Partial<GrowthProfile> {
+function normalizePartialGrowth(
+  input: Partial<GrowthProfile>,
+): Partial<GrowthProfile> {
   return {
-    ...(input.objectives !== undefined ? { objectives: normalizeArray(input.objectives) } : {}),
-    ...(input.loops !== undefined ? { loops: normalizeArray(input.loops) } : {}),
-    ...(input.constraints !== undefined ? { constraints: normalizeArray(input.constraints) } : {})
+    ...(input.objectives !== undefined
+      ? { objectives: normalizeArray(input.objectives) }
+      : {}),
+    ...(input.loops !== undefined
+      ? { loops: normalizeArray(input.loops) }
+      : {}),
+    ...(input.constraints !== undefined
+      ? { constraints: normalizeArray(input.constraints) }
+      : {}),
   };
 }
 
 export function normalizeBrandOSInput(input: BrandSeedInput): BrandSeedInput {
   return {
     idea: normalizeText(input.idea),
-    brandType: normalizeText(input.brandType)
+    brandType: normalizeText(input.brandType),
   };
 }
 
-export function normalizeBrandOSUpdate(input: BrandOSUpdateInput): BrandOSUpdateInput {
+export function normalizeBrandOSUpdate(
+  input: BrandOSUpdateInput,
+): BrandOSUpdateInput {
   return {
-    ...(input.audience ? { audience: normalizePartialAudience(input.audience) } : {}),
-    ...(input.positioning ? { positioning: normalizePartialPositioning(input.positioning) } : {}),
+    ...(input.audience
+      ? { audience: normalizePartialAudience(input.audience) }
+      : {}),
+    ...(input.positioning
+      ? { positioning: normalizePartialPositioning(input.positioning) }
+      : {}),
     ...(input.trust ? { trust: normalizePartialTrust(input.trust) } : {}),
-    ...(input.authority ? { authority: normalizePartialAuthority(input.authority) } : {}),
+    ...(input.authority
+      ? { authority: normalizePartialAuthority(input.authority) }
+      : {}),
     ...(input.offer ? { offer: normalizePartialOffer(input.offer) } : {}),
-    ...(input.channels ? { channels: normalizePartialChannels(input.channels) } : {}),
-    ...(input.growth ? { growth: normalizePartialGrowth(input.growth) } : {})
+    ...(input.channels
+      ? { channels: normalizePartialChannels(input.channels) }
+      : {}),
+    ...(input.growth ? { growth: normalizePartialGrowth(input.growth) } : {}),
   };
 }

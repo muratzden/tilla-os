@@ -48,7 +48,10 @@ function addSignalToNode(node: GraphNode, signal: BrandSignal): GraphNode {
   };
 }
 
-const CATEGORY_TO_GRAPH_AREAS: Record<BrandSignalCategory, (keyof BrandGraph)[]> = {
+const CATEGORY_TO_GRAPH_AREAS: Record<
+  BrandSignalCategory,
+  (keyof BrandGraph)[]
+> = {
   identity: ["identity"],
   audience: ["audience"],
   belief: ["beliefs"],
@@ -59,18 +62,22 @@ const CATEGORY_TO_GRAPH_AREAS: Record<BrandSignalCategory, (keyof BrandGraph)[]>
   direction: ["objectives"],
   quality: ["trustSignals", "differentiators"],
   trust: ["trustSignals"],
-    growth: ["growth", "objectives"],
+  growth: ["growth", "objectives"],
   constraint: ["constraints"],
 };
 
 function calculateAllNodeConfidence(graph: BrandGraph): void {
   graph.identity.confidence = calculateNodeConfidence(graph.identity);
   graph.audience.confidence = calculateNodeConfidence(graph.audience);
-  graph.transformation.confidence = calculateNodeConfidence(graph.transformation);
+  graph.transformation.confidence = calculateNodeConfidence(
+    graph.transformation,
+  );
   graph.positioning.confidence = calculateNodeConfidence(graph.positioning);
   graph.beliefs.confidence = calculateNodeConfidence(graph.beliefs);
   graph.tensions.confidence = calculateNodeConfidence(graph.tensions);
-  graph.differentiators.confidence = calculateNodeConfidence(graph.differentiators);
+  graph.differentiators.confidence = calculateNodeConfidence(
+    graph.differentiators,
+  );
   graph.trustSignals.confidence = calculateNodeConfidence(graph.trustSignals);
   graph.objectives.confidence = calculateNodeConfidence(graph.objectives);
   graph.growth.confidence = calculateNodeConfidence(graph.growth);

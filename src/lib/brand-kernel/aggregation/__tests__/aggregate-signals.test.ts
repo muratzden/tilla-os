@@ -29,8 +29,6 @@ describe("aggregateSignals", () => {
 
     expect(report.aggregatedSignals).toHaveLength(1);
 
-    expect(
-      report.aggregatedSignals[0].signals,
-    ).toHaveLength(2);
+    expect(report.aggregatedSignals[0].signals).toHaveLength(2);
   });
 });

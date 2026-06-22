@@ -14,18 +14,11 @@ async function main() {
     ],
   });
 
-  const decision =
-    "Use fake scarcity and urgent discounts to sell faster.";
+  const decision = "Use fake scarcity and urgent discounts to sell faster.";
 
-  const audit = auditDecisionAgainstPolicies(
-    decision,
-    result.policies,
-  );
+  const audit = auditDecisionAgainstPolicies(decision, result.policies);
 
-  const correction = generateDecisionCorrection(
-    decision,
-    audit,
-  );
+  const correction = generateDecisionCorrection(decision, audit);
 
   console.log(
     JSON.stringify(

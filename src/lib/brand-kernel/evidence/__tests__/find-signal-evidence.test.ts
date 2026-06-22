@@ -11,22 +11,17 @@ describe("findSignalEvidence", () => {
         references: [
           {
             answerId: "a1",
-            excerpt:
-              "I refuse mass production.",
+            excerpt: "I refuse mass production.",
           },
           {
             answerId: "a2",
-            excerpt:
-              "Every product should age with its owner.",
+            excerpt: "Every product should age with its owner.",
           },
         ],
       },
     ]);
 
-    const result = findSignalEvidence(
-      graph,
-      "belief_01",
-    );
+    const result = findSignalEvidence(graph, "belief_01");
 
     expect(result).toBeDefined();
     expect(result?.references).toHaveLength(2);
@@ -35,10 +30,7 @@ describe("findSignalEvidence", () => {
   it("returns undefined when signal does not exist", () => {
     const graph = buildEvidenceGraph([]);
 
-    const result = findSignalEvidence(
-      graph,
-      "missing_signal",
-    );
+    const result = findSignalEvidence(graph, "missing_signal");
 
     expect(result).toBeUndefined();
   });

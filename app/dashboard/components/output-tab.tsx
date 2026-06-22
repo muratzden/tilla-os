@@ -34,9 +34,7 @@ export function OutputTab({ kernel, language = "en" }: OutputTabProps) {
           {manifestoTitle}
         </h3>
 
-        <p className="mt-3 text-sm leading-6 text-zinc-400">
-          {nextBestAction}
-        </p>
+        <p className="mt-3 text-sm leading-6 text-zinc-400">{nextBestAction}</p>
       </section>
 
       <section className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6">
@@ -61,9 +59,7 @@ export function OutputTab({ kernel, language = "en" }: OutputTabProps) {
               </div>
             ))
           ) : (
-            <p className="text-sm text-zinc-500">
-              No policies generated yet.
-            </p>
+            <p className="text-sm text-zinc-500">No policies generated yet.</p>
           )}
         </div>
       </section>
@@ -81,8 +77,8 @@ export function OutputTab({ kernel, language = "en" }: OutputTabProps) {
                 className="rounded-2xl border border-white/10 bg-black/30 p-4"
               >
                 <p className="text-sm font-medium text-white">
-  {signal.id.replaceAll("_", " ")}
-</p>
+                  {signal.id.replaceAll("_", " ")}
+                </p>
 
                 <p className="mt-2 text-xs text-zinc-500">
                   Strength: {signal.strength}
@@ -90,9 +86,7 @@ export function OutputTab({ kernel, language = "en" }: OutputTabProps) {
               </div>
             ))
           ) : (
-            <p className="text-sm text-zinc-500">
-              No approved signals yet.
-            </p>
+            <p className="text-sm text-zinc-500">No approved signals yet.</p>
           )}
         </div>
       </section>

@@ -9,7 +9,8 @@ const QUESTIONS_BY_MISSING_AREA: Record<string, string> = {
   identity: "What does the brand stand for at its core?",
   audience: "Who is the brand trying to serve or transform?",
   belief: "What does the brand believe that competitors do not?",
-  transformation: "What change should the customer experience after choosing this brand?",
+  transformation:
+    "What change should the customer experience after choosing this brand?",
   principles: "What should never be compromised, even for growth?",
 };
 

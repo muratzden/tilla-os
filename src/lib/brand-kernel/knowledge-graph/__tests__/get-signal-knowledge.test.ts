@@ -37,16 +37,9 @@ describe("getSignalKnowledge", () => {
       },
     ]);
 
-    const graph = buildKnowledgeGraph(
-      registry,
-      evidence,
-      traceability,
-    );
+    const graph = buildKnowledgeGraph(registry, evidence, traceability);
 
-    const result = getSignalKnowledge(
-      graph,
-      "belief_01",
-    );
+    const result = getSignalKnowledge(graph, "belief_01");
 
     expect(result).toBeDefined();
     expect(result?.traces).toHaveLength(1);

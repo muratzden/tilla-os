@@ -66,7 +66,11 @@ export type BrandEventType =
   | "score_recalculated"
   | "lifecycle_transitioned";
 
-export type DecisionStatus = "proposed" | "accepted" | "rejected" | "superseded";
+export type DecisionStatus =
+  | "proposed"
+  | "accepted"
+  | "rejected"
+  | "superseded";
 
 export type DecisionType = DecisionArea;
 
@@ -143,7 +147,14 @@ export interface GrowthProfile {
 
 export interface MemoryEntry {
   id: string;
-  type: "input" | "decision" | "observation" | "score" | "action" | "event" | "lifecycle";
+  type:
+    | "input"
+    | "decision"
+    | "observation"
+    | "score"
+    | "action"
+    | "event"
+    | "lifecycle";
   summary: string;
   createdAt: string;
   tags: string[];
@@ -345,11 +356,11 @@ export interface BrandOperatingState {
   score: BrandScore;
   missionControl: MissionControlState;
   kernel?: {
-  manifesto?: unknown;
-  constitution?: unknown;
-  policies?: unknown[];
-  graph?: unknown;
-};
+    manifesto?: unknown;
+    constitution?: unknown;
+    policies?: unknown[];
+    graph?: unknown;
+  };
   studios: StudioDefinition[];
   intelligencePacks: IntelligencePackDefinition[];
   decisions: DecisionRecord[];

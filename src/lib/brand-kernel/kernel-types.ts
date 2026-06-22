@@ -20,7 +20,7 @@ export interface KernelOutput {
 
   aggregation: SignalAggregationReport;
   validation: SignalValidationReport;
-    manifestoGate: ManifestoGateReport;
+  manifestoGate: ManifestoGateReport;
 
   missionControlIntelligence: MissionControlIntelligenceReport;
 

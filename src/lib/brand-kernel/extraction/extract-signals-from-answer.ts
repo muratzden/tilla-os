@@ -1,7 +1,4 @@
-import type {
-  ExtractedSignal,
-  FounderAnswer,
-} from "./extraction-types";
+import type { ExtractedSignal, FounderAnswer } from "./extraction-types";
 
 function normalizeText(value: string): string {
   return value.toLowerCase().trim();
@@ -34,8 +31,7 @@ export function extractSignalsFromAnswer(
           excerpt: answer.answer,
         },
       ],
-      rationale:
-        "The answer describes who the brand is trying to serve.",
+      rationale: "The answer describes who the brand is trying to serve.",
     });
   }
 
@@ -82,8 +78,7 @@ export function extractSignalsFromAnswer(
           excerpt: answer.answer,
         },
       ],
-      rationale:
-        "The answer describes the change the brand should create.",
+      rationale: "The answer describes the change the brand should create.",
     });
   }
 
@@ -130,8 +125,7 @@ export function extractSignalsFromAnswer(
           excerpt: answer.answer,
         },
       ],
-      rationale:
-        "The answer describes the brand's core identity.",
+      rationale: "The answer describes the brand's core identity.",
     });
   }
 

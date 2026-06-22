@@ -1,18 +1,36 @@
 ﻿import { evaluateBrandIntelligence } from "./intelligence/index";
-import type { BrandIntelligenceReport, StrategicEvaluation } from "./intelligence/types";
+import type {
+  BrandIntelligenceReport,
+  StrategicEvaluation,
+} from "./intelligence/types";
 import { getLifecycleFocus } from "./lifecycle";
-import { calculateReadinessScore, findLowestScoreDimension, getScoreDimensions } from "./scoring";
-import type { BrandOperatingState, MissionControlState, ScoreDimension, StudioId } from "./types";
+import {
+  calculateReadinessScore,
+  findLowestScoreDimension,
+  getScoreDimensions,
+} from "./scoring";
+import type {
+  BrandOperatingState,
+  MissionControlState,
+  ScoreDimension,
+  StudioId,
+} from "./types";
 import { mergeMissionControlIntelligence } from "./intelligence/merge-mission-control-intelligence";
 import type { MissionControlIntelligenceReport } from "@/src/lib/brand-kernel/mission-control-intelligence/mission-control-types";
 const ACTION_BY_BOTTLENECK: Record<ScoreDimension, string> = {
-  clarity: "Define the core audience, category, promise, and offer in one concise foundation pass.",
-  audienceFit: "Identify the primary audience, their urgent needs, barriers, and desired outcome.",
-  differentiation: "Choose clear differentiators and connect each one to proof.",
-  trust: "Add trust signals that reduce perceived risk and make the promise believable.",
+  clarity:
+    "Define the core audience, category, promise, and offer in one concise foundation pass.",
+  audienceFit:
+    "Identify the primary audience, their urgent needs, barriers, and desired outcome.",
+  differentiation:
+    "Choose clear differentiators and connect each one to proof.",
+  trust:
+    "Add trust signals that reduce perceived risk and make the promise believable.",
   authority: "Select authority themes and attach evidence to each theme.",
-  consistency: "Align the offer, channels, and decisions around one strategic direction.",
-  growthReadiness: "Choose one measurable growth objective and one repeatable channel loop."
+  consistency:
+    "Align the offer, channels, and decisions around one strategic direction.",
+  growthReadiness:
+    "Choose one measurable growth objective and one repeatable channel loop.",
 };
 
 const STUDIO_BY_BOTTLENECK: Record<ScoreDimension, StudioId> = {
@@ -22,7 +40,7 @@ const STUDIO_BY_BOTTLENECK: Record<ScoreDimension, StudioId> = {
   trust: "authority",
   authority: "authority",
   consistency: "campaign",
-  growthReadiness: "growth"
+  growthReadiness: "growth",
 };
 
 const STUDIO_BY_INTELLIGENCE_AREA: Record<string, StudioId> = {
@@ -31,7 +49,7 @@ const STUDIO_BY_INTELLIGENCE_AREA: Record<string, StudioId> = {
   trust: "authority",
   authority: "authority",
   channels: "campaign",
-  growth: "growth"
+  growth: "growth",
 };
 
 function collectMissingInputs(state: BrandOperatingState): string[] {
@@ -41,7 +59,8 @@ function collectMissingInputs(state: BrandOperatingState): string[] {
   if (!state.audience.desiredOutcome) missing.push("audience desired outcome");
   if (!state.positioning.category) missing.push("positioning category");
   if (!state.positioning.promise) missing.push("brand promise");
-  if (state.positioning.differentiators.length === 0) missing.push("differentiators");
+  if (state.positioning.differentiators.length === 0)
+    missing.push("differentiators");
   if (!state.offer.core) missing.push("core offer");
   if (state.trust.signals.length === 0) missing.push("trust signals");
   if (state.authority.themes.length === 0) missing.push("authority themes");
@@ -59,10 +78,15 @@ function severityFromScore(score: number): "low" | "medium" | "high" {
 
 function averageScore(evaluations: StrategicEvaluation[]): number {
   if (evaluations.length === 0) return 0;
-  return Math.round(evaluations.reduce((sum, evaluation) => sum + evaluation.score, 0) / evaluations.length);
+  return Math.round(
+    evaluations.reduce((sum, evaluation) => sum + evaluation.score, 0) /
+      evaluations.length,
+  );
 }
 
-function getIntelligenceEvaluations(intelligence: BrandIntelligenceReport): Array<{
+function getIntelligenceEvaluations(
+  intelligence: BrandIntelligenceReport,
+): Array<{
   area: string;
   evaluation: StrategicEvaluation;
 }> {
@@ -72,19 +96,23 @@ function getIntelligenceEvaluations(intelligence: BrandIntelligenceReport): Arra
     { area: "trust", evaluation: intelligence.trust },
     { area: "authority", evaluation: intelligence.authority },
     { area: "channels", evaluation: intelligence.channels },
-    { area: "growth", evaluation: intelligence.growth }
+    { area: "growth", evaluation: intelligence.growth },
   ];
 }
 
 function normalizeBrandIntelligence(
   intelligence: BrandIntelligenceReport,
-  bottleneck: ScoreDimension
+  bottleneck: ScoreDimension,
 ): MissionControlState["intelligence"] {
   const evaluations = getIntelligenceEvaluations(intelligence);
-  const rankedEvaluations = [...evaluations].sort((left, right) => left.evaluation.score - right.evaluation.score);
+  const rankedEvaluations = [...evaluations].sort(
+    (left, right) => left.evaluation.score - right.evaluation.score,
+  );
   const weakest = rankedEvaluations[0];
   const weakestDimensionEvaluation = intelligence.dimensionMap[bottleneck]
-    ? [...intelligence.dimensionMap[bottleneck]].sort((left, right) => left.score - right.score)[0]
+    ? [...intelligence.dimensionMap[bottleneck]].sort(
+        (left, right) => left.score - right.score,
+      )[0]
     : weakest?.evaluation;
 
   return {
@@ -93,38 +121,40 @@ function normalizeBrandIntelligence(
       evaluation.weaknesses.slice(0, 2).map((reason) => ({
         area,
         severity: severityFromScore(evaluation.score),
-        reason
-      }))
+        reason,
+      })),
     ),
     risks: rankedEvaluations.flatMap(({ area, evaluation }) =>
       evaluation.risks.slice(0, 2).map((description) => ({
         area,
         risk: severityFromScore(evaluation.score),
-        description
-      }))
+        description,
+      })),
     ),
     opportunities: rankedEvaluations.flatMap(({ area, evaluation }) =>
       evaluation.strengths.slice(0, 1).map((reason) => ({
         area,
         score: evaluation.score,
-        reason
-      }))
+        reason,
+      })),
     ),
     priorities: rankedEvaluations.map(({ area, evaluation }, index) => ({
       area,
       rank: index + 1,
-      reason: evaluation.recommendations[0] ?? `${area} needs stronger strategic evidence.`
+      reason:
+        evaluation.recommendations[0] ??
+        `${area} needs stronger strategic evidence.`,
     })),
     nextBestAction:
       weakestDimensionEvaluation?.recommendations[0] ??
       weakest?.evaluation.recommendations[0] ??
-      intelligence.recommendedFocus.reason
+      intelligence.recommendedFocus.reason,
   };
 }
 
 export function createMissionControlState(
   state: BrandOperatingState,
-  kernelIntelligence?: MissionControlIntelligenceReport
+  kernelIntelligence?: MissionControlIntelligenceReport,
 ): MissionControlState {
   const readinessScore = calculateReadinessScore(state.score);
   const bottleneck = findLowestScoreDimension(state.score);
@@ -136,15 +166,13 @@ export function createMissionControlState(
     }
   })();
 
-const brandOSIntelligence =
-  intelligence
+  const brandOSIntelligence = intelligence
     ? normalizeBrandIntelligence(intelligence, bottleneck)
     : undefined;
 
-const normalizedIntelligence =
-  mergeMissionControlIntelligence(
+  const normalizedIntelligence = mergeMissionControlIntelligence(
     brandOSIntelligence,
-    kernelIntelligence
+    kernelIntelligence,
   );
 
   const weakestIntelligenceArea = intelligence
@@ -154,17 +182,20 @@ const normalizedIntelligence =
         trust: intelligence.trust,
         authority: intelligence.authority,
         channels: intelligence.channels,
-        growth: intelligence.growth
+        growth: intelligence.growth,
       }).sort((left, right) => left[1].score - right[1].score)[0]
     : undefined;
 
   const recommendedStudio =
-    weakestIntelligenceArea && weakestIntelligenceArea[1].score <= state.score[bottleneck].score + 10
+    weakestIntelligenceArea &&
+    weakestIntelligenceArea[1].score <= state.score[bottleneck].score + 10
       ? STUDIO_BY_INTELLIGENCE_AREA[weakestIntelligenceArea[0]]
       : STUDIO_BY_BOTTLENECK[bottleneck];
 
   const weakestEvaluations = intelligence?.dimensionMap[bottleneck]
-    ? [...intelligence.dimensionMap[bottleneck]].sort((left, right) => left.score - right.score)
+    ? [...intelligence.dimensionMap[bottleneck]].sort(
+        (left, right) => left.score - right.score,
+      )
     : [];
 
   const weakestEvaluation = weakestEvaluations[0];
@@ -174,7 +205,7 @@ const normalizedIntelligence =
       dimension,
       score: state.score[dimension].score,
       reasons: state.score[dimension].reasons,
-      missingInputs: state.score[dimension].missingInputs
+      missingInputs: state.score[dimension].missingInputs,
     }))
     .sort((left, right) => left.score - right.score);
 
@@ -182,10 +213,15 @@ const normalizedIntelligence =
   const stageFocus = getLifecycleFocus(state.lifecycleStage);
   const primaryMissingInputs = state.score[bottleneck].missingInputs;
   const pendingOutcomes = state.memory.decisionOutcomes.filter(
-    (outcome) => outcome.status === "pending" || outcome.status === "in_progress"
+    (outcome) =>
+      outcome.status === "pending" || outcome.status === "in_progress",
   );
-  const failedOutcomes = state.memory.decisionOutcomes.filter((outcome) => outcome.status === "failed");
-  const validatedOutcomes = state.memory.decisionOutcomes.filter((outcome) => outcome.status === "validated");
+  const failedOutcomes = state.memory.decisionOutcomes.filter(
+    (outcome) => outcome.status === "failed",
+  );
+  const validatedOutcomes = state.memory.decisionOutcomes.filter(
+    (outcome) => outcome.status === "validated",
+  );
 
   const baseDiagnosis =
     readinessScore < 35
@@ -196,9 +232,15 @@ const normalizedIntelligence =
 
   const diagnosis = [
     baseDiagnosis,
-    pendingOutcomes.length > 0 ? `${pendingOutcomes.length} strategic decision outcome is awaiting validation.` : "",
-    failedOutcomes.length > 0 ? `${failedOutcomes.length} strategic decision outcome failed and should be treated as risk.` : "",
-    validatedOutcomes.length > 0 ? `${validatedOutcomes.length} strategic decision outcome is validated evidence.` : ""
+    pendingOutcomes.length > 0
+      ? `${pendingOutcomes.length} strategic decision outcome is awaiting validation.`
+      : "",
+    failedOutcomes.length > 0
+      ? `${failedOutcomes.length} strategic decision outcome failed and should be treated as risk.`
+      : "",
+    validatedOutcomes.length > 0
+      ? `${validatedOutcomes.length} strategic decision outcome is validated evidence.`
+      : "",
   ]
     .filter(Boolean)
     .join(" ");
@@ -209,7 +251,9 @@ const normalizedIntelligence =
     rankedBottlenecks,
     bottleneck,
     nextBestAction:
-      normalizedIntelligence?.nextBestAction ?? weakestEvaluation?.recommendations[0] ?? ACTION_BY_BOTTLENECK[bottleneck],
+      normalizedIntelligence?.nextBestAction ??
+      weakestEvaluation?.recommendations[0] ??
+      ACTION_BY_BOTTLENECK[bottleneck],
     recommendedStudio,
     strategicFocus: stageFocus,
     missingInputs,
@@ -219,22 +263,40 @@ const normalizedIntelligence =
         ? `Resolve: ${primaryMissingInputs.slice(0, 3).join(", ")}.`
         : "Review the weakest score dimension and add supporting evidence.",
       ...(weakestEvaluation?.recommendations.slice(0, 2) ?? []),
-      ...(pendingOutcomes.length > 0 ? ["Validate pending strategic decision outcomes before scaling the next move."] : []),
-      ...(failedOutcomes.length > 0 ? ["Review failed decision outcomes and adjust the related strategic assumption."] : []),
-      "Recalculate Brand OS after the update."
+      ...(pendingOutcomes.length > 0
+        ? [
+            "Validate pending strategic decision outcomes before scaling the next move.",
+          ]
+        : []),
+      ...(failedOutcomes.length > 0
+        ? [
+            "Review failed decision outcomes and adjust the related strategic assumption.",
+          ]
+        : []),
+      "Recalculate Brand OS after the update.",
     ],
     expectedImpact: [
       `Raises ${bottleneck} if the strategic signal improves.`,
-      ...(weakestEvaluation?.weaknesses.slice(0, 2).map((weakness) => `Improves weakness: ${weakness}`) ?? []),
-      ...(weakestEvaluation?.risks.slice(0, 2).map((risk) => `Reduces risk: ${risk}`) ?? []),
+      ...(weakestEvaluation?.weaknesses
+        .slice(0, 2)
+        .map((weakness) => `Improves weakness: ${weakness}`) ?? []),
+      ...(weakestEvaluation?.risks
+        .slice(0, 2)
+        .map((risk) => `Reduces risk: ${risk}`) ?? []),
       ...validatedOutcomes
         .slice(0, 2)
-        .map((outcome) => `Uses validated decision evidence: ${(outcome.actualImpact ?? outcome.expectedImpact).rationale}`),
+        .map(
+          (outcome) =>
+            `Uses validated decision evidence: ${(outcome.actualImpact ?? outcome.expectedImpact).rationale}`,
+        ),
       ...failedOutcomes
         .slice(0, 2)
-        .map((outcome) => `Accounts for failed decision risk: ${(outcome.actualImpact ?? outcome.expectedImpact).rationale}`),
-      "Improves lifecycle readiness through explicit state change history."
+        .map(
+          (outcome) =>
+            `Accounts for failed decision risk: ${(outcome.actualImpact ?? outcome.expectedImpact).rationale}`,
+        ),
+      "Improves lifecycle readiness through explicit state change history.",
     ],
-    intelligence: normalizedIntelligence
+    intelligence: normalizedIntelligence,
   };
 }

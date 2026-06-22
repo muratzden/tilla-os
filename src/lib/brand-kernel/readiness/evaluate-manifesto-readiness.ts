@@ -14,7 +14,9 @@ export function evaluateManifestoReadiness(
   const missingInformation: string[] = [];
 
   if (report.score < MIN_CONFIDENCE_SCORE) {
-    reasons.push("Kernel confidence is below the manifesto generation threshold.");
+    reasons.push(
+      "Kernel confidence is below the manifesto generation threshold.",
+    );
     missingInformation.push("More reliable founder evidence is needed.");
   }
 
@@ -24,7 +26,9 @@ export function evaluateManifestoReadiness(
   }
 
   if (report.contradictionCount > MAX_CONTRADICTION_COUNT) {
-    reasons.push("Too many contradictions exist in the current brand foundation.");
+    reasons.push(
+      "Too many contradictions exist in the current brand foundation.",
+    );
     missingInformation.push("Contradictory founder signals must be clarified.");
   }
 

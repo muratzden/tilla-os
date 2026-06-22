@@ -19,9 +19,9 @@ export function ManifestoTab({ kernel }: { kernel: KernelState | null }) {
           </h2>
 
           <p className="mt-2 max-w-3xl text-sm leading-6 text-zinc-500">
-            No kernel manifesto has been generated yet. Complete the brand
-            setup first so TILLA-OS can generate the governing manifesto,
-            constitution and decision policies from the core kernel.
+            No kernel manifesto has been generated yet. Complete the brand setup
+            first so TILLA-OS can generate the governing manifesto, constitution
+            and decision policies from the core kernel.
           </p>
         </div>
       </section>

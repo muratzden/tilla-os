@@ -1,9 +1,6 @@
 import type { KnowledgeGraph } from "./knowledge-graph-types";
 
-export function getSignalKnowledge(
-  graph: KnowledgeGraph,
-  signalId: string,
-) {
+export function getSignalKnowledge(graph: KnowledgeGraph, signalId: string) {
   const signal = graph.registry.byId[signalId];
 
   if (!signal) {
@@ -14,8 +11,8 @@ export function getSignalKnowledge(
     (node) => node.signalId === signalId,
   );
 
-  const traces = graph.traceability.traces.filter(
-    (trace) => trace.signalIds.includes(signalId),
+  const traces = graph.traceability.traces.filter((trace) =>
+    trace.signalIds.includes(signalId),
   );
 
   return {

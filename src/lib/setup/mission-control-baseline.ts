@@ -12,7 +12,9 @@ export type MissionControlBaseline = {
   nextBestAction: string;
 };
 
-function scoreCompleteness(values: Array<string | string[] | undefined>): number {
+function scoreCompleteness(
+  values: Array<string | string[] | undefined>,
+): number {
   const filled = values.filter((value) => {
     if (Array.isArray(value)) return value.length > 0;
     return Boolean(value && value.trim().length > 0);

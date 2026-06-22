@@ -53,9 +53,9 @@ export default function LoginClient() {
 
   return (
     <AuthShell
-  title="Sign in to TILLA-OS"
-  subtitle="Access your dashboard, brand memory, governance engine, and marketplace."
->
+      title="Sign in to TILLA-OS"
+      subtitle="Access your dashboard, brand memory, governance engine, and marketplace."
+    >
       <form
         className="space-y-4"
         onSubmit={(event) => {

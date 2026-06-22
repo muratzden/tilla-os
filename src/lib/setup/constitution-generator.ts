@@ -8,8 +8,8 @@
  * src/lib/brand-kernel/brand-kernel.ts
  * src/lib/brand-kernel/constitution-generator.ts
  */
- 
- import type { GeneratedManifesto } from "./manifesto-generator";
+
+import type { GeneratedManifesto } from "./manifesto-generator";
 
 export type GeneratedConstitution = {
   reject: string[];
@@ -90,13 +90,9 @@ export function generateConstitution(
     reject.push("Discount-driven positioning");
     prefer.push("Premium consistency");
 
-    growthRules.push(
-      "Growth should not depend on constant discounting.",
-    );
+    growthRules.push("Growth should not depend on constant discounting.");
 
-    marketingRules.push(
-      "Visual language must support premium perception.",
-    );
+    marketingRules.push("Visual language must support premium perception.");
   }
 
   if (hasAny(source, ["personal", "individual", "character", "memory"])) {
@@ -128,13 +124,9 @@ export function generateConstitution(
     "Short-term revenue should not compromise long-term positioning.",
   );
 
-  boundaries.push(
-    "Do not violate declared principles for growth.",
-  );
+  boundaries.push("Do not violate declared principles for growth.");
 
-  boundaries.push(
-    "Do not sacrifice trust for short-term gains.",
-  );
+  boundaries.push("Do not sacrifice trust for short-term gains.");
 
   return {
     reject: Array.from(new Set(reject)),

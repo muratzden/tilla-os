@@ -26,7 +26,7 @@ export class BrandOSJsonStorageError extends Error {
 
 const EMPTY_STORE: JsonBrandOSStorageFile = {
   states: {},
-  events: {}
+  events: {},
 };
 
 function clone<T>(value: T): T {
@@ -37,17 +37,32 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return !!value && typeof value === "object" && !Array.isArray(value);
 }
 
-function assertStoreShape(value: unknown, filePath: string): JsonBrandOSStorageFile {
+function assertStoreShape(
+  value: unknown,
+  filePath: string,
+): JsonBrandOSStorageFile {
   if (!isRecord(value)) {
-    throw new BrandOSJsonStorageError("invalid_storage_shape", filePath, "Storage file must contain an object.");
+    throw new BrandOSJsonStorageError(
+      "invalid_storage_shape",
+      filePath,
+      "Storage file must contain an object.",
+    );
   }
 
   if (!isRecord(value.states)) {
-    throw new BrandOSJsonStorageError("invalid_storage_shape", "states", "Storage file states must be an object.");
+    throw new BrandOSJsonStorageError(
+      "invalid_storage_shape",
+      "states",
+      "Storage file states must be an object.",
+    );
   }
 
   if (!isRecord(value.events)) {
-    throw new BrandOSJsonStorageError("invalid_storage_shape", "events", "Storage file events must be an object.");
+    throw new BrandOSJsonStorageError(
+      "invalid_storage_shape",
+      "events",
+      "Storage file events must be an object.",
+    );
   }
 
   for (const [workspaceId, events] of Object.entries(value.events)) {
@@ -55,7 +70,7 @@ function assertStoreShape(value: unknown, filePath: string): JsonBrandOSStorageF
       throw new BrandOSJsonStorageError(
         "invalid_storage_shape",
         `events.${workspaceId}`,
-        "Storage file events entries must be arrays."
+        "Storage file events entries must be arrays.",
       );
     }
   }
@@ -67,7 +82,10 @@ async function ensureParentFolder(filePath: string): Promise<void> {
   await mkdir(dirname(filePath), { recursive: true });
 }
 
-async function writeStore(filePath: string, store: JsonBrandOSStorageFile): Promise<void> {
+async function writeStore(
+  filePath: string,
+  store: JsonBrandOSStorageFile,
+): Promise<void> {
   await ensureParentFolder(filePath);
 
   const tempPath = `${filePath}.${Date.now()}.${Math.random().toString(36).slice(2)}.tmp`;
@@ -105,11 +123,17 @@ async function readStore(filePath: string): Promise<JsonBrandOSStorageFile> {
       throw error;
     }
 
-    throw new BrandOSJsonStorageError("malformed_json", filePath, "Storage file contains malformed JSON.");
+    throw new BrandOSJsonStorageError(
+      "malformed_json",
+      filePath,
+      "Storage file contains malformed JSON.",
+    );
   }
 }
 
-export function createJsonBrandOSStorageAdapter(options: JsonBrandOSStorageAdapterOptions): BrandOSStorageAdapter {
+export function createJsonBrandOSStorageAdapter(
+  options: JsonBrandOSStorageAdapterOptions,
+): BrandOSStorageAdapter {
   return {
     async getState(workspaceId: string): Promise<BrandOperatingState | null> {
       const store = await readStore(options.filePath);
@@ -117,28 +141,34 @@ export function createJsonBrandOSStorageAdapter(options: JsonBrandOSStorageAdapt
       return state ? clone(state) : null;
     },
 
-    async saveState(workspaceId: string, state: BrandOperatingState): Promise<void> {
+    async saveState(
+      workspaceId: string,
+      state: BrandOperatingState,
+    ): Promise<void> {
       const store = await readStore(options.filePath);
       const nextStore: JsonBrandOSStorageFile = {
         states: {
           ...store.states,
-          [workspaceId]: clone(state)
+          [workspaceId]: clone(state),
         },
-        events: store.events
+        events: store.events,
       };
 
       await writeStore(options.filePath, nextStore);
     },
 
-    async appendEvents(workspaceId: string, nextEvents: BrandEvent[]): Promise<void> {
+    async appendEvents(
+      workspaceId: string,
+      nextEvents: BrandEvent[],
+    ): Promise<void> {
       const store = await readStore(options.filePath);
       const existingEvents = store.events[workspaceId] ?? [];
       const nextStore: JsonBrandOSStorageFile = {
         states: store.states,
         events: {
           ...store.events,
-          [workspaceId]: [...existingEvents, ...clone(nextEvents)]
-        }
+          [workspaceId]: [...existingEvents, ...clone(nextEvents)],
+        },
       };
 
       await writeStore(options.filePath, nextStore);
@@ -147,6 +177,6 @@ export function createJsonBrandOSStorageAdapter(options: JsonBrandOSStorageAdapt
     async getEvents(workspaceId: string): Promise<BrandEvent[]> {
       const store = await readStore(options.filePath);
       return clone(store.events[workspaceId] ?? []);
-    }
+    },
   };
 }

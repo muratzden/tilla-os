@@ -1,6 +1,12 @@
-﻿import { createEvaluation, type BrandIntelligenceInput, type StrategicEvaluation } from "./types";
+﻿import {
+  createEvaluation,
+  type BrandIntelligenceInput,
+  type StrategicEvaluation,
+} from "./types";
 
-export function evaluateAuthority(input: BrandIntelligenceInput): StrategicEvaluation {
+export function evaluateAuthority(
+  input: BrandIntelligenceInput,
+): StrategicEvaluation {
   const strengths: string[] = [];
   const weaknesses: string[] = [];
   const risks: string[] = [];
@@ -14,10 +20,15 @@ export function evaluateAuthority(input: BrandIntelligenceInput): StrategicEvalu
   } else {
     weaknesses.push("Expertise claim is not defined.");
     missingEvidence.push("expertise claim");
-    recommendations.push("Choose the expertise the brand should become known for.");
+    recommendations.push(
+      "Choose the expertise the brand should become known for.",
+    );
   }
 
-  if (input.authority.themes.length >= 2 || input.positioning.differentiators.length >= 2) {
+  if (
+    input.authority.themes.length >= 2 ||
+    input.positioning.differentiators.length >= 2
+  ) {
     score += 14;
     strengths.push("Point of view has multiple strategic anchors.");
   } else {
@@ -25,15 +36,25 @@ export function evaluateAuthority(input: BrandIntelligenceInput): StrategicEvalu
     missingEvidence.push("point of view");
   }
 
-  if (input.authority.evidence.length > 0 && input.memory.observations.length > 0) {
+  if (
+    input.authority.evidence.length > 0 &&
+    input.memory.observations.length > 0
+  ) {
     score += 16;
-    strengths.push("Repeatable insight can be supported by evidence and observation.");
+    strengths.push(
+      "Repeatable insight can be supported by evidence and observation.",
+    );
   } else {
     missingEvidence.push("repeatable insight evidence");
-    recommendations.push("Turn observations and proof into repeatable insight themes.");
+    recommendations.push(
+      "Turn observations and proof into repeatable insight themes.",
+    );
   }
 
-  if (input.authority.evidence.length >= 2 || input.positioning.proofPoints.length >= 2) {
+  if (
+    input.authority.evidence.length >= 2 ||
+    input.positioning.proofPoints.length >= 2
+  ) {
     score += 16;
     strengths.push("Authority assets are emerging.");
   } else {
@@ -43,14 +64,20 @@ export function evaluateAuthority(input: BrandIntelligenceInput): StrategicEvalu
 
   if (input.positioning.promise && input.authority.themes.length > 0) {
     score += 10;
-    strengths.push("Message consistency exists between positioning and authority.");
+    strengths.push(
+      "Message consistency exists between positioning and authority.",
+    );
   } else {
-    risks.push("Authority message may drift because positioning and themes are not aligned.");
+    risks.push(
+      "Authority message may drift because positioning and themes are not aligned.",
+    );
     missingEvidence.push("consistent authority message");
   }
 
   if (input.authority.gaps.length > 0) {
-    risks.push(...input.authority.gaps.map((gap) => `Open authority gap: ${gap}`));
+    risks.push(
+      ...input.authority.gaps.map((gap) => `Open authority gap: ${gap}`),
+    );
     score -= input.authority.gaps.length * 5;
   }
 
@@ -60,6 +87,6 @@ export function evaluateAuthority(input: BrandIntelligenceInput): StrategicEvalu
     weaknesses,
     risks,
     missingEvidence,
-    recommendations
+    recommendations,
   });
 }

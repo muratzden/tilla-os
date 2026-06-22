@@ -49,8 +49,8 @@ export function IntelligenceMarketplacePanel() {
         </h2>
 
         <p className="mt-3 max-w-3xl text-sm text-zinc-500">
-          Intelligence Packs extend Brand OS reasoning capabilities.
-          Languages are runtime settings and are not marketplace products.
+          Intelligence Packs extend Brand OS reasoning capabilities. Languages
+          are runtime settings and are not marketplace products.
         </p>
       </div>
 
@@ -65,9 +65,7 @@ export function IntelligenceMarketplacePanel() {
                 {pack.type}
               </span>
 
-              <span className="text-xs text-emerald-400">
-                {pack.status}
-              </span>
+              <span className="text-xs text-emerald-400">{pack.status}</span>
             </div>
 
             <h3 className="mt-4 text-lg font-semibold text-white">

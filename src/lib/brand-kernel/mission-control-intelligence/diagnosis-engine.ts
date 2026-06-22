@@ -5,9 +5,7 @@ import type {
   MissionSeverity,
 } from "./mission-control-types";
 
-function calculateSeverity(
-  signalCount: number
-): MissionSeverity {
+function calculateSeverity(signalCount: number): MissionSeverity {
   if (signalCount === 0) {
     return "high";
   }
@@ -19,25 +17,17 @@ function calculateSeverity(
   return "low";
 }
 
-export function diagnoseMission(
-  signals: BrandSignal[]
-): MissionDiagnosis[] {
-  const categories = [
-    "identity",
-    "positioning",
-    "trust",
-  ] as const;
+export function diagnoseMission(signals: BrandSignal[]): MissionDiagnosis[] {
+  const categories = ["identity", "positioning", "trust"] as const;
 
   return categories.map((category) => {
     const matchingSignals = signals.filter(
-      (signal) => signal.category === category
+      (signal) => signal.category === category,
     );
 
     return {
       area: category,
-      severity: calculateSeverity(
-        matchingSignals.length
-      ),
+      severity: calculateSeverity(matchingSignals.length),
       reason:
         matchingSignals.length > 0
           ? `${category} signals detected but can be strengthened.`

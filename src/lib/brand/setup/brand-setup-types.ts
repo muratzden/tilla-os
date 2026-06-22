@@ -13,7 +13,7 @@ export type BrandSetup = {
      * Free multilingual intake language.
      * This is NOT the paid app UI language.
      */
-   interviewLanguage: BrandInterviewLanguage;
+    interviewLanguage: BrandInterviewLanguage;
 
     /**
      * Free setup/manifesto intake language.

@@ -41,7 +41,9 @@ export function clampIntelligenceScore(value: number): number {
   return Math.max(0, Math.min(100, Math.round(value)));
 }
 
-export function hasMeaningfulText(value: string | null | undefined): value is string {
+export function hasMeaningfulText(
+  value: string | null | undefined,
+): value is string {
   return typeof value === "string" && value.trim().length >= 4;
 }
 
@@ -57,24 +59,37 @@ export function hasSpecificPhrase(value: string | null | undefined): boolean {
 export function hasSharpSegment(value: string | null | undefined): boolean {
   if (!hasMeaningfulText(value) || !hasSpecificPhrase(value)) return false;
   const lower = value.toLocaleLowerCase();
-  return ["who", "with", "for", "because", "without", "facing", "seeking"].some((marker) => lower.includes(marker));
+  return ["who", "with", "for", "because", "without", "facing", "seeking"].some(
+    (marker) => lower.includes(marker),
+  );
 }
 
-export function hasGenericAudienceLanguage(value: string | null | undefined): boolean {
+export function hasGenericAudienceLanguage(
+  value: string | null | undefined,
+): boolean {
   if (!hasMeaningfulText(value)) return true;
 
   const lower = value.toLocaleLowerCase();
-  return ["people who", "everyone", "anyone", "all businesses", "consumers", "users"].some((marker) => lower.includes(marker));
+  return [
+    "people who",
+    "everyone",
+    "anyone",
+    "all businesses",
+    "consumers",
+    "users",
+  ].some((marker) => lower.includes(marker));
 }
 
-export function createEvaluation(input: StrategicEvaluation): StrategicEvaluation {
+export function createEvaluation(
+  input: StrategicEvaluation,
+): StrategicEvaluation {
   return {
     score: clampIntelligenceScore(input.score),
     strengths: uniqueNonEmpty(input.strengths),
     weaknesses: uniqueNonEmpty(input.weaknesses),
     risks: uniqueNonEmpty(input.risks),
     missingEvidence: uniqueNonEmpty(input.missingEvidence),
-    recommendations: uniqueNonEmpty(input.recommendations)
+    recommendations: uniqueNonEmpty(input.recommendations),
   };
 }
 

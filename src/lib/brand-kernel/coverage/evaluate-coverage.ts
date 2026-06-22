@@ -12,20 +12,12 @@ const REQUIRED_AREAS = [
   "principles",
 ] as const;
 
-export function evaluateCoverage(
-  signals: CoverageSignal[],
-): CoverageReport {
-  const categories = new Set(
-    signals.map((signal) => signal.category),
-  );
+export function evaluateCoverage(signals: CoverageSignal[]): CoverageReport {
+  const categories = new Set(signals.map((signal) => signal.category));
 
-  const covered = REQUIRED_AREAS.filter((area) =>
-    categories.has(area),
-  );
+  const covered = REQUIRED_AREAS.filter((area) => categories.has(area));
 
-  const missing = REQUIRED_AREAS.filter(
-    (area) => !categories.has(area),
-  );
+  const missing = REQUIRED_AREAS.filter((area) => !categories.has(area));
 
   const coverageScore = Math.round(
     (covered.length / REQUIRED_AREAS.length) * 100,

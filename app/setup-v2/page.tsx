@@ -11,9 +11,7 @@ import {
 } from "@/src/lib/setup/setup-v2-types";
 import { generateManifesto } from "@/src/lib/setup/manifesto-generator";
 import { interviewSections } from "@/src/lib/setup/interview-schema";
-import {
-  generateConstitution,
-} from "@/src/lib/setup/constitution-generator";
+import { generateConstitution } from "@/src/lib/setup/constitution-generator";
 
 import { validateDecisionAgainstFoundation } from "@/src/lib/setup/decision-validator";
 
@@ -23,20 +21,17 @@ export default function SetupV2Page() {
   const [currentSection, setCurrentSection] = useState(0);
   const [interview, setInterview] =
     useState<BrandInterview>(emptyBrandInterview);
-	
-	 const [decisionDraft, setDecisionDraft] = useState("");
+
+  const [decisionDraft, setDecisionDraft] = useState("");
 
   const activeSection = interviewSections[currentSection];
 
-  const manifesto = useMemo(
-    () => generateManifesto(interview),
-    [interview],
-  );
-  
+  const manifesto = useMemo(() => generateManifesto(interview), [interview]);
+
   const constitution = useMemo(
-  () => generateConstitution(manifesto),
-  [manifesto],
-);
+    () => generateConstitution(manifesto),
+    [manifesto],
+  );
 
   const validation = useMemo(
     () =>
@@ -48,11 +43,7 @@ export default function SetupV2Page() {
     [decisionDraft, manifesto, constitution],
   );
 
-  function updateField(
-    sectionId: string,
-    fieldId: string,
-    value: string,
-  ) {
+  function updateField(sectionId: string, fieldId: string, value: string) {
     setInterview((current) => ({
       ...current,
       [sectionId]: {
@@ -71,127 +62,127 @@ export default function SetupV2Page() {
     return section[fieldId] ?? "";
   }
 
- async function saveFoundation() {
-  const response = await fetch("/api/workspace/brand-setup", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      identity: {
-        brandName: interview.identity.brandName,
-        category: interview.identity.category,
-        description: interview.identity.description,
-        offering: interview.identity.offering,
-        stage: interview.identity.stage,
+  async function saveFoundation() {
+    const response = await fetch("/api/workspace/brand-setup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
+      body: JSON.stringify({
+        identity: {
+          brandName: interview.identity.brandName,
+          category: interview.identity.category,
+          description: interview.identity.description,
+          offering: interview.identity.offering,
+          stage: interview.identity.stage,
+        },
 
-      positioning: {
-        category: interview.identity.category,
-        marketPosition: interview.identity.description,
-        offer: interview.identity.offering,
-        coreOffer: interview.identity.offering,
-        promise: manifesto.mission,
-        valueProposition: manifesto.transformation,
-        differentiators: [
-          interview.purpose.reasonToExist,
-          interview.purpose.obsession,
-          interview.transformation.transformation,
-        ].filter(Boolean),
-        proofPoints: [
-          interview.principles.defend,
-          interview.principles.boundaries,
-          interview.constraints.nonNegotiables,
-        ].filter(Boolean),
-        ambition: [
-          interview.ambition.future,
-          interview.ambition.legacy,
-          interview.ambition.change,
-        ].filter(Boolean),
-        constraints: [
-          interview.constraints.limitations,
-          interview.constraints.fixedResources,
-          interview.constraints.nonNegotiables,
-        ].filter(Boolean),
-      },
+        positioning: {
+          category: interview.identity.category,
+          marketPosition: interview.identity.description,
+          offer: interview.identity.offering,
+          coreOffer: interview.identity.offering,
+          promise: manifesto.mission,
+          valueProposition: manifesto.transformation,
+          differentiators: [
+            interview.purpose.reasonToExist,
+            interview.purpose.obsession,
+            interview.transformation.transformation,
+          ].filter(Boolean),
+          proofPoints: [
+            interview.principles.defend,
+            interview.principles.boundaries,
+            interview.constraints.nonNegotiables,
+          ].filter(Boolean),
+          ambition: [
+            interview.ambition.future,
+            interview.ambition.legacy,
+            interview.ambition.change,
+          ].filter(Boolean),
+          constraints: [
+            interview.constraints.limitations,
+            interview.constraints.fixedResources,
+            interview.constraints.nonNegotiables,
+          ].filter(Boolean),
+        },
 
-      audience: {
-        primaryAudience: interview.audience.idealAudience,
-        primary: interview.audience.idealAudience,
-        targetAudience: interview.audience.bestCustomer,
-        desiredOutcome: interview.transformation.transformation,
-        transformation: interview.transformation.after,
-        needs: [
-          interview.transformation.before,
-          interview.audience.bestCustomer,
-        ].filter(Boolean),
-        painPoints: [
-          interview.purpose.obsession,
-          interview.constraints.limitations,
-        ].filter(Boolean),
-        barriers: [
-          interview.audience.notFor,
-          interview.constraints.limitations,
-        ].filter(Boolean),
-      },
+        audience: {
+          primaryAudience: interview.audience.idealAudience,
+          primary: interview.audience.idealAudience,
+          targetAudience: interview.audience.bestCustomer,
+          desiredOutcome: interview.transformation.transformation,
+          transformation: interview.transformation.after,
+          needs: [
+            interview.transformation.before,
+            interview.audience.bestCustomer,
+          ].filter(Boolean),
+          painPoints: [
+            interview.purpose.obsession,
+            interview.constraints.limitations,
+          ].filter(Boolean),
+          barriers: [
+            interview.audience.notFor,
+            interview.constraints.limitations,
+          ].filter(Boolean),
+        },
 
-      voice: {
-        authorityThemes: [
-          interview.principles.defend,
-          interview.purpose.obsession,
-        ].filter(Boolean),
-      },
+        voice: {
+          authorityThemes: [
+            interview.principles.defend,
+            interview.purpose.obsession,
+          ].filter(Boolean),
+        },
 
-      visualDirection: {
-        channels: [],
-      },
+        visualDirection: {
+          channels: [],
+        },
 
-      values: {
-        principles: [
-          interview.principles.never,
-          interview.principles.defend,
-          interview.principles.boundaries,
-        ].filter(Boolean),
-        proofSignals: [
-          interview.principles.defend,
-          interview.constraints.nonNegotiables,
-        ].filter(Boolean),
-        trustSignals: [
-          interview.purpose.reasonToExist,
-          interview.principles.defend,
-        ].filter(Boolean),
-        ambition: [
-          interview.ambition.future,
-          interview.ambition.legacy,
-          interview.ambition.change,
-        ].filter(Boolean),
-        constraints: [
-          interview.constraints.limitations,
-          interview.constraints.fixedResources,
-          interview.constraints.nonNegotiables,
-        ].filter(Boolean),
-      },
+        values: {
+          principles: [
+            interview.principles.never,
+            interview.principles.defend,
+            interview.principles.boundaries,
+          ].filter(Boolean),
+          proofSignals: [
+            interview.principles.defend,
+            interview.constraints.nonNegotiables,
+          ].filter(Boolean),
+          trustSignals: [
+            interview.purpose.reasonToExist,
+            interview.principles.defend,
+          ].filter(Boolean),
+          ambition: [
+            interview.ambition.future,
+            interview.ambition.legacy,
+            interview.ambition.change,
+          ].filter(Boolean),
+          constraints: [
+            interview.constraints.limitations,
+            interview.constraints.fixedResources,
+            interview.constraints.nonNegotiables,
+          ].filter(Boolean),
+        },
 
-      manifesto: {
-        identity: manifesto.identity,
-        mission: manifesto.mission,
-        transformation: manifesto.transformation,
-        audience: manifesto.audience,
-        principles: manifesto.principles,
-        vision: manifesto.vision,
-      },
+        manifesto: {
+          identity: manifesto.identity,
+          mission: manifesto.mission,
+          transformation: manifesto.transformation,
+          audience: manifesto.audience,
+          principles: manifesto.principles,
+          vision: manifesto.vision,
+        },
 
-      constitution,
-    }),
-  });
+        constitution,
+      }),
+    });
 
-  if (!response.ok) {
-    window.alert("Foundation could not be saved.");
-    return;
+    if (!response.ok) {
+      window.alert("Foundation could not be saved.");
+      return;
+    }
+
+    window.location.href = "/dashboard";
   }
-
-  window.location.href = "/dashboard";
-}
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -201,9 +192,7 @@ export default function SetupV2Page() {
             TILLA-OS
           </p>
 
-          <h1 className="mt-2 text-4xl font-semibold">
-            Brand Interview
-          </h1>
+          <h1 className="mt-2 text-4xl font-semibold">Brand Interview</h1>
 
           <p className="mt-2 text-zinc-400">
             Build the foundation of your venture.
@@ -212,9 +201,7 @@ export default function SetupV2Page() {
 
         <div className="grid gap-6 lg:grid-cols-[240px_1fr_360px]">
           <div className="rounded-3xl border border-zinc-800 bg-zinc-950 p-5">
-            <h2 className="mb-4 text-sm font-medium text-zinc-400">
-              Progress
-            </h2>
+            <h2 className="mb-4 text-sm font-medium text-zinc-400">Progress</h2>
 
             <div className="space-y-2">
               {interviewSections.map((section, index) => (
@@ -243,9 +230,7 @@ export default function SetupV2Page() {
                 {activeSection.title}
               </h2>
 
-              <p className="mt-2 text-zinc-400">
-                {activeSection.description}
-              </p>
+              <p className="mt-2 text-zinc-400">{activeSection.description}</p>
             </div>
 
             <div className="space-y-5">
@@ -318,9 +303,7 @@ export default function SetupV2Page() {
           </div>
 
           <div className="rounded-3xl border border-zinc-800 bg-zinc-950 p-6">
-            <h2 className="mb-6 text-xl font-semibold">
-  Foundation Preview
-</h2>
+            <h2 className="mb-6 text-xl font-semibold">Foundation Preview</h2>
 
             <div className="space-y-6">
               <ManifestoBlock title="Identity" value={manifesto.identity} />
@@ -339,104 +322,107 @@ export default function SetupV2Page() {
                 }
               />
               <ManifestoBlock title="Vision" value={manifesto.vision} />
-			  
-			  <ManifestoBlock
-  title="Reject"
-  value={
-    constitution.reject.length > 0
-      ? constitution.reject.join(", ")
-      : "No rules generated yet."
-  }
-/>
 
-<ManifestoBlock
-  title="Prefer"
-  value={
-    constitution.prefer.length > 0
-      ? constitution.prefer.join(", ")
-      : "No rules generated yet."
-  }
-/>
+              <ManifestoBlock
+                title="Reject"
+                value={
+                  constitution.reject.length > 0
+                    ? constitution.reject.join(", ")
+                    : "No rules generated yet."
+                }
+              />
 
-<ManifestoBlock
-  title="Product Rules"
-  value={constitution.productRules.join(" ")}
-/>
+              <ManifestoBlock
+                title="Prefer"
+                value={
+                  constitution.prefer.length > 0
+                    ? constitution.prefer.join(", ")
+                    : "No rules generated yet."
+                }
+              />
 
-<ManifestoBlock
-  title="Marketing Rules"
-  value={constitution.marketingRules.join(" ")}
-/>
+              <ManifestoBlock
+                title="Product Rules"
+                value={constitution.productRules.join(" ")}
+              />
 
-<ManifestoBlock
-  title="Customer Rules"
-  value={constitution.customerRules.join(" ")}
-/>
+              <ManifestoBlock
+                title="Marketing Rules"
+                value={constitution.marketingRules.join(" ")}
+              />
 
-<ManifestoBlock
-  title="Growth Rules"
-  value={constitution.growthRules.join(" ")}
-/>
+              <ManifestoBlock
+                title="Customer Rules"
+                value={constitution.customerRules.join(" ")}
+              />
 
-<ManifestoBlock
-  title="Boundaries"
-  value={constitution.boundaries.join(" ")}
-/>
+              <ManifestoBlock
+                title="Growth Rules"
+                value={constitution.growthRules.join(" ")}
+              />
 
-<div className="border-t border-zinc-800 pt-6">
-  <h3 className="mb-3 text-sm uppercase tracking-wider text-zinc-500">
-    Decision Check
-  </h3>
+              <ManifestoBlock
+                title="Boundaries"
+                value={constitution.boundaries.join(" ")}
+              />
 
-  <textarea
-    value={decisionDraft}
-    onChange={(event) => setDecisionDraft(event.target.value)}
-    placeholder="Write a decision to test..."
-    className="h-28 w-full rounded-xl border border-zinc-800 bg-black p-4 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-zinc-500"
-  />
+              <div className="border-t border-zinc-800 pt-6">
+                <h3 className="mb-3 text-sm uppercase tracking-wider text-zinc-500">
+                  Decision Check
+                </h3>
 
-  <div className="mt-4 rounded-2xl border border-zinc-800 bg-black p-4">
-    <div className="flex items-center justify-between">
-      <span className="text-sm text-zinc-400">
-        Alignment Score
-      </span>
+                <textarea
+                  value={decisionDraft}
+                  onChange={(event) => setDecisionDraft(event.target.value)}
+                  placeholder="Write a decision to test..."
+                  className="h-28 w-full rounded-xl border border-zinc-800 bg-black p-4 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-zinc-500"
+                />
 
-      <span className="text-lg font-semibold text-white">
-        {validation.score}%
-      </span>
-    </div>
+                <div className="mt-4 rounded-2xl border border-zinc-800 bg-black p-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-zinc-400">
+                      Alignment Score
+                    </span>
 
-    <p className="mt-3 text-sm leading-6 text-zinc-300">
-      {validation.summary}
-    </p>
+                    <span className="text-lg font-semibold text-white">
+                      {validation.score}%
+                    </span>
+                  </div>
 
-    {validation.warnings.length > 0 && (
-      <div className="mt-4 space-y-2">
-        {validation.warnings.map((warning) => (
-          <p key={warning} className="text-sm text-red-300">
-            {warning}
-          </p>
-        ))}
-      </div>
-    )}
+                  <p className="mt-3 text-sm leading-6 text-zinc-300">
+                    {validation.summary}
+                  </p>
 
-    {validation.matchedRules.length > 0 && (
-      <div className="mt-4">
-        <p className="mb-2 text-xs uppercase tracking-wider text-zinc-500">
-          Matched Rules
-        </p>
+                  {validation.warnings.length > 0 && (
+                    <div className="mt-4 space-y-2">
+                      {validation.warnings.map((warning) => (
+                        <p key={warning} className="text-sm text-red-300">
+                          {warning}
+                        </p>
+                      ))}
+                    </div>
+                  )}
 
-        <div className="space-y-2">
-          {validation.matchedRules.slice(0, 3).map((rule) => (
-            <p key={rule} className="text-xs leading-5 text-zinc-400">
-              {rule}
-            </p>
-          ))}
-        </div>
-      </div>
-    )}
-  </div>
-</div>
+                  {validation.matchedRules.length > 0 && (
+                    <div className="mt-4">
+                      <p className="mb-2 text-xs uppercase tracking-wider text-zinc-500">
+                        Matched Rules
+                      </p>
+
+                      <div className="space-y-2">
+                        {validation.matchedRules.slice(0, 3).map((rule) => (
+                          <p
+                            key={rule}
+                            className="text-xs leading-5 text-zinc-400"
+                          >
+                            {rule}
+                          </p>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -445,13 +431,7 @@ export default function SetupV2Page() {
   );
 }
 
-function ManifestoBlock({
-  title,
-  value,
-}: {
-  title: string;
-  value: string;
-}) {
+function ManifestoBlock({ title, value }: { title: string; value: string }) {
   return (
     <div>
       <h3 className="mb-2 text-sm uppercase tracking-wider text-zinc-500">

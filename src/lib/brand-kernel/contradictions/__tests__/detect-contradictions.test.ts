@@ -22,9 +22,7 @@ describe("Contradiction Engine", () => {
 
     expect(tensions.length).toBe(1);
 
-    expect(
-      tensions[0].type
-    ).toBe("pricing_conflict");
+    expect(tensions[0].type).toBe("pricing_conflict");
   });
 
   it("returns empty when no contradiction exists", () => {

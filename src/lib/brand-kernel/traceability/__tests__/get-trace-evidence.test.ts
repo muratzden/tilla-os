@@ -9,8 +9,7 @@ describe("getTraceEvidence", () => {
     const report = buildTraceabilityReport([
       {
         sentenceId: "m1",
-        sentence:
-          "We reject mass production.",
+        sentence: "We reject mass production.",
         signalIds: ["belief_01"],
       },
     ]);
@@ -21,34 +20,23 @@ describe("getTraceEvidence", () => {
         references: [
           {
             answerId: "a1",
-            excerpt:
-              "I refuse mass production.",
+            excerpt: "I refuse mass production.",
           },
         ],
       },
     ]);
 
-    const result = getTraceEvidence(
-      report,
-      graph,
-      "m1",
-    );
+    const result = getTraceEvidence(report, graph, "m1");
 
     expect(result).toHaveLength(1);
   });
 
   it("returns empty array when sentence does not exist", () => {
-    const report =
-      buildTraceabilityReport([]);
+    const report = buildTraceabilityReport([]);
 
-    const graph =
-      buildEvidenceGraph([]);
+    const graph = buildEvidenceGraph([]);
 
-    const result = getTraceEvidence(
-      report,
-      graph,
-      "missing",
-    );
+    const result = getTraceEvidence(report, graph, "missing");
 
     expect(result).toEqual([]);
   });

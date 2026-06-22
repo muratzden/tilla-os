@@ -13,9 +13,7 @@ export function getSignalWithEvidence(
     return undefined;
   }
 
-  const evidence = graph.nodes.find(
-    (node) => node.signalId === signalId,
-  );
+  const evidence = graph.nodes.find((node) => node.signalId === signalId);
 
   return {
     signal,

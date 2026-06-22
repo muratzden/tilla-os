@@ -60,11 +60,14 @@ function createReason(area: GraphArea, confidence: number): string {
 function createNextBestAction(bottleneck: KernelBottleneck): string {
   const actions: Record<GraphArea, string> = {
     identity: "Clarify what this brand is, who started it, and why it exists.",
-    audience: "Collect sharper signals about who the brand serves and what they care about.",
+    audience:
+      "Collect sharper signals about who the brand serves and what they care about.",
     transformation: "Define the change this brand creates for the customer.",
-    positioning: "Clarify the market position and why this brand should be chosen.",
+    positioning:
+      "Clarify the market position and why this brand should be chosen.",
     beliefs: "Extract the belief system behind the brand’s decisions.",
-    tensions: "Identify the contradictions, tradeoffs, or conflicts the brand must resolve.",
+    tensions:
+      "Identify the contradictions, tradeoffs, or conflicts the brand must resolve.",
     differentiators: "Clarify what makes the brand meaningfully different.",
     trustSignals: "Collect proof points that make the brand credible.",
     objectives: "Clarify what the brand is trying to achieve next.",
@@ -87,12 +90,11 @@ export function runKernelMissionControl(
     .filter((item) => item.confidence < 50)
     .sort((a, b) => a.confidence - b.confidence);
 
-    const primaryBottleneck =
-    weakAreas[0] ?? {
-      area: "constraints",
-      confidence: graph.constraints.confidence,
-      reason: "No critical bottleneck detected.",
-    };
+  const primaryBottleneck = weakAreas[0] ?? {
+    area: "constraints",
+    confidence: graph.constraints.confidence,
+    reason: "No critical bottleneck detected.",
+  };
 
   return {
     overallHealth: graph.overallConfidence,

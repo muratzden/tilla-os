@@ -24,9 +24,7 @@ describe("Brand Kernel", () => {
         result.validation.rejected.length,
     ).toBe(result.aggregation.aggregatedSignals.length);
 
-    expect(result.manifestoGate.readiness.status).toBe(
-      "NEED_MORE_INFORMATION",
-    );
+    expect(result.manifestoGate.readiness.status).toBe("NEED_MORE_INFORMATION");
 
     expect(result.manifesto).toBeNull();
     expect(result.constitution).toBeNull();
@@ -39,9 +37,9 @@ describe("Brand Kernel", () => {
       0,
     );
     expect(result.missionControlIntelligence.risks.length).toBeGreaterThan(0);
-    expect(result.missionControlIntelligence.opportunities.length).toBeGreaterThan(
-      0,
-    );
+    expect(
+      result.missionControlIntelligence.opportunities.length,
+    ).toBeGreaterThan(0);
     expect(result.missionControlIntelligence.priorities.length).toBeGreaterThan(
       0,
     );

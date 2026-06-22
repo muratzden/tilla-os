@@ -7,7 +7,7 @@ export const STUDIOS: StudioDefinition[] = [
     purpose: "Turn the initial idea into a clear strategic base.",
     inputs: ["idea", "brand type", "audience", "desired outcome"],
     outputs: ["foundation brief", "open questions"],
-    decisionAreas: ["audience", "offer", "positioning"]
+    decisionAreas: ["audience", "offer", "positioning"],
   },
   {
     id: "positioning",
@@ -15,7 +15,7 @@ export const STUDIOS: StudioDefinition[] = [
     purpose: "Define category, promise, differentiation, and proof.",
     inputs: ["audience", "offer", "proof points"],
     outputs: ["positioning statement", "differentiators"],
-    decisionAreas: ["positioning", "trust"]
+    decisionAreas: ["positioning", "trust"],
   },
   {
     id: "offer",
@@ -23,7 +23,7 @@ export const STUDIOS: StudioDefinition[] = [
     purpose: "Shape a clear offer around outcomes and constraints.",
     inputs: ["audience needs", "desired outcome", "constraints"],
     outputs: ["core offer", "outcome map"],
-    decisionAreas: ["offer", "audience"]
+    decisionAreas: ["offer", "audience"],
   },
   {
     id: "content",
@@ -31,7 +31,7 @@ export const STUDIOS: StudioDefinition[] = [
     purpose: "Translate strategy into useful communication themes.",
     inputs: ["audience questions", "authority themes", "channels"],
     outputs: ["theme map", "message backlog"],
-    decisionAreas: ["content", "authority", "channel"]
+    decisionAreas: ["content", "authority", "channel"],
   },
   {
     id: "authority",
@@ -39,7 +39,7 @@ export const STUDIOS: StudioDefinition[] = [
     purpose: "Build a defensible point of view and evidence base.",
     inputs: ["themes", "evidence", "trust gaps"],
     outputs: ["authority map", "evidence backlog"],
-    decisionAreas: ["authority", "trust", "content"]
+    decisionAreas: ["authority", "trust", "content"],
   },
   {
     id: "campaign",
@@ -47,7 +47,7 @@ export const STUDIOS: StudioDefinition[] = [
     purpose: "Plan focused campaigns around one strategic objective.",
     inputs: ["growth objective", "channel", "offer"],
     outputs: ["campaign brief", "measurement plan"],
-    decisionAreas: ["growth", "channel", "content"]
+    decisionAreas: ["growth", "channel", "content"],
   },
   {
     id: "visual",
@@ -55,7 +55,7 @@ export const STUDIOS: StudioDefinition[] = [
     purpose: "Connect visual direction to positioning and trust goals.",
     inputs: ["positioning", "audience", "trust signals"],
     outputs: ["visual principles", "asset requirements"],
-    decisionAreas: ["positioning", "trust", "content"]
+    decisionAreas: ["positioning", "trust", "content"],
   },
   {
     id: "growth",
@@ -63,6 +63,6 @@ export const STUDIOS: StudioDefinition[] = [
     purpose: "Define repeatable loops, experiments, and growth priorities.",
     inputs: ["objective", "channel fit", "constraints"],
     outputs: ["growth loop", "experiment backlog"],
-    decisionAreas: ["growth", "channel", "offer"]
-  }
+    decisionAreas: ["growth", "channel", "offer"],
+  },
 ];

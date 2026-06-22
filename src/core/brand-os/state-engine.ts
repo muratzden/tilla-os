@@ -6,11 +6,18 @@
   DEFAULT_OFFER,
   DEFAULT_POSITIONING,
   DEFAULT_TRUST,
-  createDefaultMemory
+  createDefaultMemory,
 } from "./defaults";
-import { acceptDecisionRecord, createInitialDecisions, refreshDecisions } from "./decision-engine";
+import {
+  acceptDecisionRecord,
+  createInitialDecisions,
+  refreshDecisions,
+} from "./decision-engine";
 import { INTELLIGENCE_PACKS } from "./intelligence-packs";
-import { createLifecycleTransition, determineLifecycleStage } from "./lifecycle";
+import {
+  createLifecycleTransition,
+  determineLifecycleStage,
+} from "./lifecycle";
 import { createMissionControlState } from "./mission-control";
 import {
   addLifecycleTransition,
@@ -21,7 +28,7 @@ import {
   addMemoryObservation,
   addScoreSnapshot,
   createMemoryEntry,
-  syncMemoryDecisions
+  syncMemoryDecisions,
 } from "./memory";
 import { normalizeBrandOSInput, normalizeBrandOSUpdate } from "./normalization";
 import { CURRENT_BRAND_OS_SCHEMA_VERSION } from "./schema";
@@ -39,7 +46,7 @@ import type {
   DecisionRecord,
   ScoreSnapshot,
   StateChangeResult,
-  StudioId
+  StudioId,
 } from "./types";
 import type { MissionControlIntelligenceReport } from "@/src/lib/brand-kernel/mission-control-intelligence/mission-control-types";
 
@@ -61,13 +68,18 @@ function createBrandId(input: BrandSeedInput, now: string): string {
   return `brand_${base || "seed"}_${stamp}`;
 }
 
-function createEvent(type: BrandEvent["type"], summary: string, now: string, payload?: Record<string, unknown>): BrandEvent {
+function createEvent(
+  type: BrandEvent["type"],
+  summary: string,
+  now: string,
+  payload?: Record<string, unknown>,
+): BrandEvent {
   return {
     id: `event_${type}_${now.replace(/[^0-9]/g, "")}`,
     type,
     summary,
     createdAt: now,
-    ...(payload ? { payload } : {})
+    ...(payload ? { payload } : {}),
   };
 }
 
@@ -82,7 +94,7 @@ function createEmptyMissionControl(): BrandOperatingState["missionControl"] {
     strategicFocus: "",
     missingInputs: [],
     actionPlan: [],
-    expectedImpact: []
+    expectedImpact: [],
   };
 }
 
@@ -95,26 +107,37 @@ function createExpectedImpact(decision: DecisionRecord): DecisionImpact {
     dimension: decision.relatedBottleneck ?? decision.area,
     direction: "neutral",
     magnitude: "medium",
-    rationale: decision.impact.join(" ")
+    rationale: decision.impact.join(" "),
   };
 }
 
-function createDecisionOutcome(decision: DecisionRecord, now: string): DecisionOutcome {
+function createDecisionOutcome(
+  decision: DecisionRecord,
+  now: string,
+): DecisionOutcome {
   return {
     decisionId: decision.id,
-    ...(decision.selectedOptionId ? { selectedOptionId: decision.selectedOptionId } : {}),
+    ...(decision.selectedOptionId
+      ? { selectedOptionId: decision.selectedOptionId }
+      : {}),
     expectedImpact: createExpectedImpact(decision),
     status: "pending",
     createdAt: now,
     updatedAt: now,
-    validationEvidence: []
+    validationEvidence: [],
   };
 }
 
-function storeEvents(state: BrandOperatingState, events: BrandEvent[]): BrandOperatingState {
+function storeEvents(
+  state: BrandOperatingState,
+  events: BrandEvent[],
+): BrandOperatingState {
   return {
     ...state,
-    memory: events.reduce((memory, event) => addMemoryEvent(memory, event), state.memory)
+    memory: events.reduce(
+      (memory, event) => addMemoryEvent(memory, event),
+      state.memory,
+    ),
   };
 }
 
@@ -122,30 +145,40 @@ function finalizeStateChange(
   state: BrandOperatingState,
   events: BrandEvent[],
   now = new Date().toISOString(),
-  kernelIntelligence?: MissionControlIntelligenceReport
+  kernelIntelligence?: MissionControlIntelligenceReport,
 ): StateChangeResult {
   const score = calculateBrandScore(state);
   const scoreSnapshot = createScoreSnapshot(score, now);
   const stateWithScore: BrandOperatingState = {
     ...state,
     score,
-    memory: addScoreSnapshot(state.memory, scoreSnapshot)
+    memory: addScoreSnapshot(state.memory, scoreSnapshot),
   };
   const lifecycleStage = determineLifecycleStage(stateWithScore);
   const stateWithLifecycle: BrandOperatingState = {
     ...stateWithScore,
-    lifecycleStage
+    lifecycleStage,
   };
-  const lifecycleTransition = createLifecycleTransition(state.lifecycleStage, lifecycleStage, stateWithLifecycle, now);
-  const recalculatedEvent = createEvent("score_recalculated", "Brand OS score was recalculated.", now, {
-    readinessScore: scoreSnapshot.readinessScore
-  });
+  const lifecycleTransition = createLifecycleTransition(
+    state.lifecycleStage,
+    lifecycleStage,
+    stateWithLifecycle,
+    now,
+  );
+  const recalculatedEvent = createEvent(
+    "score_recalculated",
+    "Brand OS score was recalculated.",
+    now,
+    {
+      readinessScore: scoreSnapshot.readinessScore,
+    },
+  );
   const transitionEvents = lifecycleTransition
     ? [
         createEvent("lifecycle_transitioned", lifecycleTransition.reason, now, {
           from: lifecycleTransition.from,
-          to: lifecycleTransition.to
-        })
+          to: lifecycleTransition.to,
+        }),
       ]
     : [];
   const allEvents = [...events, recalculatedEvent, ...transitionEvents];
@@ -155,70 +188,109 @@ function finalizeStateChange(
   const stateBeforeMissionControl = storeEvents(
     {
       ...stateWithLifecycle,
-      memory: memoryWithTransition
+      memory: memoryWithTransition,
     },
-    allEvents
+    allEvents,
   );
   const stateWithMissionControl: BrandOperatingState = {
-  ...stateBeforeMissionControl,
-  missionControl: createMissionControlState(
-    stateBeforeMissionControl,
-    kernelIntelligence
-  )
-};
+    ...stateBeforeMissionControl,
+    missionControl: createMissionControlState(
+      stateBeforeMissionControl,
+      kernelIntelligence,
+    ),
+  };
   const refreshedDecisions = refreshDecisions(stateWithMissionControl, now);
   const decisionRefreshEvents = refreshedDecisions
-    .filter((decision) => !stateWithMissionControl.decisions.some((existingDecision) => existingDecision.id === decision.id))
+    .filter(
+      (decision) =>
+        !stateWithMissionControl.decisions.some(
+          (existingDecision) => existingDecision.id === decision.id,
+        ),
+    )
     .map((decision) =>
-      createEvent("decision_proposed", `Decision proposed: ${decision.question}`, decision.createdAt, {
-        decisionId: decision.id,
-        area: decision.area,
-        source: decision.source
-      })
+      createEvent(
+        "decision_proposed",
+        `Decision proposed: ${decision.question}`,
+        decision.createdAt,
+        {
+          decisionId: decision.id,
+          area: decision.area,
+          source: decision.source,
+        },
+      ),
     );
   const supersededEvents = refreshedDecisions
     .filter((decision) => {
-      const previousDecision = stateWithMissionControl.decisions.find((existingDecision) => existingDecision.id === decision.id);
-      return previousDecision?.status === "proposed" && decision.status === "superseded";
+      const previousDecision = stateWithMissionControl.decisions.find(
+        (existingDecision) => existingDecision.id === decision.id,
+      );
+      return (
+        previousDecision?.status === "proposed" &&
+        decision.status === "superseded"
+      );
     })
     .map((decision) =>
-      createEvent("decision_rejected", `Decision superseded: ${decision.question}`, decision.resolvedAt ?? now, {
-        decisionId: decision.id,
-        area: decision.area,
-        status: "superseded"
-      })
+      createEvent(
+        "decision_rejected",
+        `Decision superseded: ${decision.question}`,
+        decision.resolvedAt ?? now,
+        {
+          decisionId: decision.id,
+          area: decision.area,
+          status: "superseded",
+        },
+      ),
     );
-  const finalEvents = [...allEvents, ...decisionRefreshEvents, ...supersededEvents];
+  const finalEvents = [
+    ...allEvents,
+    ...decisionRefreshEvents,
+    ...supersededEvents,
+  ];
   const finalStateBeforeEventStore: BrandOperatingState = {
     ...stateWithMissionControl,
     decisions: refreshedDecisions,
-    memory: syncMemoryDecisions(stateWithMissionControl.memory, refreshedDecisions, now)
+    memory: syncMemoryDecisions(
+      stateWithMissionControl.memory,
+      refreshedDecisions,
+      now,
+    ),
   };
-  const finalState = storeEvents(finalStateBeforeEventStore, [...decisionRefreshEvents, ...supersededEvents]);
+  const finalState = storeEvents(finalStateBeforeEventStore, [
+    ...decisionRefreshEvents,
+    ...supersededEvents,
+  ]);
 
   return {
     state: finalState,
     events: finalEvents,
     scoreSnapshot,
-    ...(lifecycleTransition ? { lifecycleTransition } : {})
+    ...(lifecycleTransition ? { lifecycleTransition } : {}),
   };
 }
 
-export function initializeBrandOS(input: BrandSeedInput, now = new Date().toISOString()): StateChangeResult {
+export function initializeBrandOS(
+  input: BrandSeedInput,
+  now = new Date().toISOString(),
+): StateChangeResult {
   const normalizedInput = normalizeBrandOSInput(input);
-  const initializedEvent = createEvent("initialized", "Brand OS was initialized from a seed input.", now, {
-    brandType: normalizedInput.brandType
-  });
+  const initializedEvent = createEvent(
+    "initialized",
+    "Brand OS was initialized from a seed input.",
+    now,
+    {
+      brandType: normalizedInput.brandType,
+    },
+  );
   const seedMemory = addMemoryEntry(
     createDefaultMemory(now),
     createMemoryEntry(
       {
         type: "input",
         summary: `Initialized from idea "${normalizedInput.idea}" and brand type "${normalizedInput.brandType}".`,
-        tags: ["seed", "foundation"]
+        tags: ["seed", "foundation"],
       },
-      now
-    )
+      now,
+    ),
   );
   const partialState = {
     schemaVersion: CURRENT_BRAND_OS_SCHEMA_VERSION,
@@ -252,32 +324,37 @@ export function initializeBrandOS(input: BrandSeedInput, now = new Date().toISOS
       memory: seedMemory,
       studios: STUDIOS,
       intelligencePacks: INTELLIGENCE_PACKS,
-      decisions: []
+      decisions: [],
     }),
-    missionControl: createEmptyMissionControl()
+    missionControl: createEmptyMissionControl(),
   };
   const initialDecisions = createInitialDecisions(partialState);
   const memoryWithDecisions = initialDecisions.reduce(
     (memory, decision) => addMemoryDecision(memory, decision),
-    partialState.memory
+    partialState.memory,
   );
 
   return finalizeStateChange(
     {
       ...partialState,
       memory: memoryWithDecisions,
-      decisions: initialDecisions
+      decisions: initialDecisions,
     },
     [
       initializedEvent,
       ...initialDecisions.map((decision) =>
-        createEvent("decision_proposed", `Decision proposed: ${decision.question}`, decision.createdAt, {
-          decisionId: decision.id,
-          area: decision.area
-        })
-      )
+        createEvent(
+          "decision_proposed",
+          `Decision proposed: ${decision.question}`,
+          decision.createdAt,
+          {
+            decisionId: decision.id,
+            area: decision.area,
+          },
+        ),
+      ),
     ],
-    now
+    now,
   );
 }
 
@@ -285,12 +362,17 @@ export function applyBrandInput(
   state: BrandOperatingState,
   input: BrandOSUpdateInput,
   now = new Date().toISOString(),
-  kernelIntelligence?: MissionControlIntelligenceReport
+  kernelIntelligence?: MissionControlIntelligenceReport,
 ): StateChangeResult {
   const normalizedInput = normalizeBrandOSUpdate(input);
-  const event = createEvent("input_applied", "Brand input was applied to the operating state.", now, {
-    groups: Object.keys(normalizedInput)
-  });
+  const event = createEvent(
+    "input_applied",
+    "Brand input was applied to the operating state.",
+    now,
+    {
+      groups: Object.keys(normalizedInput),
+    },
+  );
 
   return finalizeStateChange(
     {
@@ -308,15 +390,15 @@ export function applyBrandInput(
           {
             type: "input",
             summary: `Applied brand input groups: ${Object.keys(normalizedInput).join(", ")}.`,
-            tags: ["input", "progress"]
+            tags: ["input", "progress"],
           },
-          now
-        )
-      )
+          now,
+        ),
+      ),
     },
-        [event],
+    [event],
     now,
-    kernelIntelligence
+    kernelIntelligence,
   );
 }
 
@@ -324,47 +406,81 @@ export function completeStudioStep(
   state: BrandOperatingState,
   studioId: StudioId,
   output: BrandOSUpdateInput,
-  now = new Date().toISOString()
+  now = new Date().toISOString(),
 ): StateChangeResult {
   const inputResult = applyBrandInput(state, output, now);
-  const event = createEvent("studio_completed", `Studio step completed: ${studioId}.`, now, { studioId });
+  const event = createEvent(
+    "studio_completed",
+    `Studio step completed: ${studioId}.`,
+    now,
+    { studioId },
+  );
 
-  return finalizeStateChange(storeEvents(inputResult.state, [event]), [event], now);
+  return finalizeStateChange(
+    storeEvents(inputResult.state, [event]),
+    [event],
+    now,
+  );
 }
 
 export function acceptDecision(
   state: BrandOperatingState,
   decisionId: string,
   selectedOptionId?: string,
-  now = new Date().toISOString()
+  now = new Date().toISOString(),
 ): StateChangeResult {
-  const existingDecision = state.decisions.find((decision) => decision.id === decisionId);
+  const existingDecision = state.decisions.find(
+    (decision) => decision.id === decisionId,
+  );
 
   if (!existingDecision) {
-    const event = createEvent("decision_rejected", `Decision not found: ${decisionId}.`, now, { decisionId });
+    const event = createEvent(
+      "decision_rejected",
+      `Decision not found: ${decisionId}.`,
+      now,
+      { decisionId },
+    );
     return finalizeStateChange(state, [event], now);
   }
 
-  const acceptedDecision = acceptDecisionRecord(existingDecision, now, selectedOptionId);
-  const decisions = state.decisions.map((decision) => (decision.id === decisionId ? acceptedDecision : decision));
-  const event = createEvent("decision_accepted", `Decision accepted: ${acceptedDecision.question}`, now, {
-    decisionId,
-    area: acceptedDecision.area,
-    ...(acceptedDecision.selectedOption
-      ? {
-          selectedOptionId: acceptedDecision.selectedOption.id,
-          selectedOptionLabel: acceptedDecision.selectedOption.label,
-          selectedOptionStrategy: acceptedDecision.selectedOption.strategy
-        }
-      : {})
-  });
+  const acceptedDecision = acceptDecisionRecord(
+    existingDecision,
+    now,
+    selectedOptionId,
+  );
+  const decisions = state.decisions.map((decision) =>
+    decision.id === decisionId ? acceptedDecision : decision,
+  );
+  const event = createEvent(
+    "decision_accepted",
+    `Decision accepted: ${acceptedDecision.question}`,
+    now,
+    {
+      decisionId,
+      area: acceptedDecision.area,
+      ...(acceptedDecision.selectedOption
+        ? {
+            selectedOptionId: acceptedDecision.selectedOption.id,
+            selectedOptionLabel: acceptedDecision.selectedOption.label,
+            selectedOptionStrategy: acceptedDecision.selectedOption.strategy,
+          }
+        : {}),
+    },
+  );
   const outcome = createDecisionOutcome(acceptedDecision, now);
-  const outcomeEvent = createEvent("decision_outcome_created", `Decision outcome created: ${acceptedDecision.question}`, now, {
-    decisionId,
-    status: outcome.status,
-    expectedImpact: outcome.expectedImpact,
-    ...(outcome.selectedOptionId ? { selectedOptionId: outcome.selectedOptionId } : {})
-  });
+  const outcomeEvent = createEvent(
+    "decision_outcome_created",
+    `Decision outcome created: ${acceptedDecision.question}`,
+    now,
+    {
+      decisionId,
+      status: outcome.status,
+      expectedImpact: outcome.expectedImpact,
+      ...(outcome.selectedOptionId
+        ? { selectedOptionId: outcome.selectedOptionId }
+        : {}),
+    },
+  );
   const selectedOptionSummary = acceptedDecision.selectedOption
     ? ` Selected option: ${acceptedDecision.selectedOption.label}.`
     : "";
@@ -381,32 +497,39 @@ export function acceptDecision(
               {
                 type: "decision",
                 summary: `Accepted decision: ${acceptedDecision.question}.${selectedOptionSummary}`,
-                tags: ["decision", acceptedDecision.area]
+                tags: ["decision", acceptedDecision.area],
               },
-              now
-            )
+              now,
+            ),
           ),
-          acceptedDecision
+          acceptedDecision,
         ),
-        outcome
-      )
+        outcome,
+      ),
     },
     [event, outcomeEvent],
-    now
+    now,
   );
 }
 
 export function recordDecisionOutcome(
   state: BrandOperatingState,
   payload: RecordDecisionOutcomePayload,
-  now = new Date().toISOString()
+  now = new Date().toISOString(),
 ): StateChangeResult {
-  const existingOutcome = state.memory.decisionOutcomes.find((outcome) => outcome.decisionId === payload.decisionId);
+  const existingOutcome = state.memory.decisionOutcomes.find(
+    (outcome) => outcome.decisionId === payload.decisionId,
+  );
 
   if (!existingOutcome) {
-    const event = createEvent("decision_rejected", `Decision outcome not found: ${payload.decisionId}.`, now, {
-      decisionId: payload.decisionId
-    });
+    const event = createEvent(
+      "decision_rejected",
+      `Decision outcome not found: ${payload.decisionId}.`,
+      now,
+      {
+        decisionId: payload.decisionId,
+      },
+    );
     return finalizeStateChange(state, [event], now);
   }
 
@@ -418,14 +541,19 @@ export function recordDecisionOutcome(
     validationEvidence: evidence
       ? Array.from(new Set([...existingOutcome.validationEvidence, evidence]))
       : existingOutcome.validationEvidence,
-    ...(payload.actualImpact ? { actualImpact: payload.actualImpact } : {})
+    ...(payload.actualImpact ? { actualImpact: payload.actualImpact } : {}),
   };
-  const event = createEvent("decision_outcome_updated", `Decision outcome updated: ${payload.status}.`, now, {
-    decisionId: payload.decisionId,
-    status: payload.status,
-    ...(evidence ? { evidence } : {}),
-    ...(payload.actualImpact ? { actualImpact: payload.actualImpact } : {})
-  });
+  const event = createEvent(
+    "decision_outcome_updated",
+    `Decision outcome updated: ${payload.status}.`,
+    now,
+    {
+      decisionId: payload.decisionId,
+      status: payload.status,
+      ...(evidence ? { evidence } : {}),
+      ...(payload.actualImpact ? { actualImpact: payload.actualImpact } : {}),
+    },
+  );
 
   return finalizeStateChange(
     {
@@ -437,16 +565,16 @@ export function recordDecisionOutcome(
             {
               type: "decision",
               summary: `Decision outcome ${payload.status}: ${payload.decisionId}${evidence ? ` Evidence: ${evidence}.` : "."}`,
-              tags: ["decision", "outcome", payload.status]
+              tags: ["decision", "outcome", payload.status],
             },
-            now
-          )
+            now,
+          ),
         ),
-        updatedOutcome
-      )
+        updatedOutcome,
+      ),
     },
     [event],
-    now
+    now,
   );
 }
 
@@ -455,19 +583,26 @@ export function recordObservation(
   summary: string,
   area?: DecisionArea,
   evidence: string[] = [],
-  now = new Date().toISOString()
+  now = new Date().toISOString(),
 ): StateChangeResult {
   const observation: BrandObservation = {
     id: `observation_${now.replace(/[^0-9]/g, "")}`,
     summary: summary.replace(/\s+/g, " ").trim(),
     ...(area ? { area } : {}),
-    evidence: evidence.map((item) => item.replace(/\s+/g, " ").trim()).filter(Boolean),
-    createdAt: now
+    evidence: evidence
+      .map((item) => item.replace(/\s+/g, " ").trim())
+      .filter(Boolean),
+    createdAt: now,
   };
-  const event = createEvent("observation_recorded", `Observation recorded: ${observation.summary}`, now, {
-    observationId: observation.id,
-    area
-  });
+  const event = createEvent(
+    "observation_recorded",
+    `Observation recorded: ${observation.summary}`,
+    now,
+    {
+      observationId: observation.id,
+      area,
+    },
+  );
 
   return finalizeStateChange(
     {
@@ -476,7 +611,9 @@ export function recordObservation(
         area === "trust"
           ? {
               ...state.trust,
-              signals: Array.from(new Set([...state.trust.signals, observation.summary]))
+              signals: Array.from(
+                new Set([...state.trust.signals, observation.summary]),
+              ),
             }
           : state.trust,
       memory: addMemoryObservation(
@@ -486,19 +623,22 @@ export function recordObservation(
             {
               type: "observation",
               summary: observation.summary,
-              tags: ["observation", ...(area ? [area] : [])]
+              tags: ["observation", ...(area ? [area] : [])],
             },
-            now
-          )
+            now,
+          ),
         ),
-        observation
-      )
+        observation,
+      ),
     },
     [event],
-    now
+    now,
   );
 }
 
-export function recalculateBrandOS(state: BrandOperatingState, now = new Date().toISOString()): StateChangeResult {
+export function recalculateBrandOS(
+  state: BrandOperatingState,
+  now = new Date().toISOString(),
+): StateChangeResult {
   return finalizeStateChange(state, [], now);
 }

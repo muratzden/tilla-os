@@ -4,7 +4,5 @@ export function findTraceBySentence(
   report: TraceabilityReport,
   sentenceId: string,
 ) {
-  return report.traces.find(
-    (trace) => trace.sentenceId === sentenceId,
-  );
+  return report.traces.find((trace) => trace.sentenceId === sentenceId);
 }

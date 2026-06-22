@@ -146,12 +146,12 @@ function generateRecommendations(
   }
 
   return sourceContext.constitution.principles.slice(0, 3).map((principle) => ({
-  key: `strengthen_${principle}`,
-  message: applyTemplate(
-    outputPack.auditText.recommendations.strengthenBrandSignal,
-    principle,
-  ),
-}));
+    key: `strengthen_${principle}`,
+    message: applyTemplate(
+      outputPack.auditText.recommendations.strengthenBrandSignal,
+      principle,
+    ),
+  }));
 }
 
 function generateBrandDriftAnalysis(

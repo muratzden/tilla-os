@@ -14,15 +14,25 @@ export interface BrandOSSchemaMigrationResult {
   errors: BrandOSSchemaMigrationError[];
 }
 
-export function isSupportedBrandOSSchemaVersion(version: unknown): version is typeof CURRENT_BRAND_OS_SCHEMA_VERSION {
+export function isSupportedBrandOSSchemaVersion(
+  version: unknown,
+): version is typeof CURRENT_BRAND_OS_SCHEMA_VERSION {
   return version === CURRENT_BRAND_OS_SCHEMA_VERSION;
 }
 
-export function migrateBrandOSState(state: unknown): BrandOSSchemaMigrationResult {
+export function migrateBrandOSState(
+  state: unknown,
+): BrandOSSchemaMigrationResult {
   if (!state || typeof state !== "object" || Array.isArray(state)) {
     return {
       ok: false,
-      errors: [{ path: "state", code: "invalid_type", message: "State must be an object before migration." }]
+      errors: [
+        {
+          path: "state",
+          code: "invalid_type",
+          message: "State must be an object before migration.",
+        },
+      ],
     };
   }
 
@@ -31,7 +41,13 @@ export function migrateBrandOSState(state: unknown): BrandOSSchemaMigrationResul
   if (!("schemaVersion" in candidate)) {
     return {
       ok: false,
-      errors: [{ path: "schemaVersion", code: "required", message: "schemaVersion is required." }]
+      errors: [
+        {
+          path: "schemaVersion",
+          code: "required",
+          message: "schemaVersion is required.",
+        },
+      ],
     };
   }
 
@@ -42,15 +58,15 @@ export function migrateBrandOSState(state: unknown): BrandOSSchemaMigrationResul
         {
           path: "schemaVersion",
           code: "unsupported_schema_version",
-          message: `Unsupported Brand OS schema version: ${String(candidate.schemaVersion)}.`
-        }
-      ]
+          message: `Unsupported Brand OS schema version: ${String(candidate.schemaVersion)}.`,
+        },
+      ],
     };
   }
 
   return {
     ok: true,
     state: state as BrandOperatingState,
-    errors: []
+    errors: [],
   };
 }

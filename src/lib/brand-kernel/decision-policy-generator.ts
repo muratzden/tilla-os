@@ -1,4 +1,7 @@
-import type { BrandConstitution, ConstitutionRule } from "./constitution-generator";
+import type {
+  BrandConstitution,
+  ConstitutionRule,
+} from "./constitution-generator";
 import type { PolicyTrigger } from "./policy-trigger-types";
 
 export interface DecisionPolicy {

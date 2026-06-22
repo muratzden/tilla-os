@@ -2,7 +2,7 @@
 
 const result = initializeBrandOS({
   idea: "A calmer way for independent experts to explain their value",
-  brandType: "consultant"
+  brandType: "consultant",
 });
 const { state } = result;
 
@@ -12,7 +12,7 @@ const requiredMissionKeys = [
   "bottleneck",
   "nextBestAction",
   "strategicFocus",
-  "missingInputs"
+  "missingInputs",
 ] as const;
 
 for (const key of requiredMissionKeys) {
@@ -50,9 +50,9 @@ console.log(
       intelligencePackCount: state.intelligencePacks.length,
       eventCount: state.memory.events.length,
       scoreSnapshotCount: state.memory.scoreSnapshots.length,
-      missingInputs: state.missionControl.missingInputs
+      missingInputs: state.missionControl.missingInputs,
     },
     null,
-    2
-  )
+    2,
+  ),
 );

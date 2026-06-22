@@ -97,8 +97,7 @@ export function createBrandOSStateFromBrandSetup(
     readString(positioning, "valueProposition");
 
   const coreOffer =
-    readString(positioning, "offer") ||
-    readString(positioning, "coreOffer");
+    readString(positioning, "offer") || readString(positioning, "coreOffer");
 
   const updated = applyBrandInput(
     initialized.state,

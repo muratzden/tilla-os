@@ -12,11 +12,13 @@ export function enforceConstitution(
   let output = text;
 
   if (result.requiredMissing.includes("clarity")) {
-    output += "\n\nClarity should be strengthened with a more specific brand claim.";
+    output +=
+      "\n\nClarity should be strengthened with a more specific brand claim.";
   }
 
   if (result.requiredMissing.includes("consistency")) {
-    output += "\n\nConsistency should be protected across brand channels and decisions.";
+    output +=
+      "\n\nConsistency should be protected across brand channels and decisions.";
   }
 
   if (result.requiredMissing.includes("evidence")) {
@@ -28,7 +30,8 @@ export function enforceConstitution(
   }
 
   if (result.requiredMissing.includes("trust")) {
-    output += "\n\nLong-term trust should not be weakened by unsupported promises.";
+    output +=
+      "\n\nLong-term trust should not be weakened by unsupported promises.";
   }
 
   return output;

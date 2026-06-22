@@ -7,7 +7,7 @@ import type {
 
 export function calculateKernelConfidence(
   signals: BrandSignal[],
-  tensions: BrandTension[]
+  tensions: BrandTension[],
 ): KernelConfidenceReport {
   let score = 100;
 

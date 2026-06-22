@@ -42,13 +42,7 @@ function createCoverage(
   overrides: Partial<CoverageReport> = {},
 ): CoverageReport {
   return {
-    covered: [
-      "identity",
-      "audience",
-      "belief",
-      "transformation",
-      "principles",
-    ],
+    covered: ["identity", "audience", "belief", "transformation", "principles"],
     missing: [],
     coverageScore: 100,
     ...overrides,
@@ -57,10 +51,7 @@ function createCoverage(
 
 describe("evaluateManifestoReadiness", () => {
   it("returns READY when confidence and coverage are sufficient", () => {
-    const result = evaluateManifestoReadiness(
-      createReport(),
-      createCoverage(),
-    );
+    const result = evaluateManifestoReadiness(createReport(), createCoverage());
 
     expect(result.status).toBe("READY");
     expect(result.confidenceScore).toBe(85);
@@ -94,7 +85,9 @@ describe("evaluateManifestoReadiness", () => {
     );
 
     expect(result.status).toBe("NEED_MORE_INFORMATION");
-    expect(result.reasons).toContain("Brand foundation coverage is incomplete.");
+    expect(result.reasons).toContain(
+      "Brand foundation coverage is incomplete.",
+    );
     expect(result.missingInformation).toContain("audience");
     expect(result.missingInformation).toContain("transformation");
     expect(result.missingInformation).toContain("principles");

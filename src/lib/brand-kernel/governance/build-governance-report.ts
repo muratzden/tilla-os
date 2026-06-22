@@ -11,22 +11,13 @@ export function buildGovernanceReport(
 ): GovernanceReport {
   const contradictions = detectContradictions(approvedSignals);
 
-  const confidence = calculateKernelConfidence(
-    approvedSignals,
-    contradictions,
-  );
+  const confidence = calculateKernelConfidence(approvedSignals, contradictions);
 
   const coverage = evaluateCoverage(approvedSignals);
 
-  const missingInformation = detectMissingInformation(
-    confidence,
-    coverage,
-  );
+  const missingInformation = detectMissingInformation(confidence, coverage);
 
-  const readiness = evaluateManifestoReadiness(
-    confidence,
-    coverage,
-  );
+  const readiness = evaluateManifestoReadiness(confidence, coverage);
 
   return {
     readinessScore: readiness.status === "READY" ? 100 : 50,
@@ -35,9 +26,6 @@ export function buildGovernanceReport(
     contradictionCount: contradictions.length,
     missingAreas: coverage.missing,
     approvedSignalCount: approvedSignals.length,
-    recommendations: [
-      ...readiness.reasons,
-      ...missingInformation.questions,
-    ],
+    recommendations: [...readiness.reasons, ...missingInformation.questions],
   };
 }

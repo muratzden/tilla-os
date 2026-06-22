@@ -2,9 +2,7 @@ import type { AggregatedSignal } from "../aggregation/aggregation-types";
 
 import { MIN_SIGNAL_EVIDENCE_COUNT } from "./signal-validation-constants";
 
-import type {
-  SignalValidationResult,
-} from "./signal-validation-types";
+import type { SignalValidationResult } from "./signal-validation-types";
 
 export function validateSignal(
   signal: AggregatedSignal,

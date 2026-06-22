@@ -3,9 +3,7 @@ import type { SignalRegistry } from "./signal-registry-types";
 
 const STRONG_SIGNAL_THRESHOLD = 0.7;
 
-export function buildSignalRegistry(
-  signals: BrandSignal[],
-): SignalRegistry {
+export function buildSignalRegistry(signals: BrandSignal[]): SignalRegistry {
   const byId: Record<string, BrandSignal> = {};
 
   const byCategory: Record<string, BrandSignal[]> = {};

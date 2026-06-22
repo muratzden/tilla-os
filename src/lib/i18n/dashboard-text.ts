@@ -136,7 +136,7 @@ export type DashboardTextKey =
   | "memory"
   | "consistency"
   | "brandBrain"
-    | "systemStatus"
+  | "systemStatus"
   | "missionControl"
   | "systemScoreboard"
   | "liveBrandOperatingStatus"
@@ -144,13 +144,13 @@ export type DashboardTextKey =
   | "foundationScore"
   | "alignmentCard"
   | "aligned"
-    | "needsReview"
+  | "needsReview"
   | "governanceCard"
   | "protected"
   | "activeStatus"
   | "memoryCard"
   | "strong"
-    | "loaded"
+  | "loaded"
   | "activity"
   | "systemSignals"
   | "liveWorkspace"
@@ -161,7 +161,7 @@ export type DashboardTextKey =
   | "brandMemoryLoaded"
   | "brandMemoryLoadedDetail"
   | "marketplaceLanguageStateChecked"
-   | "marketplaceLanguageStateCheckedDetail"
+  | "marketplaceLanguageStateCheckedDetail"
   | "workspace"
   | "operatingSystemModules"
   | "workspaceGridDescription"
@@ -178,7 +178,7 @@ export type DashboardTextKey =
   | "updatesAvailable"
   | "allPackagesCurrent"
   | "status"
-    | "active"
+  | "active"
   | "commandCenter"
   | "brandHealthCenter"
   | "brandOperatingSystem"
@@ -195,12 +195,12 @@ export type DashboardTextKey =
   | "auditCenterDescription"
   | "studios"
   | "studiosDescription"
-   | "marketplace"
+  | "marketplace"
   | "marketplaceDescription"
   | "foundationModuleDescription"
-    | "manifestoModuleDescription"
+  | "manifestoModuleDescription"
   | "premiumBrand"
-    | "primaryStatus"
+  | "primaryStatus"
   | "typeLabel"
   | "materialLabel"
   | "colorLabel"
@@ -210,10 +210,7 @@ export type DashboardTextKey =
   | "worldLabel"
   | "confidenceLabel"
   | "positivePrompt"
-  | "negativePrompt"
-;
-  
-  
+  | "negativePrompt";
 
 const dashboardText: Record<
   DashboardTextKey,
@@ -671,7 +668,6 @@ const dashboardText: Record<
     en: "Brand Type",
   },
 
-
   manifestoStatus: {
     tr: "Manifesto Durumu",
     en: "Manifesto Status",
@@ -682,7 +678,7 @@ const dashboardText: Record<
     en: "DRAFT / NOT LOCKED",
   },
 
-   narrative: {
+  narrative: {
     tr: "Anlatı",
     en: "Narrative",
   },
@@ -896,367 +892,366 @@ const dashboardText: Record<
     en: "System Status",
   },
   missionControl: {
-  tr: "Görev Merkezi",
-  en: "Mission Control",
-},
-
-systemScoreboard: {
-  tr: "Sistem Skor Tablosu",
-  en: "System Scoreboard",
-},
-
-liveBrandOperatingStatus: {
-  tr: "Canlı marka işletim durumu.",
-  en: "Live brand operating status.",
-},
-
-brandHealthCard: {
-  tr: "Marka Sağlığı",
-  en: "Brand Health",
-},
-
-foundationScore: {
-  tr: "Temel Skoru",
-  en: "Foundation Score",
-},
-
-alignmentCard: {
-  tr: "Uyum",
-  en: "Alignment",
-},
-
-aligned: {
-  tr: "Uyumlu",
-  en: "Aligned",
-},
-
-needsReview: {
-  tr: "İnceleme Gerekli",
-  en: "Needs Review",
-},
-
-governanceCard: {
-  tr: "Yönetişim",
-  en: "Governance",
-},
-
-protected: {
-  tr: "Korunuyor",
-  en: "Protected",
-},
-
-activeStatus: {
-  tr: "Aktif",
-  en: "Active",
-},
-
-memoryCard: {
-  tr: "Hafıza",
-  en: "Memory",
-},
-
-strong: {
-  tr: "Güçlü",
-  en: "Strong",
-},
-
-loaded: {
-  tr: "Yüklendi",
-  en: "Loaded",
-},
-
-activity: {
-  tr: "Aktivite",
-  en: "Activity",
-},
-
-systemSignals: {
-  tr: "Sistem Sinyalleri",
-  en: "System Signals",
-},
-
-liveWorkspace: {
-  tr: "Canlı çalışma alanı",
-  en: "Live workspace",
-},
-
-today: {
-  tr: "Bugün",
-  en: "Today",
-},
-
-yesterday: {
-  tr: "Dün",
-  en: "Yesterday",
-},
-
-governanceCheckCompleted: {
-  tr: "Yönetişim kontrolü tamamlandı",
-  en: "Governance check completed",
-},
-
-governanceCheckCompletedDetail: {
-  tr: "Marka anayasası ve karar kuralları aktif.",
-  en: "Brand constitution and decision rules are active.",
-},
-
-brandMemoryLoaded: {
-  tr: "Marka hafızası yüklendi",
-  en: "Brand memory loaded",
-},
-
-brandMemoryLoadedDetail: {
-  tr: "Çalışma alanı bağlamı karar üretimi için hazır.",
-  en: "Workspace context is available for decision generation.",
-},
-
-marketplaceLanguageStateChecked: {
-  tr: "Marketplace dil durumu kontrol edildi",
-  en: "Marketplace language state checked",
-},
-
-marketplaceLanguageStateCheckedDetail: {
-  tr: "Çıktı dil paketleri çalışma alanı ayarları üzerinden yönetiliyor.",
-  en: "Output language packs are controlled through workspace settings.",
-},
-workspace: {
-  tr: "Çalışma Alanı",
-  en: "Workspace",
-},
-
-operatingSystemModules: {
-  tr: "İşletim Sistemi Modülleri",
-  en: "Operating System Modules",
-},
-
-workspaceGridDescription: {
-  tr: "Decision Engine ana çalışma alanıdır. Governance, Studios ve Marketplace işletim sistemini destekler.",
-  en: "Decision Engine is the primary workspace. Governance, Studios and Marketplace support the operating system.",
-},
-
-primaryWorkspace: {
-  tr: "Ana Çalışma Alanı",
-  en: "Primary Workspace",
-},
-
-supportingModule: {
-  tr: "Destek Modülü",
-  en: "Supporting Module",
-},
-
-decisionEngineReady: {
-  tr: "Decision Engine Hazır",
-  en: "Decision Engine Ready",
-},
-
-healthy: {
-  tr: "SAĞLIKLI",
-  en: "HEALTHY",
-},
-
-stable: {
-  tr: "STABİL",
-  en: "STABLE",
-},
-
-attention: {
-  tr: "DİKKAT",
-  en: "ATTENTION",
-},
-
-readiness: {
-  tr: "Hazırlık",
-  en: "Readiness",
-},
-
-contentStudioOnline: {
-  tr: "Content Studio Çevrim İçi",
-  en: "Content Studio Online",
-},
-
-updates: {
-  tr: "GÜNCELLEME",
-  en: "UPDATES",
-},
-
-current: {
-  tr: "GÜNCEL",
-  en: "CURRENT",
-},
-
-updatesAvailable: {
-  tr: "Güncelleme Mevcut",
-  en: "Updates Available",
-},
-
-allPackagesCurrent: {
-  tr: "Tüm Paketler Güncel",
-  en: "All Packages Current",
-},
-
-status: {
-  tr: "Durum",
-  en: "Status",
-},
-
-active: {
-  tr: "Aktif",
-  en: "Active",
-},
-commandCenter: {
-  tr: "Komuta Merkezi",
-  en: "Command Center",
-},
-
-brandHealthCenter: {
-  tr: "Marka Sağlık Merkezi",
-  en: "Brand Health Center",
-},
-
-brandOperatingSystem: {
-  tr: "Marka İşletim Sistemi",
-  en: "Brand Operating System",
-},
-
-knowledge: {
-  tr: "Bilgi Katmanı",
-  en: "Knowledge",
-},
-
-logout: {
-  tr: "Çıkış Yap",
-  en: "Logout",
-},
-
-more: {
-  tr: "Daha Fazla",
-  en: "More",
-},
-
-currentModule: {
-  tr: "Mevcut Modül",
-  en: "Current Module",
-},
-
-overview: {
-  tr: "Genel Bakış",
-  en: "Overview",
-},
-
-overviewDescription: {
-  tr: "İşletim sisteminin üst seviye görünümü.",
-  en: "High-level operating system overview.",
-},
-
-decisionEngineDescription: {
-  tr: "Yönetilen marka kararlarını değerlendirir ve üretir.",
-  en: "Evaluate and generate governed brand decisions.",
-},
-
-governanceCenter: {
-  tr: "Yönetişim Merkezi",
-  en: "Governance Center",
-},
-
-governanceCenterDescription: {
-  tr: "Uyum, tutarlılık ve yönetişim sinyallerini izler.",
-  en: "Monitor alignment, consistency and governance.",
-},
-
-auditCenter: {
-  tr: "Denetim Merkezi",
-  en: "Audit Center",
-},
-
-auditCenterDescription: {
-  tr: "Marka sağlığı ve yönetişim raporlarını inceler.",
-  en: "Review brand health and governance reports.",
-},
-
-studios: {
-  tr: "Stüdyolar",
-  en: "Studios",
-},
-
-marketplace: {
-  tr: "Marketplace",
-  en: "Marketplace",
-},
-
-studiosDescription: {
-  tr: "İçerik ve operasyonel çıktılar üretir.",
-  en: "Create content and operational outputs.",
-},
-
-marketplaceDescription: {
-  tr: "Dil paketlerini ve sistem modüllerini yönetir.",
-  en: "Manage language packs and system modules.",
-},
-
-foundationModuleDescription: {
-  tr: "Marka kimliği ve stratejik yapının temel katmanı.",
-  en: "Core brand identity and strategic structure.",
-},
-
-manifestoModuleDescription: {
-  tr: "Marka anayasası ve yönlendirici ilkeler.",
-  en: "Brand constitution and guiding principles.",
-},
-
-premiumBrand: {
-  tr: "Premium Marka",
-  en: "Premium Brand",
-},
-
-primaryStatus: {
-  tr: "ANA",
-  en: "PRIMARY",
-},
-typeLabel: {
-  tr: "Ürün Tipi",
-  en: "Type",
-},
-
-materialLabel: {
-  tr: "Malzeme",
-  en: "Material",
-},
-
-colorLabel: {
-  tr: "Renk",
-  en: "Color",
-},
-
-sizeLabel: {
-  tr: "Boyut",
-  en: "Size",
-},
-
-channelLabel: {
-  tr: "Kanal",
-  en: "Channel",
-},
-
-archetypeLabel: {
-  tr: "Arketip",
-  en: "Archetype",
-},
-
-worldLabel: {
-  tr: "Dünya",
-  en: "World",
-},
-
-confidenceLabel: {
-  tr: "Güven",
-  en: "Confidence",
-},
-
-positivePrompt: {
-  tr: "Pozitif Prompt",
-  en: "Positive Prompt",
-},
-
+    tr: "Görev Merkezi",
+    en: "Mission Control",
+  },
+
+  systemScoreboard: {
+    tr: "Sistem Skor Tablosu",
+    en: "System Scoreboard",
+  },
+
+  liveBrandOperatingStatus: {
+    tr: "Canlı marka işletim durumu.",
+    en: "Live brand operating status.",
+  },
+
+  brandHealthCard: {
+    tr: "Marka Sağlığı",
+    en: "Brand Health",
+  },
+
+  foundationScore: {
+    tr: "Temel Skoru",
+    en: "Foundation Score",
+  },
+
+  alignmentCard: {
+    tr: "Uyum",
+    en: "Alignment",
+  },
+
+  aligned: {
+    tr: "Uyumlu",
+    en: "Aligned",
+  },
+
+  needsReview: {
+    tr: "İnceleme Gerekli",
+    en: "Needs Review",
+  },
+
+  governanceCard: {
+    tr: "Yönetişim",
+    en: "Governance",
+  },
+
+  protected: {
+    tr: "Korunuyor",
+    en: "Protected",
+  },
+
+  activeStatus: {
+    tr: "Aktif",
+    en: "Active",
+  },
+
+  memoryCard: {
+    tr: "Hafıza",
+    en: "Memory",
+  },
+
+  strong: {
+    tr: "Güçlü",
+    en: "Strong",
+  },
+
+  loaded: {
+    tr: "Yüklendi",
+    en: "Loaded",
+  },
+
+  activity: {
+    tr: "Aktivite",
+    en: "Activity",
+  },
+
+  systemSignals: {
+    tr: "Sistem Sinyalleri",
+    en: "System Signals",
+  },
+
+  liveWorkspace: {
+    tr: "Canlı çalışma alanı",
+    en: "Live workspace",
+  },
+
+  today: {
+    tr: "Bugün",
+    en: "Today",
+  },
+
+  yesterday: {
+    tr: "Dün",
+    en: "Yesterday",
+  },
+
+  governanceCheckCompleted: {
+    tr: "Yönetişim kontrolü tamamlandı",
+    en: "Governance check completed",
+  },
+
+  governanceCheckCompletedDetail: {
+    tr: "Marka anayasası ve karar kuralları aktif.",
+    en: "Brand constitution and decision rules are active.",
+  },
+
+  brandMemoryLoaded: {
+    tr: "Marka hafızası yüklendi",
+    en: "Brand memory loaded",
+  },
+
+  brandMemoryLoadedDetail: {
+    tr: "Çalışma alanı bağlamı karar üretimi için hazır.",
+    en: "Workspace context is available for decision generation.",
+  },
+
+  marketplaceLanguageStateChecked: {
+    tr: "Marketplace dil durumu kontrol edildi",
+    en: "Marketplace language state checked",
+  },
+
+  marketplaceLanguageStateCheckedDetail: {
+    tr: "Çıktı dil paketleri çalışma alanı ayarları üzerinden yönetiliyor.",
+    en: "Output language packs are controlled through workspace settings.",
+  },
+  workspace: {
+    tr: "Çalışma Alanı",
+    en: "Workspace",
+  },
+
+  operatingSystemModules: {
+    tr: "İşletim Sistemi Modülleri",
+    en: "Operating System Modules",
+  },
+
+  workspaceGridDescription: {
+    tr: "Decision Engine ana çalışma alanıdır. Governance, Studios ve Marketplace işletim sistemini destekler.",
+    en: "Decision Engine is the primary workspace. Governance, Studios and Marketplace support the operating system.",
+  },
+
+  primaryWorkspace: {
+    tr: "Ana Çalışma Alanı",
+    en: "Primary Workspace",
+  },
+
+  supportingModule: {
+    tr: "Destek Modülü",
+    en: "Supporting Module",
+  },
+
+  decisionEngineReady: {
+    tr: "Decision Engine Hazır",
+    en: "Decision Engine Ready",
+  },
+
+  healthy: {
+    tr: "SAĞLIKLI",
+    en: "HEALTHY",
+  },
+
+  stable: {
+    tr: "STABİL",
+    en: "STABLE",
+  },
+
+  attention: {
+    tr: "DİKKAT",
+    en: "ATTENTION",
+  },
+
+  readiness: {
+    tr: "Hazırlık",
+    en: "Readiness",
+  },
+
+  contentStudioOnline: {
+    tr: "Content Studio Çevrim İçi",
+    en: "Content Studio Online",
+  },
+
+  updates: {
+    tr: "GÜNCELLEME",
+    en: "UPDATES",
+  },
+
+  current: {
+    tr: "GÜNCEL",
+    en: "CURRENT",
+  },
+
+  updatesAvailable: {
+    tr: "Güncelleme Mevcut",
+    en: "Updates Available",
+  },
+
+  allPackagesCurrent: {
+    tr: "Tüm Paketler Güncel",
+    en: "All Packages Current",
+  },
+
+  status: {
+    tr: "Durum",
+    en: "Status",
+  },
+
+  active: {
+    tr: "Aktif",
+    en: "Active",
+  },
+  commandCenter: {
+    tr: "Komuta Merkezi",
+    en: "Command Center",
+  },
+
+  brandHealthCenter: {
+    tr: "Marka Sağlık Merkezi",
+    en: "Brand Health Center",
+  },
+
+  brandOperatingSystem: {
+    tr: "Marka İşletim Sistemi",
+    en: "Brand Operating System",
+  },
+
+  knowledge: {
+    tr: "Bilgi Katmanı",
+    en: "Knowledge",
+  },
+
+  logout: {
+    tr: "Çıkış Yap",
+    en: "Logout",
+  },
+
+  more: {
+    tr: "Daha Fazla",
+    en: "More",
+  },
+
+  currentModule: {
+    tr: "Mevcut Modül",
+    en: "Current Module",
+  },
+
+  overview: {
+    tr: "Genel Bakış",
+    en: "Overview",
+  },
+
+  overviewDescription: {
+    tr: "İşletim sisteminin üst seviye görünümü.",
+    en: "High-level operating system overview.",
+  },
+
+  decisionEngineDescription: {
+    tr: "Yönetilen marka kararlarını değerlendirir ve üretir.",
+    en: "Evaluate and generate governed brand decisions.",
+  },
+
+  governanceCenter: {
+    tr: "Yönetişim Merkezi",
+    en: "Governance Center",
+  },
+
+  governanceCenterDescription: {
+    tr: "Uyum, tutarlılık ve yönetişim sinyallerini izler.",
+    en: "Monitor alignment, consistency and governance.",
+  },
+
+  auditCenter: {
+    tr: "Denetim Merkezi",
+    en: "Audit Center",
+  },
+
+  auditCenterDescription: {
+    tr: "Marka sağlığı ve yönetişim raporlarını inceler.",
+    en: "Review brand health and governance reports.",
+  },
+
+  studios: {
+    tr: "Stüdyolar",
+    en: "Studios",
+  },
+
+  marketplace: {
+    tr: "Marketplace",
+    en: "Marketplace",
+  },
+
+  studiosDescription: {
+    tr: "İçerik ve operasyonel çıktılar üretir.",
+    en: "Create content and operational outputs.",
+  },
+
+  marketplaceDescription: {
+    tr: "Dil paketlerini ve sistem modüllerini yönetir.",
+    en: "Manage language packs and system modules.",
+  },
+
+  foundationModuleDescription: {
+    tr: "Marka kimliği ve stratejik yapının temel katmanı.",
+    en: "Core brand identity and strategic structure.",
+  },
+
+  manifestoModuleDescription: {
+    tr: "Marka anayasası ve yönlendirici ilkeler.",
+    en: "Brand constitution and guiding principles.",
+  },
+
+  premiumBrand: {
+    tr: "Premium Marka",
+    en: "Premium Brand",
+  },
+
+  primaryStatus: {
+    tr: "ANA",
+    en: "PRIMARY",
+  },
+  typeLabel: {
+    tr: "Ürün Tipi",
+    en: "Type",
+  },
+
+  materialLabel: {
+    tr: "Malzeme",
+    en: "Material",
+  },
+
+  colorLabel: {
+    tr: "Renk",
+    en: "Color",
+  },
+
+  sizeLabel: {
+    tr: "Boyut",
+    en: "Size",
+  },
+
+  channelLabel: {
+    tr: "Kanal",
+    en: "Channel",
+  },
+
+  archetypeLabel: {
+    tr: "Arketip",
+    en: "Archetype",
+  },
+
+  worldLabel: {
+    tr: "Dünya",
+    en: "World",
+  },
+
+  confidenceLabel: {
+    tr: "Güven",
+    en: "Confidence",
+  },
+
+  positivePrompt: {
+    tr: "Pozitif Prompt",
+    en: "Positive Prompt",
+  },
 };
 
 export function getDashboardText(

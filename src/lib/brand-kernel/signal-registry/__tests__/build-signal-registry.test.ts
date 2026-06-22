@@ -27,9 +27,7 @@ describe("buildSignalRegistry", () => {
 
     expect(registry.byId["s1"]).toBeDefined();
 
-    expect(
-      registry.byCategory["identity"],
-    ).toHaveLength(2);
+    expect(registry.byCategory["identity"]).toHaveLength(2);
 
     expect(registry.strongSignals).toHaveLength(2);
 
