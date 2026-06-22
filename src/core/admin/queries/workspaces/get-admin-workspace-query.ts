@@ -1,11 +1,13 @@
 import type { AdminCompositionRoot } from "../../admin-composition-root";
-import { toAdminWorkspaceDto } from "../../application/mappers/admin-workspace-mapper";
 import type { AdminWorkspaceDto } from "../../application/dto/admin-workspace-dto";
+import { toAdminWorkspaceDto } from "../../application/mappers/admin-workspace-mapper";
+import type { AdminQueryHandler } from "../contracts/admin-query-handler";
 
-export async function getAdminWorkspaceQuery(
-  admin: AdminCompositionRoot,
-  workspaceId: string,
-): Promise<AdminWorkspaceDto | null> {
+export const getAdminWorkspaceQuery: AdminQueryHandler<
+  AdminCompositionRoot,
+  AdminWorkspaceDto | null,
+  string
+> = async (admin, workspaceId) => {
   const workspace =
     await admin.services.workspaceAdminService.getWorkspace(workspaceId);
 
@@ -14,4 +16,4 @@ export async function getAdminWorkspaceQuery(
   }
 
   return toAdminWorkspaceDto(workspace);
-}
+};
